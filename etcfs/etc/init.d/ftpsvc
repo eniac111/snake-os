@@ -1,0 +1,62 @@
+#!/bin/sh
+#
+
+KIND="FTPD"
+ENABLE=$(sed -n "s/^\(ftp_enable\)=\(.*\)$/\2/p" /etc/default/config)
+
+start() {
+	if [ $ENABLE -eq 1 ] ; then
+		PID=$(pgrep -f "vsftpd")
+		if [ ${PID:-empty} = "empty" ] ; then
+			echo "Starting $KIND service..."
+			vsftpd &
+		fi
+	fi
+}	
+
+stop() {
+	echo "Shutting down $KIND service..."
+	pkill -f -9 "vsftpd"
+}	
+
+restart() {
+	stop
+	sleep 1
+	start
+}
+
+reload() {
+	pkill -SIGHUP vsftpd
+}
+
+webstatus(){
+	PID=$(pgrep -f "vsftpd")
+	if [ ${PID:-empty} = "empty" ] ; then
+		echo -n "$KIND is not running"
+    else
+    	echo -n "$KIND is running"
+    fi  		
+}		
+
+case "$1" in
+  start)
+  	start
+	sleep 1
+	;;
+  stop)
+  	stop
+	;;
+  restart)
+  	restart
+	;;
+  reload)
+  	reload
+	;;
+  webstatus)
+  	webstatus
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|reload}"
+	exit 1
+esac
+

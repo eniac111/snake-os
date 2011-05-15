@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+
+KIND="TELNET"
+ENABLE=$(sed -n "s/^\(telnet_enable\)=\(.*\)$/\2/p" /etc/default/config)
+
+start() {
+	if [ $ENABLE -eq 1 ] ; then
+		PID=$(pgrep -f "telnetd")
+		if [ ${PID:-empty} = "empty" ] ; then
+			echo "Starting $KIND service..."
+			/usr/sbin/telnetd &
+		fi
+	fi
+}	
+
+stop() {
+	echo "Shutting down $KIND service..."
+	pkill -f -9 "telnetd"
+}	
+
+restart() {
+	stop
+	sleep 1
+	start
+}
+
+webstatus(){
+	PID=$(pgrep -f "telnetd")
+	if [ ${PID:-empty} = "empty" ] ; then
+		echo -n "$KIND is not running"
+    else
+    	echo -n "$KIND is running"
+    fi  		
+}		
+
+case "$1" in
+  start)
+  	start
+	sleep 1
+	;;
+  stop)
+  	stop
+	;;
+  restart)
+  	restart
+	;;
+  webstatus)
+  	webstatus
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+

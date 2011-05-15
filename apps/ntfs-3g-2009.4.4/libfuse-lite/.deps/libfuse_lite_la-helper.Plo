@@ -1,0 +1,106 @@
+libfuse_lite_la-helper.lo libfuse_lite_la-helper.o: helper.c ../config.h \
+  fuse_i.h ../include/fuse-lite/fuse.h ../include/fuse-lite/fuse_common.h \
+  ../include/fuse-lite/fuse_opt.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/stdint.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/features.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_config.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/cdefs.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/wchar.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/wordsize.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/fcntl.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/fcntl.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/types.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/types.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/stddef.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/kernel_types.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/pthreadtypes.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sched.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/time.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/endian.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/endian.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/select.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/select.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sigset.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/time.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/sysmacros.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/stat.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/stat.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_clk_tck.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/utime.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/statvfs.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/statvfs.h \
+  ../include/fuse-lite/fuse_lowlevel.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/uio.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uio.h
+
+../config.h:
+
+fuse_i.h:
+
+../include/fuse-lite/fuse.h:
+
+../include/fuse-lite/fuse_common.h:
+
+../include/fuse-lite/fuse_opt.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/stdint.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/features.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_config.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/cdefs.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/wchar.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/wordsize.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/fcntl.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/fcntl.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/types.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/types.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/stddef.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/kernel_types.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/pthreadtypes.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sched.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/time.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/endian.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/endian.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/select.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/select.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sigset.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/time.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/sysmacros.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/stat.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/stat.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_clk_tck.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/utime.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/statvfs.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/statvfs.h:
+
+../include/fuse-lite/fuse_lowlevel.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/uio.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uio.h:

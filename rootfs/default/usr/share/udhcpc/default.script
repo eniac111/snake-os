@@ -1,0 +1,58 @@
+#!/bin/sh
+
+HOSTNAME=`grep "hostname=" /etc/default/config | cut -d = -f 2`
+DEF_IP=`grep "ip_address=" /etc/default/config | cut -d = -f 2`
+DEF_MASK=`grep "netmask=" /etc/default/config | cut -d = -f 2`
+DEF_GW=`grep "gateway=" /etc/default/config | cut -d = -f 2`
+USE_DHCP_DNS=`grep "dhcp_dns=" /etc/default/config | cut -d = -f 2`
+DEF_DNS1=`grep "nameserver1=" /etc/default/config | cut -d = -f 2`
+DEF_DNS2=`grep "nameserver2=" /etc/default/config | cut -d = -f 2`
+DEF_DNSDOM=`grep "dnsdomain=" /etc/default/config | cut -d = -f 2`
+
+reloadsvcs(){
+    echo "IP Address changed, reloading networked services..."
+    if [ -f /etc/init.d/samba ] ; then
+      . /etc/init.d/samba reload
+    fi
+    if [ -f /usr/share/snake/setntp ] ; then
+        /usr/share/snake/setntp
+    fi
+}
+
+case "$1" in
+    deconfig|nak) 
+        ifconfig eth0 192.168.0.240 netmask 255.255.255.0
+        echo "192.168.0.240 $HOSTNAME" > /etc/hosts 
+        route add default gw 192.168.0.1 dev eth0
+        echo "nameserver 192.168.0.1" > /etc/resolv.conf
+        echo "search localdomain" >> /etc/resolv.conf
+        reloadsvcs
+        ;;		
+
+	renew|bound)
+	    ifconfig $interface $ip netmask $subnet
+		for i in $router ; do
+			route add default gw $i dev $interface
+		done
+		echo -n "$ip $HOSTNAME" > /etc/hosts 
+   		rm -f  /etc/resolv.conf
+        if [ $USE_DHCP_DNS -eq 1 ] ; then
+    		for i in $dns ; do
+    			echo nameserver $i >> /etc/resolv.conf
+    		done
+    			for i in $domain ; do
+    			echo search $i >> /etc/resolv.conf
+    		done
+        else
+    	    echo "nameserver $DEF_DNS1" > /etc/resolv.conf
+    	    echo "nameserver $DEF_DNS2" >> /etc/resolv.conf
+        	echo "search $DEF_DNSDOM" >> /etc/resolv.conf
+        fi
+        reloadsvcs
+		;;
+    leasefail)
+        ;;
+esac
+
+
+exit 0

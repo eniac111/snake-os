@@ -1,0 +1,12 @@
+#
+# STAR Equuleus LED support 
+#
+
+menu "STAR Equuleus LED support"
+
+config STR8100_WLX652_LEDS
+	tristate "Star 8132 - WLX652 - Leds control"
+	help
+	  Enable Star Leds control for WLX652 board
+
+endmenu

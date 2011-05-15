@@ -1,0 +1,3 @@
+PATH=/usr/bin:/usr/sbin:/bin:/sbin
+#PS1="[$USER@STAR9100]# "
+PS1="# "

@@ -1,0 +1,21 @@
+This project will create a simple command line tool for generating
+LanMan and NT MD4 password hashes which can be used to populate 
+ smbpasswd, LDAP, etc entries for user's.  The source files are taken
+from the sambapasswd and smbpasscheck programs included with Nigel 
+William's NISGina softweare.  
+
+You will need to obtain Eric Young's DES library from 
+ftp://ftp.psy.uq.oz.au/pub/Crypto/DES in order to build the
+smbencrypt binary.  Extract the library into a subdirectory
+named libdes/.  After building libdes.a creating symlinks
+in the smbencrypt directory by
+
+	$ ln -s libdes/des.h
+	$ ln -s libdes/libdes.a
+
+Then run 'make' to create smbencrypt
+
+
+<jerry@samba.org>
+
+

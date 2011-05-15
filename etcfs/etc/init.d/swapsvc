@@ -1,0 +1,135 @@
+#!/bin/sh
+#
+
+
+KIND="Swap"
+
+
+start() {
+    USE_SWAP=$(grep "use_swap=" /etc/default/config | cut -d = -f 2)
+    if [ $USE_SWAP -eq 1 ] ; then
+        SWAP_FILE=$(grep "swapfile=" /etc/default/config | cut -d = -f 2)
+        if [ ${SWAP_FILE:-empty} = "empty" ] ; then
+            echo "Swapfile was not set. Please set it first."
+        else
+            if [ -f $SWAP_FILE ] ; then
+                SWAPSTATE=$(dd if=$SWAP_FILE ibs=1 skip=4086 count=10 2>/dev/null)
+                if [ $SWAPSTATE = "SWAPSPACE2" ]
+                then
+            	    echo "Starting $KIND service..."
+                    swapon $SWAP_FILE &
+                else
+                    echo "Swapfile not recognized. Delete it or change config."
+                fi
+            else
+                echo "Creating swapfile... it may take a while."
+                SWAP_MOUNTED=$(echo ${SWAP_FILE} | cut -d '/' -f 3)
+                for MOUNT in $(mount | grep "/usb/" | cut -d ' ' -f 3 | cut -d '/' -f 3) ; do
+                    if [ $MOUNT = $SWAP_MOUNTED ] ; then
+                        FOUND=1
+                        dd if=/dev/zero of=$SWAP_FILE bs=1024 count=262144 2>/dev/null
+                        mkswap $SWAP_FILE
+                	    echo "Starting $KIND service..."
+                        swapon $SWAP_FILE &
+                    fi
+                done
+                if [ ${FOUND:-0} -eq 0 ] ; then
+                    echo "Swap disk not mounted. Mount it or change config."
+                fi
+                
+            fi
+        fi
+    fi
+}
+
+autostart() {
+    USE_SWAP=$(grep "use_swap=" /etc/default/config | cut -d = -f 2)
+    if [ $USE_SWAP -eq 1 ] ; then
+        SWAP_FILE=$(grep "swapfile=" /etc/default/config | cut -d = -f 2)
+        if [ ! ${SWAP_FILE:-empty} = "empty" ] ; then
+            if [ -f $SWAP_FILE ] ; then
+                SWAPSTATE=$(dd if=$SWAP_FILE ibs=1 skip=4086 count=10 2>/dev/null)
+                if [ $SWAPSTATE = "SWAPSPACE2" ]
+                then
+            	    echo "Starting $KIND service..."
+                    swapon $SWAP_FILE &
+                fi
+            fi
+        fi
+    fi
+}
+
+
+stop() {
+    SWAP_FILE=$(grep "swapfile=" /etc/default/config | cut -d = -f 2)
+    if [ ${SWAP_FILE:-empty} = "empty" ] ; then
+        echo "Swapfile was not set. Please set it first."
+    else
+        echo "Shutting down $KIND service..."
+        swapoff $SWAP_FILE
+    fi
+}	
+
+
+
+forcecreate(){
+    echo "Forcing creation of swapfile, may overwrite existing"
+    SWAP_FILE=$(grep "swapfile=" /etc/default/config | cut -d = -f 2)
+    if [ ${SWAP_FILE:-empty} = "empty" ] ; then
+        echo "Swapfile was not set. Please set it first."
+    else
+        SWAP_MOUNTED=$(echo ${SWAP_FILE} | cut -d '/' -f 3)
+        for MOUNT in $(mount | grep "/usb/" | cut -d ' ' -f 3 | cut -d '/' -f 3) ; do
+            if [ $MOUNT = $SWAP_MOUNTED ] ; then
+                FOUND=1
+                dd if=/dev/zero of=$SWAP_FILE bs=1024 count=262144 2>/dev/null
+                mkswap $SWAP_FILE
+            fi
+        done
+        if [ ${FOUND:-0} -eq 0 ] ; then
+            echo "Swap disk not mounted. Mount it or change config."
+        fi
+    fi
+}
+
+remove(){
+    echo "Removing swapfile"
+    SWAP_FILE=$(grep "swapfile=" /etc/default/config | cut -d = -f 2)
+    if [ ${SWAP_FILE:-empty} = "empty" ] ; then
+        echo "Swapfile was not set. Please set it first."
+    else
+        stop
+        SWAP_MOUNTED=$(echo ${SWAP_FILE} | cut -d '/' -f 3)
+        for MOUNT in $(mount | grep "/usb/" | cut -d ' ' -f 3 | cut -d '/' -f 3) ; do
+            if [ $MOUNT = $SWAP_MOUNTED ] ; then
+                FOUND=1
+                rm -f ${SWAP_FILE}
+            fi
+        done
+        if [ ${FOUND:-0} -eq 0 ] ; then
+            echo "Swap disk not mounted. Mount it or change config."
+        fi
+    fi
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  autostart)
+  	autostart
+	;;
+  stop)
+  	stop
+	;;
+  force-create)
+  	forcecreate
+	;;
+  remove)
+  	remove
+	;;
+  *)
+	echo "Usage: $0 {start|stop|force-create|remove|autostart}"
+	exit 1
+esac
+

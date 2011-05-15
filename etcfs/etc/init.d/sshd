@@ -1,0 +1,75 @@
+#!/bin/sh
+#
+
+RETVAL=0
+
+KIND="SFTP/SSHD"
+RSAKEY="/etc/dropbear/dropbear_rsa_host_key"
+DSSKEY="/etc/dropbear/dropbear_dss_host_key"
+
+start() {
+    if [ ! -f $RSAKEY ] ; then
+       echo "Generating initial RSA key for $KIND"
+       dropbearkey -t rsa -f $RSAKEY
+    fi
+    if [ ! -f $DSSKEY ] ; then
+       echo "Generating initial DSS key for $KIND"
+       dropbearkey -t dss -f $DSSKEY
+    fi
+	echo "Starting $KIND service..."
+    dropbear
+}	
+
+webstatus(){
+	PID=$(pidof dropbear)
+	if [ ${PID:-empty} = "empty" ] ; then
+		echo -n "$KIND is not running"
+    else
+    	echo -n "$KIND is running"
+    fi  		
+}	
+
+stop() {
+	echo "Shutting down $KIND service..."
+	killall -9 dropbear
+}	
+
+restart() {
+	stop
+	start
+}	
+
+recreatekey() {
+    stop
+    if [ -f $RSAKEY ] ; then
+       rm -f $RSAKEY
+    fi
+    if [ -f $DSSKEY ] ; then
+       rm -f $DSSKEY
+    fi
+    echo "Generating new keys for SSHD"
+    dropbearkey -t rsa -f $RSAKEY
+    dropbearkey -t dss -f $DSSKEY
+    start
+}	
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart)
+  	restart
+	;;
+  recreate-key)
+  	recreatekey
+	;;
+  webstatus)
+  	webstatus
+  	;;
+  *)
+	echo "Usage: $0 {start|stop|recreate-key|restart}"
+	exit 1
+esac
+

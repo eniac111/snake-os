@@ -1,0 +1,85 @@
+Index: kernels/linux/drivers/net/str8100/star_nic.c
+===================================================================
+--- kernels/linux/drivers/net/str8100/star_nic.c	(revision 374)
++++ kernels/linux/drivers/net/str8100/star_nic.c	(revision 375)
+@@ -1663,7 +1663,7 @@
+ #define MAX_TX_SKB_FREE_NUM     FREE_TX_SKB_MULTI_MAX + MAX_SKB_FRAGS
+ #endif
+ 
+-#define FIX_NFS
++
+ static int star_nic_send_packet(struct sk_buff *skb, struct net_device *dev)
+ {
+ #if defined(STAR_NIC_TX_HW_CHECKSUM) && defined(MAX_SKB_FRAGS) && defined(STAR_NIC_SG)
+@@ -1685,13 +1685,10 @@
+ #if defined(STAR_NIC_TX_HW_CHECKSUM) && defined(MAX_SKB_FRAGS) && defined(STAR_NIC_SG)
+ 	int org_index;
+ 	int cur_index;
+-#ifdef FIX_NFS
+-	int padding_size;
+-#endif
+-
+ 	unsigned int f;
+ 	unsigned int nr_frags = skb_shinfo(skb)->nr_frags;
+ 	unsigned int len = skb->len - skb->data_len;
++	int padding_size = ETH_ZLEN - len;
+ 	unsigned int offset;
+ 
+ #ifndef FREE_TX_SKB_MULTI
+@@ -1784,18 +1781,15 @@
+ 	 *********************************************************/
+ 	txdesc_ptr = (txring.vir_addr + txring.cur_index);
+ 	txdesc_ptr->data_ptr			= virt_to_phys(skb->data);
+-#ifdef FIX_NFS
+-	padding_size = ETH_ZLEN - len;
+-	txdesc_ptr->length = len;
+-#else
++	
+ 	if ((nr_frags == 0) && (len < PKT_MIN_SIZE)) {
+ 		txdesc_ptr->length		= PKT_MIN_SIZE;
+ 		memset(skb->data + len, 0x00, PKT_MIN_SIZE - len);
+ 	} else {
+ 		txdesc_ptr->length		= len;
+ 	}
+-#endif // FIX_NFS
+ 
++
+ 	/* Only the last fragment frees the skb, to prevent
+ 	 * release buffer before send all data to switch buffer. */
+ 	if (nr_frags) {
+@@ -1818,7 +1812,7 @@
+ 		struct skb_frag_struct *frag; 
+ 		txdesc_ptr = txring.vir_addr + txring.cur_index;
+ 		frag = &skb_shinfo(skb)->frags[f]; 
+-#ifdef FIX_NFS
++#if 1
+ 		padding_size -= frag->size;
+ 
+ 		txdesc_ptr->data_ptr = virt_to_phys(page_address(frag->page) + frag->page_offset);
+@@ -1840,6 +1834,11 @@
+ 		consistent_sync(page_address(frag->page) + offset, txdesc_ptr->length, PCI_DMA_TODEVICE);
+ 
+ 		increase_cyclic(txring.cur_index, STAR_NIC_MAX_TFD_NUM);
++
++		if (padding_size > 0)
++			/* Padding zero to the end of packet to meet minimum 
++			 * packet size requirement.                       */
++			txdesc_ptr->length += padding_size;
+ 	}
+ 
+ 	/*********************************************************
+@@ -1854,13 +1853,8 @@
+ 		}
+ 	}
+ 
+-#ifdef FIX_NFS
+-	if (padding_size > 0)
+-		/* Padding zero to the end of packet to meet minimum 
+-		 * packet size requirement.                       */
+-		txdesc_ptr->length += padding_size;
+-#endif // FIX_NFS
+ 
++
+ #else
+ 	txdesc_ptr = txring.vir_addr + txring.cur_index;
+ 

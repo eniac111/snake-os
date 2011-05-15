@@ -1,0 +1,24 @@
+Index: kernels/linux/include/asm-arm/arch-str8100/system.h
+===================================================================
+--- kernels/linux/include/asm-arm/arch-str8100/system.h	2008-08-29 14:37:33.000000000 +0800
++++ kernels/linux/include/asm-arm/arch-str8100/system.h	2009-02-04 10:45:32.000000000 +0800
+@@ -30,6 +30,20 @@
+ 
+ static inline void arch_idle(void)
+ {
++	volatile u32 dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++	dst= (*((u32 volatile *)(SYSVA_GPIOA_BASE_ADDR) + 0x04));
++
+ 	cpu_do_idle();
+ }

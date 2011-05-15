@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+
+RETVAL=0
+
+KIND="Syslog"
+
+SYSLOG_PATH=`grep "^syslog_path=" /etc/default/config | cut -d = -f 2`
+SYSLOG_NET=`grep "^syslog_net=" /etc/default/config | cut -d = -f 2`
+SYSLOG_ADDR=`grep "^syslog_addr=" /etc/default/config | cut -d = -f 2`
+
+start() {
+	PID=$(pgrep -f "syslogd")
+	if [ ${PID:-empty} = "empty" ] ; then
+		if [ ${SYSLOG_NET} = 1 ] ; then
+			OPT="-R ${SYSLOG_ADDR}"
+		fi
+		echo "Starting $KIND service..."
+		/sbin/syslogd -S -O ${SYSLOG_PATH} ${OPT}
+		sleep 1
+	fi
+}	
+
+stop() {
+	echo "Shutting down $KIND service..."
+	pkill -f -9 "syslogd"
+}	
+
+restart() {
+	stop
+	sleep 1
+	start
+}
+
+webstatus(){
+	PID=$(pgrep -f "syslogd")
+	if [ ${PID:-empty} = "empty" ] ; then
+		echo -n "$KIND is not running"
+    else
+    	echo -n "$KIND is running"
+    fi  		
+}		
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart)
+  	restart
+	;;
+  reload)
+  	reload
+	;;
+  webstatus)
+  	webstatus
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+

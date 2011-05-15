@@ -1,0 +1,74 @@
+Index: arch/arm/mach-str8100/str8100_pm.c
+===================================================================
+--- arch/arm/mach-str8100/str8100_pm.c	(revision 378)
++++ arch/arm/mach-str8100/str8100_pm.c	(working copy)
+@@ -35,6 +35,9 @@
+ #include <asm/mach-types.h>
+ 
+ #ifdef CONFIG_PM
++
++static struct proc_dir_entry *proc_str8100_pm;
++
+ /******************************************************************************
+  *
+  * FUNCTION:  Hal_Cpu_Enter_Sleep_Mode
+@@ -148,16 +151,57 @@
+ //        .finish         = str8100_pm_finish,
+ };
+ 
++static irqreturn_t str8100_ext_irq_handler(int this_irq, void *dev_id, struct pt_regs *regs)
++{
++	//if(debug) 
++	printk("%s: this_irq=%d\n",__FUNCTION__,this_irq);
++
++	HAL_INTC_DISABLE_INTERRUPT_SOURCE(this_irq);
++/*	if(test_gpio_external_pin){
++		test_gpio_external_pin();
++	}
++	*/
++	HAL_INTC_CLEAR_EDGE_TRIGGER_INTERRUPT(this_irq);
++	HAL_INTC_ENABLE_INTERRUPT_SOURCE(this_irq);
++
++    return IRQ_HANDLED;
++}
++
++static int str8100_pm_proc(char *page, char **start,  off_t off, int count, int *eof, void *data)
++{
++	int ret=0;
++
++	printk("%s:PM_SUSPEND_STANDBY  \n",__FUNCTION__);
++	str8100_pm_enter(PM_SUSPEND_STANDBY);
++
++	return ret;
++}
++
+ static int __init str8100_pm_init(void)
+ {
+ 	int ret;
+-printk("%s: \n",__FUNCTION__);
++	printk("%s: \n",__FUNCTION__);
++	proc_str8100_pm = create_proc_read_entry("str8100/pm", 0, NULL, str8100_pm_proc, NULL) ;
+ 
+-    /*
++    	/*
+      * Configure system Xtal clock to be output to CLKOUT pin
+      */
+ 	HAL_PWRMGT_CONFIGURE_CLOCK_OUT_PIN(0, 0);
+ 
++	/*setup trigger mod in edge 
++	{
++		//HAL_INTC_SET_EDGE_TRIGGER_MODE(INTC_EXT_INT29_BIT_INDEX);
++		//HAL_INTC_SET_RISING_EDGE_TRIGGER_LEVEL(INTC_EXT_INT29_BIT_INDEX);
++	}
++	*/
++	
++	//setup level trigger mod for low on ext int 29
++	HAL_INTC_SET_ACTIVE_LOW_TRIGGER_LEVEL(INTC_EXT_INT29_BIT_INDEX);
++
++	//setup misc pin and req a irq
++	HAL_MISC_ENABLE_EXT_INT29_PINS();
++	ret = request_irq(29, str8100_ext_irq_handler, 0, "str8100_ext", 0);
++
+ 	pm_set_ops(&str8100_pm_ops);
+ 	return 0;
+ }

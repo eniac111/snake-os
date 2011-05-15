@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+
+PORT=$(grep "^http_port=" /etc/default/config | cut -d = -f 2)
+PARAM="-c /etc/httpd.conf -h /usr/share/www"
+KIND="HTTPD"
+
+start() {
+	echo "Starting $KIND service..."
+    httpd ${PARAM} -p ${PORT} -r SNAKE
+}
+
+stop() {
+	echo "Shutting down $KIND service..."
+	pkill -f -9 "httpd ${PARAM}"
+}
+
+restart() {
+	stop
+	sleep 1
+	start
+}	
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart)
+  	restart
+	;;
+  reload)
+  	restart
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|reload}"
+	exit 1
+esac
+
+

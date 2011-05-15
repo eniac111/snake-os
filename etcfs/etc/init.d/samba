@@ -1,0 +1,84 @@
+#!/bin/sh
+#
+
+RETVAL=0
+TZGEO=$(grep "tzgeo=" /etc/default/config | cut -d '=' -f 2)
+export TZ=${TZGEO}
+
+SAMBA_ENABLE=`grep "^samba_enable=" /etc/default/config | cut -d = -f 2`
+
+start() {
+	if [ $SAMBA_ENABLE -eq 1 ] ; then
+	    KIND="SMB"
+		echo "Starting $KIND services..."
+		smbd -D
+		RETVAL=$?
+	    KIND="NMB"
+		echo "Starting $KIND services..."
+		nmbd -D
+		RETVAL2=$?
+		return $RETVAL
+	fi
+}
+
+webstatus(){
+	PID=$(pidof smbd)
+	if [ ${PID:-empty} = "empty" ] ; then
+		echo -n "Samba is not running"
+    else
+    	echo -n "Samba is running"
+    fi  		
+}	
+
+stop() {
+    KIND="SMB"
+	echo "Shutting down $KIND services..."
+	killall -9 smbd
+	RETVAL=$?
+	KIND="NMB"
+	echo "Shutting down $KIND services..."
+	killall -9 nmbd
+	return $RETVAL
+}	
+
+restart() {
+	stop
+	sleep 1
+	start
+}	
+
+reload() {
+	if [ $SAMBA_ENABLE -eq 1 ] ; then
+	    echo "Reloading smb.conf file..."
+		killall -HUP smbd
+		killall -9 nmbd
+		sleep 1
+		nmbd -D
+		RETVAL=$?
+		return $RETVAL
+	fi
+}	
+
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart)
+  	restart
+	;;
+  reload)
+  	reload
+	;;
+  webstatus)
+  	webstatus
+  	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|reload}"
+	exit 1
+esac
+
+

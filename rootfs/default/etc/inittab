@@ -1,0 +1,9 @@
+# system initialisation
+::sysinit:/usr/share/snake/rc.sysinit
+
+# setup serial console
+ttyS0::askfirst:/bin/sh
+
+# stuff to do before rebooting
+::ctrlaltdel:/usr/share/snake/rc.reboot 
+::shutdown:/usr/share/snake/rc.reboot

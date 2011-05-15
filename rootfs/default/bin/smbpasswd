@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+
+SMBPASSWD=/etc/smbpasswd
+
+set_user() {
+	if [ "$1" != "root" ] || [ "$1" != "nobody" ] || [ "$1" != "ftp" ] ; then
+		if [ -n "$1" -a -n "$2" -a -n "$3" ] ; then
+			HASUSER=$(grep "^$1:" $SMBPASSWD | wc -l)
+			SMBPASS=$(smbencrypt $3)
+			if [ $HASUSER -eq 1 ] ; then
+				UID=$(grep "^$1:" /etc/passwd | cut -d : -f 3)
+				USERINFO=$(grep "^$1:" /etc/passwd | awk -F: -v home=$2 '{ print $1":"$2":"$3":"$4":"$5":"home":"$7}')
+				sed -ri "s_^$1:.*_${USERINFO}_g" /etc/passwd
+				sed -ri "s,^$1:.*,$1:$UID:$SMBPASS:,g" $SMBPASSWD
+			else
+				adduser $1 -h $2 -D -H -s /sbin/nologin 2> /dev/null
+				UID=$(grep "^$1:" /etc/passwd | cut -d : -f 3)
+				echo "$1:$UID:$SMBPASS:" >> $SMBPASSWD 	
+			fi	
+			echo $1:$3 | chpasswd --md5 > /dev/null 2>&1
+		fi
+	fi
+}
+
+
+
+delete() {
+	if [ "$1" != "root" ] || [ "$1" != "nobody" ] || [ "$1" != "ftp" ] ; then	
+		if [ -n "$1" ] ; then
+			HASUSER=$(grep "^$1:" $SMBPASSWD | wc -l)
+			if [ $HASUSER -eq 1 ] ; then
+				sed -ri "/^$1:.*/d" $SMBPASSWD
+				deluser $1 2> /dev/null
+			fi	
+		fi
+	fi
+}
+
+list(){	
+	USERS=$(cut -d : -f 1 $SMBPASSWD | sort)
+    for USER in $USERS ; do
+        if [ -n "$USER" ] ; then
+            echo $USER
+        fi
+    done
+}
+
+
+
+case "$1" in
+  -a)
+  	set_user $2 $3 $4
+	;;
+  -x)
+  	delete $2
+	;;
+  -list)
+  	list
+	;;
+  *)
+echo "Usage:"
+echo "  smbpasswd [options] [username] [dir] [password]"
+echo "options:"
+echo "  -a    add user or set user password"
+echo "  -x    delete user"
+echo "  -list	list users"
+	exit 1
+esac
+

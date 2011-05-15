@@ -1,0 +1,249 @@
+libntfs_3g_la-attrlist.lo libntfs_3g_la-attrlist.o: attrlist.c \
+  ../config.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/string.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/features.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_config.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/cdefs.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/stddef.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/stdlib.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/waitflags.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/waitstatus.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/endian.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/endian.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/types.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/types.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/kernel_types.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/pthreadtypes.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sched.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/time.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/select.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/select.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sigset.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/time.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/sysmacros.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/alloca.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/errno.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/errno.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/errno_values.h \
+  ../include/ntfs-3g/types.h ../config.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/stdint.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/wchar.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/wordsize.h \
+  ../include/ntfs-3g/layout.h ../include/ntfs-3g/types.h \
+  ../include/ntfs-3g/endians.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/param.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/limits.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/syslimits.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/limits.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/posix1_lim.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/local_lim.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/linux/limits.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/posix2_lim.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/xopen_lim.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/stdio_lim.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/linux/param.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/asm/param.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/byteswap.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/byteswap.h \
+  ../include/ntfs-3g/support.h ../include/ntfs-3g/attrib.h \
+  ../include/ntfs-3g/inode.h ../include/ntfs-3g/layout.h \
+  ../include/ntfs-3g/volume.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/stdio.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_stdio.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/wchar.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_mutex.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/pthread.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sched.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_clk_tck.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/signal.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/initspin.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sigthread.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_pthread.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/stdarg.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/mount.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/ioctl.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/ioctls.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/asm/ioctls.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/asm/ioctl.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/ioctl-types.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/ttydefaults.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/mntent.h \
+  /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/paths.h \
+  ../include/ntfs-3g/device.h ../include/ntfs-3g/device_io.h \
+  ../include/ntfs-3g/attrib.h ../include/ntfs-3g/unistr.h \
+  ../include/ntfs-3g/runlist.h ../include/ntfs-3g/debug.h \
+  ../include/ntfs-3g/logging.h ../include/ntfs-3g/attrlist.h \
+  ../include/ntfs-3g/debug.h ../include/ntfs-3g/unistr.h \
+  ../include/ntfs-3g/logging.h ../include/ntfs-3g/misc.h
+
+../config.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/string.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/features.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_config.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/cdefs.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/stddef.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/stdlib.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/waitflags.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/waitstatus.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/endian.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/endian.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/types.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/types.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/kernel_types.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/pthreadtypes.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sched.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/time.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/select.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/select.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sigset.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/time.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/sysmacros.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/alloca.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/errno.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/errno.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/errno_values.h:
+
+../include/ntfs-3g/types.h:
+
+../config.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/stdint.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/wchar.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/wordsize.h:
+
+../include/ntfs-3g/layout.h:
+
+../include/ntfs-3g/types.h:
+
+../include/ntfs-3g/endians.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/param.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/limits.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/syslimits.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/limits.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/posix1_lim.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/local_lim.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/linux/limits.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/posix2_lim.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/xopen_lim.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/stdio_lim.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/linux/param.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/asm/param.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/byteswap.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/byteswap.h:
+
+../include/ntfs-3g/support.h:
+
+../include/ntfs-3g/attrib.h:
+
+../include/ntfs-3g/inode.h:
+
+../include/ntfs-3g/layout.h:
+
+../include/ntfs-3g/volume.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/stdio.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_stdio.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/wchar.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_mutex.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/pthread.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sched.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_clk_tck.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/signal.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/initspin.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/sigthread.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_pthread.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/stdarg.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/mount.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/ioctl.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/ioctls.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/asm/ioctls.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/asm/ioctl.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/ioctl-types.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/ttydefaults.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/mntent.h:
+
+/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/paths.h:
+
+../include/ntfs-3g/device.h:
+
+../include/ntfs-3g/device_io.h:
+
+../include/ntfs-3g/attrib.h:
+
+../include/ntfs-3g/unistr.h:
+
+../include/ntfs-3g/runlist.h:
+
+../include/ntfs-3g/debug.h:
+
+../include/ntfs-3g/logging.h:
+
+../include/ntfs-3g/attrlist.h:
+
+../include/ntfs-3g/debug.h:
+
+../include/ntfs-3g/unistr.h:
+
+../include/ntfs-3g/logging.h:
+
+../include/ntfs-3g/misc.h:

@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+
+KIND="CRON"
+
+start() {
+	    echo "Starting $KIND service..."
+        /usr/sbin/crond -c /etc/cron.d
+}	
+
+stop() {
+	echo "Shutting down $KIND service..."
+	killall -9 crond
+}	
+
+restart() {
+	stop
+    sleep 1
+	start
+}	
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  force-stop)
+  	forcestop
+	;;
+  restart)
+  	restart
+    ;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+

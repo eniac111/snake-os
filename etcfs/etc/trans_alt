@@ -1,0 +1,60 @@
+
+Transmission - Alternate Time
+
+Enable Alternate Time:  X ( 0 - 1)
+
+Alternate Speed Up: (KB/s)
+Alternate Speed Down: (KB/s)
+
+Alternate Time Begin:
+Alternate Time End:
+
+Alternate Time Days:
+
+Sun Mon Tue Wed Thu Fri Sat
+
+ALT_TIME_DAYS=$((${SUN:-0}+${MON:-0}+${TUE:-0}+${WED:-0}+${THU:-0}+${FRI:-0}+${SAT:-0}))
+
+                + Sunday: 1 (binary: 0000001)
+                + Monday: 2 (binary: 0000010)
+                + Tuesday: 4 (binary: 0000100)
+                + Wednesday: 8 (binary: 0001000)
+                + Thursday: 16 (binary: 0010000)
+                + Friday: 32 (binary: 0100000)
+                + Saturday: 64 (binary: 1000000)
+
+
+
+
+${SUN:-0}
+${SUN:-0}
+${SUN:-0}
+${SUN:-0}
+${SUN:-0}
+
+
+
+    * alt-speed-enabled: Boolean (default = false, aka 'Turtle Mode')
+
+    * alt-speed-up: Number (KB/s, default = 50)
+    * alt-speed-down: Number (KB/s, default = 50)
+
+    * alt-speed-time-begin: Number (default = 540, in minutes from midnight, 9am)
+    * alt-speed-time-end: Number (default = 1020, in minutes from midnight, 5pm)
+
+    * alt-speed-time-day: Number/bitfield (default = 127, all days)
+
+
+
+          o Start with 0, then for each day you want the scheduler enabled, add:
+                + Sunday: 1 (binary: 0000001)
+                + Monday: 2 (binary: 0000010)
+                + Tuesday: 4 (binary: 0000100)
+                + Wednesday: 8 (binary: 0001000)
+                + Thursday: 16 (binary: 0010000)
+                + Friday: 32 (binary: 0100000)
+                + Saturday: 64 (binary: 1000000)
+          o Examples:
+                + Weekdays: 62 (binary: 0111110)
+                + Weekends: 65 (binary: 1000001)
+                + All Days: 127 (binary: 1111111) 

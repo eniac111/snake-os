@@ -1,0 +1,130 @@
+#!/bin/sh
+#
+
+KIND="Transmission"
+PASSWORD=$(grep "password=" /etc/default/config | cut -d = -f 2)
+TRANS_BIN=/usr/share/transmission/bin
+TRANS_DIR=$(grep "transmission_dir=" /etc/default/config | cut -d = -f 2)
+
+start() {
+	PID=$(pidof transmission-daemon | cut -d ' ' -f 1)
+	if [ ${PID:-empty} = "empty" ] ; then
+	    USE_TRANSMISSION=$(grep "use_transmission=" /etc/default/config | cut -d = -f 2)
+	    if [ $USE_TRANSMISSION -eq 1 ] ; then
+			rm -f /var/transmission
+			ln -s "${TRANS_DIR}" /var/transmission
+		    if [ -f /var/transmission/.config/transmission-daemon/settings.json ] ; then
+				mkdir -p /var/transmission/torrentwatch
+			    echo "Starting $KIND service..."
+			    set_password
+				cp -a /etc/default/settings.json /var/transmission/.config/transmission-daemon/settings.json
+		        cd $TRANS_BIN
+		        nohup nice -n 15 ./transmission-daemon -g /var/transmission/.config/transmission-daemon -w /var/transmission -t -u admin -v ${PASSWORD} -a *.*.*.* > /dev/null 2>&1
+		    else
+		        if [ ${TRANS_DIR:-empty} = "empty" ] ; then
+		            echo "Transmission directory was not set. Please set it first."
+		        else
+		            TRANS_MOUNTED=`echo ${TRANS_DIR} | cut -d '/' -f 3` 
+		            for MOUNT in $(grep "^/dev/sd" /proc/mounts | cut -d ' ' -f 2 | cut -d '/' -f 3) ; do
+		                if [ $MOUNT = $TRANS_MOUNTED ] ; then
+		                    FOUND=1
+		                    mkdir -p /var/transmission/.config/transmission-daemon
+		                    mkdir -p /var/transmission/torrentwatch
+		                    cp -a /etc/default/settings.json /var/transmission/.config/transmission-daemon/settings.json
+		            	    set_password
+		            	    echo "Starting $KIND service..."
+		                    cd $TRANS_BIN
+		                    nohup nice -n 15 ./transmission-daemon -g /var/transmission/.config/transmission-daemon -w /var/transmission -t -u admin -v ${PASSWORD} -a *.*.*.* > /dev/null 2>&1
+		                    sleep 2
+		                fi
+				    done
+		            if [ ${FOUND:-0} -eq 0 ] ; then
+		                echo "Transmission dir not mounted. Mount it or change your config."
+		            fi
+		        fi
+		    fi
+		fi
+	fi
+}
+
+set_password(){
+	sed -ri "s/rpc-password\":.*/rpc-password\": \"${PASSWORD}\",/g" /etc/default/settings.json
+}
+
+webstatus(){
+	PID=$(pidof transmission-daemon | cut -d ' ' -f 1)
+	if [ ${PID:-empty} = "empty" ] ; then
+		echo -n "$KIND is not running"
+    else
+    	echo -n "$KIND is running"
+    fi  		
+}	
+
+autostart() {
+	PID=$(pidof transmission-daemon | cut -d ' ' -f 1)
+	if [ ${PID:-empty} = "empty" ] ; then
+	    USE_TRANSMISSION=$(grep "use_transmission=" /etc/default/config | cut -d = -f 2)
+	    if [ $USE_TRANSMISSION -eq 1 ] ; then
+			if [ -d "${TRANS_DIR}" ] ; then
+				rm -f /var/transmission
+				ln -s "${TRANS_DIR}" /var/transmission
+				mkdir -p /var/transmission/torrentwatch
+		        echo "Autostarting $KIND service..."
+		        set_password
+				cp -a /etc/default/settings.json /var/transmission/.config/transmission-daemon/settings.json
+		        cd $TRANS_BIN
+		        nohup nice -n 15 ./transmission-daemon -g /var/transmission/.config/transmission-daemon -w /var/transmission -t -u admin -v ${PASSWORD} -a *.*.*.* > /dev/null 2>&1
+			fi
+		fi
+	fi
+}	
+
+stop() {
+	echo "Shutting down $KIND service..."
+	killall transmission-daemon
+	sleep 2
+	PID=$(pidof transmission-daemon | cut -d ' ' -f 1)
+	if [ ${PID:-empty} != "empty" ] ; then
+		forcestop
+    fi  
+}	
+
+forcestop() {
+	echo "Shutting down $KIND service..."
+	killall -9 transmission-daemon
+	sleep 1
+}	
+
+restart() {
+	stop
+    sleep 1
+	start
+}	
+
+case "$1" in
+  start)
+  	start
+	;;
+  autostart)
+  	autostart
+	;;
+  stop)
+  	stop
+	;;
+  force-stop)
+  	forcestop
+	;;
+  restart)
+  	restart
+	;;
+  reload)
+  	restart
+	;;
+  webstatus)
+  	webstatus
+  	;;
+  *)
+	echo "Usage: $0 {start|stop|force-stop|autostart|restart|reload}"
+	exit 1
+esac
+

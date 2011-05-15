@@ -1,0 +1,107 @@
+#!/bin/sh
+#
+SMBCONF=/etc/smb.conf
+
+set_share(){
+	delete $1
+	add_share $1 $2 $3 $4 >> $SMBCONF
+}
+
+add_share() {
+	if [ -n "$1" -a -n "$2" -a "$3" ] ; then
+		if [ -n "$4" ] ; then
+			echo "[$1]"
+			echo "    comment = $1"
+			echo "    path = $2"
+			echo "    writeable = $3"
+			echo "    valid users = $4"		
+		else
+			echo "[$1]"
+			echo "    comment = $1"
+			echo "    path = $2"
+			echo "    writeable = $3"
+		fi	
+	fi
+}
+
+delete() {
+	config_remove $1 > $SMBCONF.tmp
+	mv $SMBCONF.tmp $SMBCONF
+}
+
+config_remove(){	
+	SHARENAME=$1
+	REMOVE=0
+	while read LINE
+	do
+		if [ "$(echo "$LINE" | cut -c 1)" = '[' ] ; then
+			if [ "$LINE" = "[$SHARENAME]" ] ; then
+				REMOVE=1
+			else
+				REMOVE=0
+			fi
+		fi	
+		if [ $REMOVE -eq 0 ] ; then
+			echo $LINE
+		fi
+	done < $SMBCONF
+	echo ""
+}
+list(){	
+	SKIP=$(grep -n  "#==" $SMBCONF | tail -1 | cut -d : -f 1)
+	sed "1,${SKIP}d" $SMBCONF | while read LINE
+	do
+		ACTUALVALUE="$(echo "$LINE" | cut -d = -f 2 | tr -d ' ')"
+		if [ -z $ACTUALVALUE ] ; then
+			echo ""
+		else
+			echo -n $ACTUALVALUE"|"
+		fi
+	done | sort -b | grep -v "^$"
+
+}
+
+get_share(){	
+	SHARENAME=$1
+	list | grep "\[$SHARENAME\]"
+}
+
+del_shareuser(){
+	USERNAME=$1
+	for SHARE in $(list | grep -r ".*|$USERNAME|$" | cut -d '|' -f 2) ; do
+		delete $SHARE
+	done
+}
+
+
+
+case "$1" in
+  -a)
+  	set_share $2 $3 $4 $5
+  	/etc/init.d/samba reload > /dev/null 2>&1
+	;;
+  -x)
+  	delete $2
+  	/etc/init.d/samba reload > /dev/null 2>&1
+	;;
+   -xuser)  
+  	del_shareuser $2
+  	/etc/init.d/samba reload > /dev/null 2>&1
+   ;;
+  -get)
+  	get_share $2
+  	;;
+  -list)
+  	list
+	;;
+  *)
+echo "Usage:"
+echo "  smbconf [options] [share] [path] [write] [user]"
+echo "options:"
+echo "  -a      add or modify share"
+echo "  -x      delete share"
+echo "  -xuser  delete shares of certain user"
+echo "  -get    get share info"
+echo "  -list	list all shares"
+	exit 1
+esac

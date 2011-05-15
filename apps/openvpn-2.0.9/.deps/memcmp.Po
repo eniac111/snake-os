@@ -1,0 +1,16 @@
+memcmp.o memcmp.o: memcmp.c \
+  /opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/string.h \
+  /opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/features.h \
+  /opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_config.h \
+  /opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/cdefs.h \
+  /opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/stddef.h
+
+/opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/string.h:
+
+/opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/features.h:
+
+/opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/bits/uClibc_config.h:
+
+/opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/sys-include/sys/cdefs.h:
+
+/opt/sdk_snakeos/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/include/stddef.h:
