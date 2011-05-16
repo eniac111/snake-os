@@ -58,7 +58,7 @@ Content-type: text/html
 			d.add(44,40,'Monitor','sysmon.cgi','System monitoring','','');
 			d.add(45,40,'Firmware','firmware.cgi','Manage system firmware','','');
 		d.add(90,0,'About','credits.cgi','Firmware credits','','');	
-		d.add(99,0,'Transmission','http://<% get_ipaddress %>:9091','Transmission BitTorrent software','_blank','../img/trans.png');
+		d.add(99,0,'Transmission','http://'+document.location.hostname+':<% get_config trans_rpc_port %>','Transmission BitTorrent software','_blank','../img/trans.png');
 
 		document.write(d);
 

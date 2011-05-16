@@ -20,8 +20,9 @@ ntp_enable=1
 ntp_server=pool.ntp.org
 
 http_port=80
+ssh_port=22
 
-telnet_enable=1
+telnet_enable=0
 
 webserver_enable=0
 webserver_port=8080
@@ -54,6 +55,10 @@ trans_alt_speed_down=10
 trans_alt_time_begin=0
 trans_alt_time_end=0
 trans_alt_time_days=0
+trans_peer_limit_global=240
+trans_peer_limit_torrent=60
+trans_peer_port=51413
+trans_rpc_port=9091
 
 ddns_enable=0
 ddns_provider=dyndns@dyndns.org

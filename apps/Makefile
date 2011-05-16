@@ -58,6 +58,8 @@ to_install:
 	cp $(APP_DIR)/rsync/rsync ${TARGET_ROOT}/bin
 	# CURL
 	cp -a $(APP_DIR)/curl/lib/.libs/libcurl.so* ${TARGET_ROOT}/lib
+	#LIBEVENT
+	cp -a $(APP_DIR)/libevent/.libs/libevent.so* ${TARGET_ROOT}/lib
 	# TRANSMISSION
 	mkdir -p ${TARGET_ROOT}/usr/share/transmission/bin
 	cp $(APP_DIR)/transmission/daemon/transmission-daemon ${TARGET_ROOT}/usr/share/transmission/bin
@@ -173,6 +175,11 @@ to_build_image:
 		--disable-cookies --disable-dict --disable-sspi
 	make -j3 -C curl CROSS_COMPILE="arm-linux-"
 	
+	#LIBEVENT (Required for transmission)
+	cd libevent ; \
+	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --prefix=
+	make -j3 -C libevent
+	
 	# TRANSMISSION
 	cd transmission ;\
 	./configure \
@@ -181,6 +188,8 @@ to_build_image:
         LIBCURL_CFLAGS=-I${PWD}/apps/curl/include \
         OPENSSL_LIBS="-L${PWD}/apps/openssl ${PWD}/apps/openssl/libcrypto.a" \
         OPENSSL_CFLAGS=-I${PWD}/apps/openssl/include \
+        LIBEVENT_LIBS="-L${PWD}/apps/libevent/.libs ${PWD}/apps/libevent/.libs/libevent.a"  \
+        LIBEVENT_CFLAGS=-I${PWD}/apps/libevent \
 		--host=i686-linux-gnu --target=arm-linux-gnu --enable-static=yes --enable-shared=no \
 		--disable-dependency-tracking  \
 		--disable-libtool-lock  \

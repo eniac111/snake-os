@@ -9,17 +9,17 @@ Content-type: text/html
 
 function validateAll(form) {
 	var http_port = form.http_port.value;
-	var re = /^\d{1,4}$/;
+	var re = /^\d{1,5}$/;
 	if (http_port == '') {
-		alert('Please enter a valid http port for web admin interface. Accepted port numbers are between 1 and 9999.');
+		alert('Please enter a valid http port for web admin interface. Accepted port numbers are between 1 and 65535.');
 		return false;
 	}
 	if (!re.test(http_port)) { 
-		alert('Please enter a valid http port for web admin interface. Accepted port numbers are between 1 and 9999.');
+		alert('Please enter a valid http port for web admin interface. Accepted port numbers are between 1 and 65535.');
 		return false;
 	}
-	if (http_port < 1) { 
-		alert('Please enter a valid http port for web admin interface. Accepted port numbers are between 1 and 9999.');
+	if (http_port < 1 || http_port > 65535) { 
+		alert('Please enter a valid http port for web admin interface. Accepted port numbers are between 1 and 65535.');
 		return false;
 	}
 	var answer = confirm ("You are about to change http web admin port. Confirm that choosen tcp port is a unused one. Are you sure?");

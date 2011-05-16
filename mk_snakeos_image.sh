@@ -9,7 +9,7 @@ TOP_DIR=$PWD
 KER_DIR=$TOP_DIR/kernels/linux
 PREVIOUS_OWNER=$(ls -ld rootfs/default | awk '{ print $3":"$4}')
 CURRDATE=$(date +%Y%m%d)
-CURRVER=V1.1.0
+CURRVER=V1.3.2
 CURRENTVER="SNAKE OS ${CURRVER}"
 CURRENTRELEASE="${CURRENTVER} (${CURRDATE})"
 

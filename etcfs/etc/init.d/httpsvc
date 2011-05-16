@@ -4,10 +4,11 @@
 PORT=$(grep "^http_port=" /etc/default/config | cut -d = -f 2)
 PARAM="-c /etc/httpd.conf -h /usr/share/www"
 KIND="HTTPD"
+HOSTNAME=$(grep "^hostname=" /etc/default/config | cut -d = -f 2)
 
 start() {
 	echo "Starting $KIND service..."
-    httpd ${PARAM} -p ${PORT} -r SNAKE
+    httpd ${PARAM} -p ${PORT} -r ${HOSTNAME}
 }
 
 stop() {

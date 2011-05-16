@@ -7,10 +7,20 @@ Content-type: text/html
 <script language="JavaScript">
 <!-- //
 
+var http_port = "";
+
 function validateAction(form) {                                             
+	http_port = form.http_port.value;
     var action = btnAction.value;
     var question = "";
-    if ( action == 'Start' )
+
+	if ( action == 'Apply' ){		
+		if (!validatePort(form.ssh_port.value,'SSH Server Port'))
+			return false;
+
+		question = "This will restart ssh server service. Are you sure?";
+	}
+    else if ( action == 'Start' )
     	return true;
     else if ( action == 'Stop' )
         question = "This action could disconnect remote users. Are you sure that you want to stop SFTP/SSH service?";
@@ -25,6 +35,27 @@ function validateAction(form) {
         return false;                                           
 } 
 
+function validatePort(port,description){
+	var re = /^\d{1,5}$/;
+
+	if (port == '') {
+		alert('Please enter a valid port for '+description+'. Accepted port numbers are between 1 and 65535.');
+		return false;
+	}
+	if (!re.test(port)) { 
+		alert('Please enter a valid port for '+description+'. Accepted port numbers are between 1 and 65535.');
+		return false;
+	}
+	if (port < 1 || port > 65535) { 
+		alert('Please enter a valid port for '+description+'. Accepted port numbers are between 1 and 65535.');
+		return false;
+	}
+	if (port == http_port) { 
+		alert('You have to use a different port for '+description+' and web admin interface.');
+		return false;
+	}
+	return true;                                                 
+}
 
 // -->
 </script>
@@ -39,6 +70,13 @@ if [ "${REQUEST_METHOD}" = "POST" ]
 then
     ACTION=$(echo ${FORM_action} | cut -d ' ' -f 1)
     case "$ACTION" in
+      Apply)
+      	NEWPORT=$(echo ${FORM_ssh_port} | cut -d ' ' -f 1)
+      	set_config ssh_port ${NEWPORT}
+	
+      	/etc/init.d/sshd restart > /dev/null
+      	sleep 2		
+    	;;
       Start)
       	/etc/init.d/sshd start > /dev/null
       	sleep 2
@@ -64,9 +102,12 @@ fi
 %>
 <form action="<%= ${SCRIPT_NAME} %>" method="POST"  onsubmit="return validateAction(this);">
      <TABLE border="0" >
-     <TR><TH>Status:</TH><TD><% /etc/init.d/sshd webstatus %></TD></TR>
+	<input type="hidden" name="http_port" value="<% get_config http_port %>" >
+	<TR><TH>SSH Server Port:</TH><TD><input type="text" name="ssh_port" size=4 value="<% get_config ssh_port %>" title="Enter a the SSH Server port. Accepted port numbers are between 1 and 65535."></TD></TR>     
+	<TR><TH>Status:</TH><TD><% /etc/init.d/sshd webstatus %></TD></TR>
 </TABLE>
 
+   <input type="submit" name="action" value="Apply" onclick="btnAction=this">
    <input type="submit" name="action" value="Start" onclick="btnAction=this">
    <input type="submit" name="action" value="Stop" onclick="btnAction=this">
    <input type="submit" name="action" value="Restart" onclick="btnAction=this">
