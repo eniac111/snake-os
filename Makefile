@@ -41,6 +41,7 @@ slim_rootfs:
 	-find $(TARGET_ROOT) -name *\.a -exec rm -rf {} \;
 	-find $(TARGET_ROOT) -name *\.la -exec rm -rf {} \;
 	-find $(TARGET_ROOT) -name *\.h -exec rm -rf {} \;
+	-find $(TARGET_ROOT) -name *\Makefile* -exec rm -rf {} \;
 	-find rootfs/target -type f | egrep -v "\.htm[~]{0,1}|target/dev|\.(o|ko|gif|script|css|xml|sh|js)|target/usr/etc" | xargs arm-linux-strip -v
 	-target=man;rm $(TARGET_ROOT)/$${target} $(TARGET_ROOT)/share/$${target} $(TARGET_ROOT)/usr/local/$${target} $(TARGET_ROOT)/usr/share/$${target} $(TARGET_ROOT)/usr/local/share/$${target} -rvf
 	-target=doc;rm $(TARGET_ROOT)/$${target} $(TARGET_ROOT)/share/$${target} $(TARGET_ROOT)/usr/local/$${target} $(TARGET_ROOT)/usr/share/$${target} $(TARGET_ROOT)/usr/local/share/$${target} -rvf
