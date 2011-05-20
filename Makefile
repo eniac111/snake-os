@@ -46,7 +46,7 @@ slim_rootfs:
 	-target=man;rm $(TARGET_ROOT)/$${target} $(TARGET_ROOT)/share/$${target} $(TARGET_ROOT)/usr/local/$${target} $(TARGET_ROOT)/usr/share/$${target} $(TARGET_ROOT)/usr/local/share/$${target} -rvf
 	-target=doc;rm $(TARGET_ROOT)/$${target} $(TARGET_ROOT)/share/$${target} $(TARGET_ROOT)/usr/local/$${target} $(TARGET_ROOT)/usr/share/$${target} $(TARGET_ROOT)/usr/local/share/$${target} -rvf
 # Added by gazineu
-	upx -7 rootfs/target/usr/share/transmission/bin/transmission-daemon rootfs/target/bin/ntpclient rootfs/target/bin/smbd rootfs/target/bin/nmbd rootfs/target/bin/dropbearmulti rootfs/target/bin/sftp-server rootfs/target/bin/rsync rootfs/target/bin/smbencrypt rootfs/target/bin/ntfs-3g rootfs/target/bin/p910nd rootfs/target/sbin/mke2fs rootfs/target/sbin/e2fsck rootfs/target/bin/vsftpd rootfs/target/bin/inadyn
+	upx -7 rootfs/target/bin/ntpclient rootfs/target/bin/smbd rootfs/target/bin/nmbd rootfs/target/bin/dropbearmulti rootfs/target/bin/sftp-server rootfs/target/bin/rsync rootfs/target/bin/smbencrypt rootfs/target/bin/ntfs-3g rootfs/target/bin/p910nd rootfs/target/sbin/mke2fs rootfs/target/sbin/e2fsck rootfs/target/bin/vsftpd rootfs/target/bin/inadyn rootfs/target/bin/opkg-cl
 	#rootfs/target/bin/hd-idle
 
 gen_rootfs:
