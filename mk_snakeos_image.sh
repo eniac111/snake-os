@@ -139,7 +139,7 @@ dd if=/dev/zero of=${RESULT} count=1 bs=16 seek=258047
 md5sum ${RESULT} | cut -d ' ' -f 1 > ${RESULT}.md5
 
 # turn checksum into binary
-cat ${RESULT}.md5 | sed 's/../& /g' |tr '[a-z]' '[A-z]' |sed 's/ / p /g' |sed 's/$/ p/'|awk '{print "16i "$0}'|dc |tr ' ' '\n' |awk '{printf("%c",$0)}' | dd of=${RESULT}.md5tail bs=16 count=1
+cat ${RESULT}.md5 | sed 's/../& /g' |tr '[a-z]' '[A-z]' |sed 's/ / p /g' |sed 's/$/ p/'|awk '{print "16i "$0}'|dc |tr ' ' '\n' |awk -b '{printf("%c",$0)}' | dd of=${RESULT}.md5tail bs=16 count=1
 
 # strip empty tail from firmware
 dd if=${RESULT} of=${RESULT}.notail bs=16 count=258047
@@ -174,7 +174,7 @@ dd if=/dev/zero of=${RESULT} count=1 bs=16 seek=241663
 md5sum ${RESULT} | cut -d ' ' -f 1 > ${RESULT}.md5
 
 # turn checksum into binary
-cat ${RESULT}.md5 | sed 's/../& /g' |tr '[a-z]' '[A-z]' |sed 's/ / p /g' |sed 's/$/ p/'|awk '{print "16i "$0}'|dc |tr ' ' '\n' |awk '{printf("%c",$0)}' | dd of=${RESULT}.md5tail bs=16 count=1
+cat ${RESULT}.md5 | sed 's/../& /g' |tr '[a-z]' '[A-z]' |sed 's/ / p /g' |sed 's/$/ p/'|awk '{print "16i "$0}'|dc |tr ' ' '\n' |awk -b '{printf("%c",$0)}' | dd of=${RESULT}.md5tail bs=16 count=1
 
 # strip empty tail from firmware
 dd if=${RESULT} of=${RESULT}.notail bs=16 count=241663

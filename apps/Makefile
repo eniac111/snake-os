@@ -28,8 +28,8 @@ to_install:
 	# E2FSPROGS
 	cp $(APP_DIR)/e2fsprogs/misc/mke2fs ${TARGET_ROOT}/sbin
 	cp $(APP_DIR)/e2fsprogs/e2fsck/e2fsck ${TARGET_ROOT}/sbin
-	ln -s mke2fs ${TARGET_ROOT}/sbin/mkfs.ext2
-	ln -s mke2fs ${TARGET_ROOT}/sbin/mkfs.ext3
+	ln -sf mke2fs ${TARGET_ROOT}/sbin/mkfs.ext2
+	ln -sf mke2fs ${TARGET_ROOT}/sbin/mkfs.ext3
 	# HASERL
 	cp $(APP_DIR)/haserl/src/haserl ${TARGET_ROOT}/bin
 	# P910ND
@@ -158,7 +158,7 @@ to_build_image:
 	cd openssl ; \
 	./Configure dist 
 	cd openssl ; \
-	make -j3 CC="arm-linux-gcc" AR="arm-linux-ar r" RANLIB="arm-linux-ranlib"
+	make CC="arm-linux-gcc" AR="arm-linux-ar r" RANLIB="arm-linux-ranlib"
 
 	# OPENSSH  (sftp-server)
 	cd openssh ; \
@@ -181,7 +181,7 @@ to_build_image:
 	
 	# OPKG
 	cd opkg ;\
-	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=arm-linux CFLAGS="-Os -frename-registers -march=armv4" --prefix=$(shell pwd) --with-opkglibdir=/opt --enable-static --disable-shared --disable-gpg --disable-curl
+	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=arm-linux CFLAGS="-Os -frename-registers -march=armv4" --prefix=$(shell pwd) --with-opkglibdir=/opt --enable-static --disable-shared --disable-gpg --disable-curl --disable-shave
 	make -j3 -C opkg
 
 	#LIBEVENT (Required for transmission)
@@ -226,7 +226,7 @@ clean: star_auto_clean
 	make -C dropbear clean
 	make -C openssl clean
 	make -C curl clean
-	make -C transmission clean
+#	make -C transmission clean
 	make -C vsftpd clean
 	make -C inadyn clean
 	make -C opkg clean
