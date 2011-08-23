@@ -74,11 +74,11 @@ DIST_SOURCES = $(am__haserl_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /opt/snakeos-sdk/apps/haserl/missing --run aclocal-1.10
-AMTAR = ${SHELL} /opt/snakeos-sdk/apps/haserl/missing --run tar
-AUTOCONF = ${SHELL} /opt/snakeos-sdk/apps/haserl/missing --run autoconf
-AUTOHEADER = ${SHELL} /opt/snakeos-sdk/apps/haserl/missing --run autoheader
-AUTOMAKE = ${SHELL} /opt/snakeos-sdk/apps/haserl/missing --run automake-1.10
+ACLOCAL = ${SHELL} /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/missing --run aclocal-1.10
+AMTAR = ${SHELL} /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/missing --run tar
+AUTOCONF = ${SHELL} /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/missing --run automake-1.10
 AWK = gawk
 CC = arm-linux-gcc
 CCDEPMODE = depmode=gcc3
@@ -104,7 +104,7 @@ LIBOBJS =  ${LIBOBJDIR}memcmp$U.o
 LIBS = 
 LN_S = ln -s
 LTLIBOBJS =  ${LIBOBJDIR}memcmp$U.lo
-MAKEINFO = ${SHELL} /opt/snakeos-sdk/apps/haserl/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = haserl
@@ -119,10 +119,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = strip
 VERSION = 0.9.26
-abs_builddir = /opt/snakeos-sdk/apps/haserl/src
-abs_srcdir = /opt/snakeos-sdk/apps/haserl/src
-abs_top_builddir = /opt/snakeos-sdk/apps/haserl
-abs_top_srcdir = /opt/snakeos-sdk/apps/haserl
+abs_builddir = /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/src
+abs_srcdir = /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/src
+abs_top_builddir = /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl
+abs_top_srcdir = /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl
 ac_ct_CC = 
 am__include = include
 am__leading_dot = .
@@ -141,7 +141,7 @@ host_alias = i486-linux-gnu
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /opt/snakeos-sdk/apps/haserl/install-sh
+install_sh = $(SHELL) /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/haserl/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -150,7 +150,7 @@ mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /opt/snakeos-sdk/apps
+prefix = /home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -471,10 +471,10 @@ uninstall-am: uninstall-binPROGRAMS
 #h_lua_common.c : haserl_lualib.inc
 
 install-strip:
-        $(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
-          install_sh_PROGRAM="$(INSTALL_STRIP_PROGRAM)" INSTALL_STRIP_FLAG=-s \
-          `test -z '$(STRIP)' || \
-            echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+		install_sh_PROGRAM="$(INSTALL_STRIP_PROGRAM)" INSTALL_STRIP_FLAG=-s \
+		`test -z '$(STRIP)' || \
+		echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
 
 #---------  Unit Tests ----------------------
 #TESTS = utest_common

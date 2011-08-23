@@ -9,11 +9,11 @@ top_srcdir=../..
 CC=arm-linux-gcc
 LD=arm-linux-gcc
 CFLAGS=-Os -frename-registers -march=armv4 -Wall -Wpointer-arith -Wuninitialized -Wsign-compare -Wformat-security -fno-builtin-memset -std=gnu99 
-CPPFLAGS=-I. -I.. -I$(srcdir) -I$(srcdir)/.. -I/opt/snakeos-sdk/apps/openssh/../openssl/include -I~/include -DHAVE_CONFIG_H
+CPPFLAGS=-I. -I.. -I$(srcdir) -I$(srcdir)/.. -I/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl/include -I~/include -DHAVE_CONFIG_H
 EXEEXT=
 LIBCOMPAT=../libopenbsd-compat.a
 LIBS=-lcrypto -lutil -lz  -lcrypt -lresolv -lresolv
-LDFLAGS=-L/opt/snakeos-sdk/apps/openssh/../openssl  $(LIBCOMPAT)
+LDFLAGS=-L/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl  $(LIBCOMPAT)
 
 TESTPROGS=closefromtest$(EXEEXT) snprintftest$(EXEEXT) strduptest$(EXEEXT) \
 	strtonumtest$(EXEEXT)

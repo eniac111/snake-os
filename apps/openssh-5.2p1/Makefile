@@ -42,7 +42,7 @@ PATHS= -DSSHDIR=\"$(sysconfdir)\" \
 CC=arm-linux-gcc
 LD=arm-linux-gcc
 CFLAGS=-Os -frename-registers -march=armv4 -Wall -Wpointer-arith -Wuninitialized -Wsign-compare -Wformat-security -fno-builtin-memset -std=gnu99 
-CPPFLAGS=-I. -I$(srcdir) -I/opt/snakeos-sdk/apps/openssh/../openssl/include -I~/include $(PATHS) -DHAVE_CONFIG_H
+CPPFLAGS=-I. -I$(srcdir) -I/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl/include -I~/include $(PATHS) -DHAVE_CONFIG_H
 LIBS=-lcrypto -lutil -lz  -lcrypt -lresolv -lresolv
 SSHDLIBS=
 LIBEDIT=
@@ -54,7 +54,7 @@ PERL=/usr/bin/perl
 SED=/bin/sed
 ENT=
 XAUTH_PATH=/usr/bin/xauth
-LDFLAGS=-L. -Lopenbsd-compat/ -L/opt/snakeos-sdk/apps/openssh/../openssl 
+LDFLAGS=-L. -Lopenbsd-compat/ -L/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl 
 EXEEXT=
 
 INSTALL_SSH_PRNG_CMDS=

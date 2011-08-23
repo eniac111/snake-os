@@ -19,8 +19,8 @@ AWK="gawk"
 CC="arm-linux-gcc"
 CPP="arm-linux-gcc -E"
 CFLAGS="-Os -frename-registers -march=armv4 -Wall -Wpointer-arith -Wuninitialized -Wsign-compare -Wformat-security -fno-builtin-memset -std=gnu99 "
-CPPFLAGS="-I/opt/snakeos-sdk/apps/openssh/../openssl/include -I~/include"
-LDFLAGS="-L/opt/snakeos-sdk/apps/openssh/../openssl "
+CPPFLAGS="-I/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl/include -I~/include"
+LDFLAGS="-L/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl "
 LIBS="-lcrypto -lutil -lz  -lcrypt -lresolv -lresolv"
 
 # Note format:

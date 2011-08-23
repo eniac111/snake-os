@@ -1,4 +1,4 @@
-prefix=/home/dwmcqueen/Projects/snake-os/apps
+prefix=/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

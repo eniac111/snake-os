@@ -2,7 +2,7 @@
 
 # libtool - Provide generalized library-building support services.
 # Generated automatically by config.status (opkg) 0.1.8
-# Libtool was configured on host dev-machine:
+# Libtool was configured on host mcqueen-DEV:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 #   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
@@ -80,7 +80,7 @@ EGREP="/bin/grep -E"
 FGREP="/bin/grep -F"
 
 # A BSD- or MS-compatible name lister.
-NM="/home/dwmcqueen/Projects/snake-os/tools/arm-uclibc-3.4.6/bin//arm-linux-nm -B"
+NM="/home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/bin/arm-linux-nm -B"
 
 # Whether we need soft or hard links.
 LN_S="ln -s"
@@ -129,7 +129,7 @@ old_postinstall_cmds="chmod 644 \$oldlib~\$RANLIB \$oldlib"
 old_postuninstall_cmds=""
 
 # A C compiler.
-LTCC="/bin/bash /home/dwmcqueen/Projects/snake-os/apps/opkg/shave/shave cc arm-linux-gcc"
+LTCC="arm-linux-gcc"
 
 # LTCC compiler flags.
 LTCFLAGS="-Os -frename-registers -march=armv4"
@@ -234,10 +234,10 @@ finish_eval=""
 hardcode_into_libs=yes
 
 # Compile-time system search path for libraries.
-sys_lib_search_path_spec="/home/dwmcqueen/Projects/snake-os/tools/arm-uclibc-3.4.6/lib/gcc/arm-linux-uclibc/3.4.6 /home/dwmcqueen/Projects/snake-os/tools/arm-uclibc-3.4.6/lib/gcc /home/dwmcqueen/Projects/snake-os/tools/arm-uclibc-3.4.6/arm-linux-uclibc/lib"
+sys_lib_search_path_spec="/home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/lib/gcc/arm-linux-uclibc/3.4.6 /home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/lib/gcc /home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/arm-linux-uclibc/lib"
 
 # Run-time system search path for libraries.
-sys_lib_dlsearch_path_spec="/lib /usr/lib /usr/lib/nvidia-current /usr/lib32/nvidia-current /usr/lib32/alsa-lib /usr/lib/alsa-lib /usr/local/lib /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu "
+sys_lib_dlsearch_path_spec="/lib /usr/lib /usr/lib/fglrx /usr/lib32/fglrx /lib32 /usr/lib32 /usr/lib32/alsa-lib /usr/lib/alsa-lib /usr/local/lib /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu "
 
 # Whether dlopen is supported.
 dlopen_support=unknown
@@ -254,7 +254,7 @@ striplib="arm-linux-strip --strip-unneeded"
 
 
 # The linker used to build libraries.
-LD="/home/dwmcqueen/Projects/snake-os/tools/arm-uclibc-3.4.6/arm-linux-uclibc/bin/ld"
+LD="/home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/arm-linux-uclibc/bin/ld"
 
 # Commands used to build an old-style archive.
 old_archive_cmds="\$AR \$AR_FLAGS \$oldlib\$oldobjs~\$RANLIB \$oldlib"

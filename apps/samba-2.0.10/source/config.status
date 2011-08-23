@@ -2,7 +2,7 @@
 # Generated automatically by configure.
 # Run this file to recreate the current configuration.
 # This directory was configured as follows,
-# on host snaker01:
+# on host mcqueen-DEV:
 #
 # ./configure  --host=arm-linux --prefix=/bin --bindir=/bin --sbindir=/bin --sharedstatedir=/var --localstatedir=/var --sysconfdir=/etc --with-privatedir=/etc --with-lockdir=/var --with-piddir=/var --libexecdir=/bin --with-logfilebase=/var --libdir=/etc --with-configdir=/etc --without-syslog --disable-cups --with-sendfile-support --without-winbind
 #
@@ -98,7 +98,7 @@ s%@privatedir@%/etc%g
 s%@lockdir@%/var%g
 s%@swatdir@%${prefix}/swat%g
 s%@sambabook@%${prefix}/swat/using_samba%g
-s%@builddir@%/opt/snakeos-sdk/apps/samba/source%g
+s%@builddir@%/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/samba/source%g
 
 CEOF
 

@@ -337,7 +337,7 @@ Copyright (C) 2006 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/opt/snakeos-sdk/apps/openssh'
+ac_pwd='/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 # If no file are specified by the user, then we need to provide default
@@ -530,8 +530,8 @@ s,@host_alias@,|#_!!_#|i486-linux-gnu,g
 s,@target_alias@,|#_!!_#|arm-linux-uclibc,g
 s,@CC@,|#_!!_#|arm-linux-gcc,g
 s,@CFLAGS@,|#_!!_#|-Os -frename-registers -march=armv4 -Wall -Wpointer-arith -Wuninitialized -Wsign-compare -Wformat-security -fno-builtin-memset -std=gnu99 ,g
-s,@LDFLAGS@,|#_!!_#|-L/opt/snakeos-sdk/apps/openssh/../openssl ,g
-s,@CPPFLAGS@,|#_!!_#|-I/opt/snakeos-sdk/apps/openssh/../openssl/include -I~/include,g
+s,@LDFLAGS@,|#_!!_#|-L/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl ,g
+s,@CPPFLAGS@,|#_!!_#|-I/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl/include -I~/include,g
 s,@ac_ct_CC@,|#_!!_#|,g
 s,@EXEEXT@,|#_!!_#|,g
 s,@OBJEXT@,|#_!!_#|o,g

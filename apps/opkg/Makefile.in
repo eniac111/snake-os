@@ -40,7 +40,7 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(top_srcdir)/shave/shave-libtool.in \
 	$(top_srcdir)/shave/shave.in AUTHORS COPYING ChangeLog INSTALL \
 	NEWS TODO conf/config.guess conf/config.sub conf/depcomp \
-	conf/install-sh conf/ltmain.sh conf/missing
+	conf/install-sh conf/ltmain.sh conf/missing conf/mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/shave/libtool.m4 \
 	$(top_srcdir)/shave/ltoptions.m4 \
@@ -52,7 +52,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
-mkinstalldirs = $(install_sh) -d
+mkinstalldirs = $(SHELL) $(top_srcdir)/conf/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/libopkg/config.h
 CONFIG_CLEAN_FILES = libopkg.pc shave/shave shave/shave-libtool
 CONFIG_CLEAN_VPATH_FILES =

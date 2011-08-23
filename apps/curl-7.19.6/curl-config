@@ -22,7 +22,7 @@
 # $Id: curl-config.in,v 1.36 2009-03-20 12:42:29 bagder Exp $
 ###########################################################################
 
-prefix=/opt/snakeos-sdk/apps
+prefix=/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps
 exec_prefix=${prefix}
 includedir=${prefix}/include
 

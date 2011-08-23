@@ -9,12 +9,12 @@ top_srcdir=..
 CC=arm-linux-gcc
 LD=arm-linux-gcc
 CFLAGS=-Os -frename-registers -march=armv4 -Wall -Wpointer-arith -Wuninitialized -Wsign-compare -Wformat-security -fno-builtin-memset -std=gnu99 
-CPPFLAGS=-I. -I.. -I$(srcdir) -I$(srcdir)/.. -I/opt/snakeos-sdk/apps/openssh/../openssl/include -I~/include -DHAVE_CONFIG_H
+CPPFLAGS=-I. -I.. -I$(srcdir) -I$(srcdir)/.. -I/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl/include -I~/include -DHAVE_CONFIG_H
 LIBS=-lcrypto -lutil -lz  -lcrypt -lresolv -lresolv
 AR=/usr/bin/ar
 RANLIB=ranlib
 INSTALL=/usr/bin/install -c
-LDFLAGS=-L. -L/opt/snakeos-sdk/apps/openssh/../openssl 
+LDFLAGS=-L. -L/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/openssh/../openssl 
 
 OPENBSD=base64.o basename.o bindresvport.o daemon.o dirname.o fmt_scaled.o getcwd.o getgrouplist.o getopt.o getrrsetbyname.o glob.o inet_aton.o inet_ntoa.o inet_ntop.o mktemp.o readpassphrase.o realpath.o rresvport.o setenv.o setproctitle.o sha2.o sigact.o strlcat.o strlcpy.o strmode.o strsep.o strtonum.o strtoll.o strtoul.o vis.o
 
