@@ -26,6 +26,7 @@ to_install:
 	cp $(APP_DIR)/samba/source/bin/smbd ${TARGET_ROOT}/bin
 	cp $(APP_DIR)/samba/source/bin/nmbd ${TARGET_ROOT}/bin
 	# E2FSPROGS
+	rm ${TARGET_ROOT}/sbin/mke2fs
 	cp $(APP_DIR)/e2fsprogs/misc/mke2fs ${TARGET_ROOT}/sbin
 	cp $(APP_DIR)/e2fsprogs/e2fsck/e2fsck ${TARGET_ROOT}/sbin
 	ln -sf mke2fs ${TARGET_ROOT}/sbin/mkfs.ext2
