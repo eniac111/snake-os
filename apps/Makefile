@@ -169,7 +169,8 @@ to_build_image:
 	# RSYNC
 	cd rsync ; \
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --disable-debug  --prefix=
-	make -j3 -C rsync
+	# rsync build often fails the first time
+	make -j3 -C rsync || make -j3 -C rsync
 	
 	# CURL  (Required for transmission)
 	cd curl ;\
