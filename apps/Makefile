@@ -66,13 +66,15 @@ to_install:
 	#cp $(APP_DIR)/transmission/daemon/transmission-daemon ${TARGET_ROOT}/usr/share/transmission/bin
 	#cp -a $(APP_DIR)/transmission/web ${TARGET_ROOT}/usr/share/transmission/web
 	#rm -f ${TARGET_ROOT}/usr/share/transmission/web/LICENSE
-	#find ${TARGET_ROOT}/usr/share/transmission/web/ -name ".svn" | xargs rm -rf
+	find ${TARGET_ROOT} -name ".svn" | xargs rm -rf
 	# VSFTPD
 	cp $(APP_DIR)/vsftpd/vsftpd ${TARGET_ROOT}/bin
 	# OPKG
 	# IPKG
 	cp $(APP_DIR)/opkg/src/opkg-cl ${TARGET_ROOT}/bin
 	ln -s /usb/sda1/.optware ${TARGET_ROOT}/opt
+	# Clean up SVN
+	find ${TARGET_ROOT} -name ".svn" | xargs rm -rf
 
 build_image: to_build_image star_auto_build
 
