@@ -41,9 +41,17 @@ if [ ! $((${MINOR}%16)) -eq 0 ] ; then
 	            fi
 	        fi
 	    fi
-    else
 
-		MPOINT=$(grep "^/dev/$MDEV" /proc/mounts | cut -d ' ' -f 2 | cut -d '/' -f 3)
+        if [ "$MPOINT" = $(grep "opkg_disk=" /etc/default/config | cut -d '=' -f 2) ]; then
+            /etc/init.d/opkg link $MPOINT
+        fi
+
+    else
+        MPOINT=$(grep "^/dev/$MDEV" /proc/mounts | cut -d ' ' -f 2 | cut -d '/' -f 3)
+
+        if [ "$MPOINT" = $(grep "opkg_disk=" /etc/default/config | cut -d '=' -f 2) ]; then
+            /etc/init.d/opkg unlink
+        fi
 
         TRANS_RUNNING=$(pgrep -f transmission-daemon | wc -l)
         # Detect if transmission is running on selected drive and attempt to stt

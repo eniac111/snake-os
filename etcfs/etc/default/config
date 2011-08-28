@@ -70,3 +70,5 @@ syslog_path=/var/messages
 syslog_net=0
 syslog_addr=0.0.0.0
 
+use_opkg=0
+opkg_disk=sda1

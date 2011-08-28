@@ -72,7 +72,6 @@ to_install:
 	# OPKG
 	# IPKG
 	cp $(APP_DIR)/opkg/src/opkg-cl ${TARGET_ROOT}/bin
-	ln -s /usb/sda1/.optware ${TARGET_ROOT}/opt
 	# Clean up SVN
 	find ${TARGET_ROOT} -name ".svn" | xargs rm -rf
 
