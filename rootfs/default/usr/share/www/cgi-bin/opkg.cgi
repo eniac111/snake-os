@@ -13,11 +13,11 @@ then
 
     case "$ACTION" in
       Apply)
- 	/etc/init.d/opkg unlink 2>&1 | cat /tmp/opkg-cgi.log - 2> /dev/null | tail -n 100 > /tmp/opkg-cgi.log-tmp; mv /tmp/opkg-cgi.log-tmp /tmp/opkg-cgi.log
+ 	OPKGLOG=$(/etc/init.d/opkg unlink 2>&1 | tail -c 1000)
 
 	set_config use_opkg ${USE_OPKG:-0}	
 	if [ ${USE_OPKG:-0} -eq 1 ] ; then
-		/etc/init.d/opkg link $OPKGDISK 2>&1 | cat /tmp/opkg-cgi.log - 2> /dev/null | tail -n 100 > /tmp/opkg-cgi.log-tmp; mv /tmp/opkg-cgi.log-tmp /tmp/opkg-cgi.log
+		OPKGLOG=$(/etc/init.d/opkg link $OPKGDISK 2>&1 | tail -c 1000)
 	fi
     	;;
       *)
@@ -59,7 +59,7 @@ function validateAction(form) {
         return true;                                                 
     else                                                            
         return false;                                           
-} 
+}
 
 
 // -->
@@ -89,8 +89,11 @@ function validateAction(form) {
 
    <input type="submit" name="action" value="Apply" onclick="btnAction=this">
 </form>
-<pre>
-<% cat /tmp/opkg-cgi.log 2> /dev/null %>
+<pre style="width: 80ex; text-align:left">
+<% 
+   echo $OPKGLOG
+%>
 </pre>
+</center>
 </body>
 </html>

@@ -33,7 +33,7 @@ Content-type: text/html
 			d.add(11,10,'Diskname','diskname.cgi','Manage disk or partition names','','');
 			d.add(12,10,'Format','format.cgi','Format disks','','');
 			d.add(13,10,'Partition','partition.cgi','Partition utilities','','');
-		
+			
 		d.add(20,0,'Services','','','','');
 			d.add(21,20,'DDNS','mg-ddns.cgi','Manage DDNS service','','');
 			d.add(22,20,'FTP','mg-ftp.cgi','Manage FTP service','','');
@@ -44,22 +44,37 @@ Content-type: text/html
 			d.add(27,20,'Telnet','mg-telnet.cgi','Manage telnet service','','');
 			d.add(28,20,'Transmission','mg-trans.cgi','Manage Transmission service','','');
 			d.add(29,20,'WebServer','mg-webserver.cgi','Manage HTTP services','','');
+			d.add(30,20,'Opkg','opkg.cgi','Configure Opkg','','');
 
 		
-		d.add(30,0,'Sharing','','','','');
-			d.add(31,30,'Printers','printer.cgi','View shared printers','','');
-			d.add(32,30,'Shares','share.cgi','Manage samba shares','','');
-			d.add(33,30,'Users','user.cgi','Manage samba users','','');
+<%
+		if [ -d "/opt/etc/wwwcfg/" ]; then   
+		   i=31
+		   for f in /opt/etc/wwwcfg/*; do
+		       s=$(basename $f)
+		       OPKG_SERVICES="$OPKG_SERVICES d.add($i,20,'$s','opkg-config.cgi?page=$s','$s','','');"	
+		       let i++
+		   done
+		   echo $OPKG_SERVICES
+		fi
+%>
+
+		d.add(100,0,'Sharing','','','','');
+			d.add(101,100,'Printers','printer.cgi','View shared printers','','');
+			d.add(102,100,'Shares','share.cgi','Manage samba shares','','');
+			d.add(103,100,'Users','user.cgi','Manage samba users','','');	
+
 		
-		d.add(40,0,'System','','','','');
-			d.add(41,40,'Config','config.cgi','Manage system config','','');
-			d.add(42,40,'Status','status.cgi','System status','','');
-			d.add(43,40,'Log','syslog.cgi','System log','','');
-			d.add(44,40,'Monitor','sysmon.cgi','System monitoring','','');
-			d.add(45,40,'Firmware','firmware.cgi','Manage system firmware','','');
-			d.add(46,40,'Opkg','opkg.cgi','Package management','','');
-		d.add(90,0,'About','credits.cgi','Firmware credits','','');	
-		d.add(99,0,'Transmission','http://'+document.location.hostname+':<% get_config trans_rpc_port %>','Transmission BitTorrent software','_blank','../img/trans.png');
+		d.add(110,0,'System','','','','');
+			d.add(111,110,'Config','config.cgi','Manage system config','','');
+			d.add(112,110,'Status','status.cgi','System status','','');
+			d.add(113,110,'Log','syslog.cgi','System log','','');
+			d.add(114,110,'Monitor','sysmon.cgi','System monitoring','','');
+			d.add(115,110,'Firmware','firmware.cgi','Manage system firmware','','');
+			d.add(116,110,'Packages','opkg-packages.cgi','Install/Uninstall packages','','');	
+
+		d.add(200,0,'About','credits.cgi','Firmware credits','','');	
+		d.add(210,0,'Transmission','http://'+document.location.hostname+':<% get_config trans_rpc_port %>','Transmission BitTorrent software','_blank','../img/trans.png');
 
 		document.write(d);
 

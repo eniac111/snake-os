@@ -28,8 +28,8 @@ link() {
 
 	mount --bind /usb/$MPOINT/.optware $DEST
    
-	mkdir -p /usb/$MPOINT/.optware/init.d
-	for initscript in $DEST/init.d/*; do
+	mkdir -p /usb/$MPOINT/.optware/etc/init.d
+	for initscript in $DEST/etc/init.d/*; do
 	    if [ -x $initscript ]; then
 		sh $initscript start
 	    fi
@@ -41,8 +41,8 @@ unlink() {
     if [ $(grep "use_opkg=" /etc/default/config | cut -d = -f 2) -eq 1 ] ; then
 
     # TODO: check that $DEST actually points to a disk
-	if [ -d $DEST/init.d ]; then
-      	    for initscript in $DEST/init.d/*; do
+	if [ -d $DEST/etc/init.d ]; then
+      	    for initscript in $DEST/etc/init.d/*; do
 		if [ -x $initscript ]; then
 		    sh $initscript stop
 		fi
