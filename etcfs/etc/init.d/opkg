@@ -25,6 +25,7 @@ link() {
 	fi
 
 	mkdir -p /usb/$MPOINT/.optware/opkg
+	mkdir -p /usb/$MPOINT/.optware/tmp
 
 	mount --bind /usb/$MPOINT/.optware $DEST
    

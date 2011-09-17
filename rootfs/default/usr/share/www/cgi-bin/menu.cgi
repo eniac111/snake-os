@@ -42,17 +42,16 @@ Content-type: text/html
 			d.add(25,20,'Swapfile','mg-swap.cgi','Manage swapping','','');
 			d.add(26,20,'Syslog','mg-syslog.cgi','Manage System Logging','','');
 			d.add(27,20,'Telnet','mg-telnet.cgi','Manage telnet service','','');
-			d.add(28,20,'Transmission','mg-trans.cgi','Manage Transmission service','','');
-			d.add(29,20,'WebServer','mg-webserver.cgi','Manage HTTP services','','');
-			d.add(30,20,'Opkg','opkg.cgi','Configure Opkg','','');
+			d.add(28,20,'WebServer','mg-webserver.cgi','Manage HTTP services','','');
+			d.add(29,20,'Opkg','opkg.cgi','Configure Opkg','','');
 
-		
 <%
-		if [ -d "/opt/etc/wwwcfg/" ]; then   
+		if [ -d "/opt/share/www-service/" ]; then   
 		   i=31
-		   for f in /opt/etc/wwwcfg/*; do
+		   OPKG_SERVICES=""
+		   for f in /opt/share/www-service/*; do
 		       s=$(basename $f)
-		       OPKG_SERVICES="$OPKG_SERVICES d.add($i,20,'$s','opkg-config.cgi?page=$s','$s','','');"	
+		       OPKG_SERVICES="$OPKG_SERVICES d.add($i,20,'$s','opkg-config-service.cgi?page=$s','$s','','');"	
 		       let i++
 		   done
 		   echo $OPKG_SERVICES
@@ -74,7 +73,20 @@ Content-type: text/html
 			d.add(116,110,'Packages','opkg-packages.cgi','Install/Uninstall packages','','');	
 
 		d.add(200,0,'About','credits.cgi','Firmware credits','','');	
-		d.add(210,0,'Transmission','http://'+document.location.hostname+':<% get_config trans_rpc_port %>','Transmission BitTorrent software','_blank','../img/trans.png');
+
+<%
+		if [ -d "/opt/share/www/" ]; then
+		   i=210
+		   OPKG_SERVICES=""
+		   for f in /opt/share/www/*; do
+		       s=$(basename $f)
+		       OPKG_SERVICES="$OPKG_SERVICES d.add($i,0,'$s','opkg-config.cgi?page=$s','$s','','');"	
+		       let i++
+		   done
+		   echo $OPKG_SERVICES
+		fi
+%>
+
 
 		document.write(d);
 

@@ -5,7 +5,6 @@ export PATH
 printf "\x40" > /dev/nasleds
 #stop services
 /etc/init.d/swapsvc stop
-/etc/init.d/transmission stop
 /etc/init.d/opkg stop
 sleep 2
 # unmount filesystems
