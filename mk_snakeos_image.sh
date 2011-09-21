@@ -36,7 +36,7 @@ find . -name "*~" | xargs rm
 
 
 cd $TOP_DIR/etcfs/etc
-tar --exclude-vcs cvzf $TOP_DIR/rootfs/default/usr/share/snake/default.tar.gz *
+tar --exclude-vcs -cvzf $TOP_DIR/rootfs/default/usr/share/snake/default.tar.gz *
 cd $TOP_DIR
 
 
