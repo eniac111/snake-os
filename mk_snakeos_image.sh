@@ -69,8 +69,9 @@ mk_fs(){
 	make root_fs
 
 }
-#copy an arbitrary config for latter mk_fs
+#copy an arbitrary config and build kernel for latter mk_fs
 cp configs/str8132_defconfig_jffs2 $KER_DIR/.config -fv
+make pre-build-kernel
 mk_fs
 
 mk_kn 8132
