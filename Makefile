@@ -31,6 +31,11 @@ make_rootfs:
 	make -C $(APP_DIR) install CC=${CC}
 	
 	for i in `seq 3`; do ./cp_lib_to_target.sh ${TOOLCHAIN} $(TARGET_ROOT); done
+
+	# the transmission package requires libm
+	cp ${TOOLCHAIN}/lib/libm-*.so $(TARGET_ROOT)/lib -afv
+	cp ${TOOLCHAIN}/lib/libm.so* $(TARGET_ROOT)/lib -afv
+
 	#cp ${TOOLCHAIN}/lib/libnsl* $(TARGET_ROOT)/lib -afv
 	#cp ${TOOLCHAIN}/lib/libresolv* $(TARGET_ROOT)/lib -afv
 	#cp ${TOOLCHAIN}/lib/librt* $(TARGET_ROOT)/lib -afv

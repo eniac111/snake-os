@@ -62,11 +62,7 @@ to_install:
 	#LIBEVENT
 	cp -a $(APP_DIR)/libevent/.libs/libevent.so* ${TARGET_ROOT}/lib
 	# TRANSMISSION
-	#mkdir -p ${TARGET_ROOT}/usr/share/transmission/bin
-	#cp $(APP_DIR)/transmission/daemon/transmission-daemon ${TARGET_ROOT}/usr/share/transmission/bin
-	#cp -a $(APP_DIR)/transmission/web ${TARGET_ROOT}/usr/share/transmission/web
-	#rm -f ${TARGET_ROOT}/usr/share/transmission/web/LICENSE
-	find ${TARGET_ROOT} -name ".svn" | xargs rm -rf
+	make -C transmission install
 	# VSFTPD
 	cp $(APP_DIR)/vsftpd/vsftpd ${TARGET_ROOT}/bin
 	# OPKG
@@ -192,27 +188,7 @@ to_build_image:
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --prefix=
 	make -j3 -C libevent
 	
-	# TRANSMISSION
-	#cd transmission ;\
-#	./configure \
-#		--host=arm-linux CC=arm-linux-gcc --prefix=${INSTALL_PATH} CFLAGS="-pipe -Os -march=armv4 " \
-#        LIBCURL_LIBS="-L${PWD}/apps/curl/lib/.libs -lcurl"  \
- #       LIBCURL_CFLAGS=-I${PWD}/apps/curl/include \
- #       OPENSSL_LIBS="-L${PWD}/apps/openssl ${PWD}/apps/openssl/libcrypto.a" \
- #       OPENSSL_CFLAGS=-I${PWD}/apps/openssl/include \
- #       LIBEVENT_LIBS="-L${PWD}/apps/libevent/.libs ${PWD}/apps/libevent/.libs/libevent.a"  \
- #       LIBEVENT_CFLAGS=-I${PWD}/apps/libevent \
-#		--host=i686-linux-gnu --target=arm-linux-gnu --enable-static=yes --enable-shared=no \
-#		--disable-dependency-tracking  \
-#		--disable-libtool-lock  \
-#		--disable-gtk        \
-#		--disable-libnotify  \
-#		--disable-nls        \
-#		--disable-cli        \
-#		--disable-mac        \
-#		--enable-daemon         
-#	#make PREFIX=$(TARGET_ROOT) CONFIG_PREFIX=$(TARGET_ROOT) -j3 -C transmission CROSS_COMPILE="arm-linux-"
-#
+	make -C transmission
 #	# VSFTPD
 	cd vsftpd ;\
 	make CC=arm-linux-gcc LD=arm-linux-ld AR=arm-linux-ar RANLIB=arm-linux-ranlib CFLAGS="-pipe -Os -march=armv4t"
