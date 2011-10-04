@@ -132,6 +132,9 @@ endif
 clean_kernel:
 	make -C $(KER_DIR) clean
 
+oldconfig_kernel:
+	make -C $(KER_DIR) oldconfig
+
 bootloader:
 #	make -C $(BOOTLOADER_DIR) star_equuleus_8181_config
 #	make -C $(BOOTLOADER_DIR) 
