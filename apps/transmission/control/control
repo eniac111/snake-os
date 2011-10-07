@@ -1,5 +1,5 @@
 Package: transmission
-Version: 2.12
+Version: 2.33
 Description:Transmission Bittorrent client
 Section: snakeos/applications
 Priority: optional
