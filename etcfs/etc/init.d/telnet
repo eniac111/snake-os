@@ -16,7 +16,7 @@ start() {
 
 stop() {
 	echo "Shutting down $KIND service..."
-	pkill -f -9 "telnetd"
+	pkill -9 -f "telnetd"
 }	
 
 restart() {

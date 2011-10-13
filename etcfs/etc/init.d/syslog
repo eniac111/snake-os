@@ -23,7 +23,7 @@ start() {
 
 stop() {
 	echo "Shutting down $KIND service..."
-	pkill -f -9 "syslogd"
+	pkill -9 -f "syslogd"
 }	
 
 restart() {
