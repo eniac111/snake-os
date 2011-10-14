@@ -54,7 +54,8 @@ to_install:
 	ln -s dbclient ${TARGET_ROOT}/bin/ssh
 	ln -s dropbearmulti ${TARGET_ROOT}/bin/scp
 	# SFTP-SERVER
-	cp $(APP_DIR)/openssh/sftp-server ${TARGET_ROOT}/bin
+	mkdir -p ${TARGET_ROOT}/usr/libexec/
+	cp $(APP_DIR)/openssh/sftp-server ${TARGET_ROOT}/usr/libexec/
 	# RSYNC
 	cp $(APP_DIR)/rsync/rsync ${TARGET_ROOT}/bin
 	# CURL
@@ -136,7 +137,7 @@ to_build_image:
 
 	# NTPCLIENT
 	make -j3 -C ntpclient CROSS_COMPILE="arm-linux-"
-	
+
 	# LIBDES (Required for smbencrypt) 
 	make -j3 -C libdes CFLAGS="-Os -fomit-frame-pointer -march=armv4t"
 
@@ -150,7 +151,7 @@ to_build_image:
 	cd dropbear ; \
 	CC=arm-linux-gcc LD=arm-linux-ld RANLIB=arm-linux-ranlib ./configure --host=arm-linux \
 	--disable-zlib  --disable-largefile --disable-pam --disable-openpty --disable-syslog --disable-shadow --disable-lastlog --disable-utmp --disable-utmpx --disable-wtmp --disable-wtmpx --disable-loginfunc --disable-pututline --disable-pututxline
-	make -j3 -C dropbear CC="arm-linux-gcc" PROGRAMS="dropbear dropbearkey dbclient scp" MULTI=1 
+	make -j3 -C dropbear CC="arm-linux-gcc" PROGRAMS="dropbear dropbearkey dbclient scp" MULTI=1
 
 	# OPENSSL  (Required for curl, transmission, sftp-server)
 	cd openssl ; \
@@ -168,7 +169,7 @@ to_build_image:
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --disable-debug  --prefix=
 	# rsync build often fails the first time
 	make -j3 -C rsync || make -j3 -C rsync
-	
+
 	# CURL  (Required for transmission)
 	cd curl ;\
 	./configure \
@@ -177,7 +178,7 @@ to_build_image:
 		--disable-manual --without-random --disable-verbose --disable-debug  \
 		--disable-cookies --disable-dict --disable-sspi
 	make -j3 -C curl CROSS_COMPILE="arm-linux-"
-	
+
 	# OPKG
 	cd opkg ;\
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=arm-linux CFLAGS="-Os -frename-registers -march=armv4" --prefix=$(shell pwd) --with-opkglibdir=/opt --enable-static --disable-shared --disable-gpg --disable-curl --disable-shave
@@ -187,7 +188,7 @@ to_build_image:
 	cd libevent ; \
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --prefix=
 	make -j3 -C libevent
-	
+
 	make -C transmission
 #	# VSFTPD
 	cd vsftpd ;\
