@@ -54,8 +54,7 @@ to_install:
 	ln -s dbclient ${TARGET_ROOT}/bin/ssh
 	ln -s dropbearmulti ${TARGET_ROOT}/bin/scp
 	# SFTP-SERVER
-	mkdir -p ${TARGET_ROOT}/usr/libexec/
-	cp $(APP_DIR)/openssh/sftp-server ${TARGET_ROOT}/usr/libexec/
+	cp $(APP_DIR)/openssh/sftp-server ${TARGET_ROOT}/bin
 	# RSYNC
 	cp $(APP_DIR)/rsync/rsync ${TARGET_ROOT}/bin
 	# CURL
