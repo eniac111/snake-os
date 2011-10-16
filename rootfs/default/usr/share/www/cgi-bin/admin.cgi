@@ -38,7 +38,7 @@ set_admin_password(){
     sed -ri "s/rpc-password\":.*/rpc-password\": \"${1}\",/g" /etc/default/settings.json
     sed -ri "s,/:admin:.*,/:admin:${1},g" /etc/httpd.conf 
 	set_config password ${1}
-    echo root:${1} | chpasswd --md5 > /dev/null                            
+    echo root:${1} | chpasswd -m > /dev/null                            
     killall -hup httpd > /dev/null
 }
 
