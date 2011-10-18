@@ -31,7 +31,7 @@ if [ $DISKMOUNTED -gt 0 ] ; then
 
 	if [ "${REQUEST_METHOD}" != "POST" ]
 	then
-		TMPDISK=$(grep "^/dev/sd" /proc/mounts | tail -n 1 | cut -d ' ' -f 2)
+		TMPDISK=$(grep "^/dev/sd.* /usb/" /proc/mounts | tail -n 1 | cut -d ' ' -f 2)
 		rm /tmp/upg -f
 		ln -s $TMPDISK /tmp/upg
 	fi
@@ -54,7 +54,7 @@ if [ $DISKMOUNTED -gt 0 ] ; then
 			if [ "${FILESUM}" = "${EXPSUM}" ] ; then
 				echo "<p>Upgrade in progress...<br>DON'T TURN OFF AND WAIT 5 MINUTES FOR THE DEVICE TO COMPLETE THE TASK.</p>"
 				TURN_LED=$(printf "\x52" > /dev/nasleds &)
-				/etc/init.d/transmission stop > /dev/null
+				/etc/init.d/opkg stop > /dev/null
 				/etc/init.d/samba stop > /dev/null
 				/etc/init.d/ftpsvc stop > /dev/null
 				umount /etc > /dev/null
@@ -86,7 +86,7 @@ if [ $DISKMOUNTED -gt 0 ] ; then
 			if [ "${FILESUM}" = "${EXPSUM}" ] ; then
 				echo "<p>Upgrade in progress...<br>DON'T TURN OFF AND WAIT 5 MINUTES FOR THE DEVICE TO COMPLETE THE TASK.</p>"
 				TURN_LED=$(printf "\x52" > /dev/nasleds &)
-				/etc/init.d/transmission stop > /dev/null
+				/etc/init.d/opkg stop > /dev/null
 				/etc/init.d/samba stop > /dev/null
 				/etc/init.d/ftpsvc stop > /dev/null
 				umount /etc > /dev/null
