@@ -30,7 +30,8 @@ build:
 	
 	cd control; tar --exclude-vcs -zcf ../control.tar.gz *
 	chown -R root:root control/*
-
+	chmod +x control/prerm control/postinst
+	
 	ar -r transmission.opk data.tar.gz control.tar.gz debian-binary
 
 install: build
