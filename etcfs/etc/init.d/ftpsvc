@@ -16,7 +16,7 @@ start() {
 
 stop() {
 	echo "Shutting down $KIND service..."
-	pkill -f -9 "vsftpd"
+	pkill -9 -f "vsftpd"
 }	
 
 restart() {

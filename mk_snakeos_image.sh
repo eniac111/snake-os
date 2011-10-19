@@ -46,7 +46,7 @@ mk_kn(){
 	echo =================================================
 	cp configs/str$1_defconfig_jffs2 $KER_DIR/.config -fv
 	#make -C $KER_DIR/ clean 
-	make -C $KER_DIR/ oldconfig 
+	make oldconfig_kernel || exit 1
 	echo =================================================
 	echo ===================   $1 JFFS2   ===================
 	echo =================================================
@@ -58,7 +58,7 @@ mk_kn(){
 	echo =================================================
 	cp configs/str$1_defconfig_ramimage $KER_DIR/.config -fv
 	#make -C $KER_DIR/ clean
-	make -C $KER_DIR/ oldconfig
+	make oldconfig_kernel || exit 1
 	echo =================================================
 	echo ===================   $1 bootpImage   ===================
 	echo =================================================
@@ -66,7 +66,7 @@ mk_kn(){
 	mv output/bootpImage output/bootpImage.$1
 }
 mk_fs(){
-	make root_fs
+	make root_fs || exit 1
 
 }
 #copy an arbitrary config and build kernel for latter mk_fs

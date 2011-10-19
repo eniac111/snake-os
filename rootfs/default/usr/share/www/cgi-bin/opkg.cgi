@@ -16,6 +16,7 @@ then
  	OPKGLOG=$(/etc/init.d/opkg unlink 2>&1 | tail -c 1000)
 
 	set_config use_opkg ${USE_OPKG:-0}	
+	set_config opkg_disk ${OPKGDISK:-sda1}	
 	if [ ${USE_OPKG:-0} -eq 1 ] ; then
 		OPKGLOG=$(/etc/init.d/opkg link $OPKGDISK 2>&1 | tail -c 1000)
 	fi

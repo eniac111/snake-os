@@ -20,7 +20,7 @@ if [ ${CFG_BIDI} = 1 ] ; then
 fi
 
 if [ "$ACTION" = "remove" ] ; then
-	pkill -f -9 "-f /dev/$MDEV $PRINTERNUM" 2> /dev/null
+	pkill -9 -f "-f /dev/$MDEV $PRINTERNUM" 2> /dev/null
 else
 	PID=$(pgrep -f "/dev/$MDEV")
 	if [ ${PID:-empty} = "empty" ] ; then

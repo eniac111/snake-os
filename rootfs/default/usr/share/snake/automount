@@ -35,17 +35,21 @@ if [ ! $((${MINOR}%16)) -eq 0 ] ; then
 		    /etc/init.d/opkg link $MPOINT
 		fi
 
-		for service in /opt/etc/automount.d/*; do
-		    sh $service $MPOINT add
-		done
+		if [ -d /opt/etc/automount.d ]; then
+		    for service in /opt/etc/automount.d/*; do
+			sh $service $MPOINT add
+		    done
+		fi
 	    fi
 
     else
         MPOINT=$(grep "^/dev/$MDEV" /proc/mounts | cut -d ' ' -f 2 | cut -d '/' -f 3)
 
-	for service in /opt/etc/automount.d/*; do
-	    sh $service $MPOINT remove
-	done
+	if [ -d /opt/etc/automount.d ]; then
+	    for service in /opt/etc/automount.d/*; do
+		sh $service $MPOINT remove
+	    done
+	fi
 
         if [ "$MPOINT" = $(grep "opkg_disk=" /etc/default/config | cut -d '=' -f 2) ]; then
             /etc/init.d/opkg unlink

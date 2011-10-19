@@ -1,0 +1,10 @@
+Package: transmission
+Version: 2.33
+Description:Transmission Bittorrent client
+Section: snakeos/applications
+Priority: optional
+Maintainer: 
+Architecture: all
+Homepage: 
+Source:
+Depends:

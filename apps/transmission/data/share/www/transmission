@@ -1,0 +1,11 @@
+#!/bin/haserl
+Content-type: text/html
+
+<html>
+<%in funcs.cgi %>
+<script type="text/javascript">
+<!--
+window.open('http://'+document.location.hostname+':<% get_config trans_rpc_port %>')
+//-->
+</script>
+</head></html>

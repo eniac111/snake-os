@@ -21,7 +21,7 @@ start() {
 
 stop() {
 	echo "Shutting down $KIND service..."
-	pkill -f -9 "httpd ${PARAM}"
+	pkill -9 -f "httpd ${PARAM}"
 }
 
 restart() {

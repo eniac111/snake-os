@@ -49,25 +49,26 @@
 several kB in binary size however will make the symmetrical ciphers and hashes
 slower, perhaps by 50%. Recommended for small systems that aren't doing
 much traffic. */
-/*#define DROPBEAR_SMALL_CODE*/
+#define DROPBEAR_SMALL_CODE
 
 /* Enable X11 Forwarding - server only */
-#define ENABLE_X11FWD
+/* #define ENABLE_X11FWD */
 
 /* Enable TCP Fowarding */
 /* 'Local' is "-L" style (client listening port forwarded via server)
  * 'Remote' is "-R" style (server listening port forwarded via client) */
 
+/*
 #define ENABLE_CLI_LOCALTCPFWD
 #define ENABLE_CLI_REMOTETCPFWD
 
 #define ENABLE_SVR_LOCALTCPFWD
 #define ENABLE_SVR_REMOTETCPFWD
-
+*/
 /* Enable Authentication Agent Forwarding */
-#define ENABLE_SVR_AGENTFWD
+/* #define ENABLE_SVR_AGENTFWD */
+/* build fails with this disabled and pub key auth enabled */
 #define ENABLE_CLI_AGENTFWD
-
 
 /* Note: Both ENABLE_CLI_PROXYCMD and ENABLE_CLI_NETCAT must be set to
  * allow multihop dbclient connections */
@@ -144,7 +145,7 @@ much traffic. */
 #endif
 
 /* Whether to do reverse DNS lookups. */
-#define DO_HOST_LOOKUP
+/* #define DO_HOST_LOOKUP */
 
 /* Whether to print the message of the day (MOTD). This doesn't add much code
  * size */
@@ -213,13 +214,13 @@ much traffic. */
  * not yet authenticated. After this limit, connections are rejected */
 /* The first setting is per-IP, to avoid denial of service */
 #ifndef MAX_UNAUTH_PER_IP
-#define MAX_UNAUTH_PER_IP 5
+#define MAX_UNAUTH_PER_IP 4
 #endif
 
 /* And then a global limit to avoid chewing memory if connections 
  * come from many IPs */
 #ifndef MAX_UNAUTH_CLIENTS
-#define MAX_UNAUTH_CLIENTS 30
+#define MAX_UNAUTH_CLIENTS 15
 #endif
 
 /* Maximum number of failed authentication tries (server option) */
@@ -230,7 +231,7 @@ much traffic. */
 /* The default file to store the daemon's process ID, for shutdown
    scripts etc. This can be overridden with the -P flag */
 #ifndef DROPBEAR_PIDFILE
-#define DROPBEAR_PIDFILE "/var/run/dropbear.pid"
+#define DROPBEAR_PIDFILE "/var/run-dropbear.pid"
 #endif
 
 /* The command to invoke for xauth when using X11 forwarding.
@@ -243,12 +244,12 @@ much traffic. */
  * OpenSSH), set the path below. If the path isn't defined, sftp will not
  * be enabled */
 #ifndef SFTPSERVER_PATH
-#define SFTPSERVER_PATH "/usr/libexec/sftp-server"
+#define SFTPSERVER_PATH "/bin/sftp-server"
 #endif
 
 /* This is used by the scp binary when used as a client binary. If you're
  * not using the Dropbear client, you'll need to change it */
-#define _PATH_SSH_PROGRAM "/usr/bin/dbclient"
+#define _PATH_SSH_PROGRAM "/bin/dbclient"
 
 /* Whether to log commands executed by a client. This only logs the 
  * (single) command sent to the server, not what a user did in a 
@@ -273,16 +274,16 @@ much traffic. */
 /* Maximum size of a transmitted data packet - this can be any value,
    though increasing it may not make a significant difference. */
 #ifndef TRANS_MAX_PAYLOAD_LEN
-#define TRANS_MAX_PAYLOAD_LEN 16384
+#define TRANS_MAX_PAYLOAD_LEN 8192
 #endif
 
 /* Ensure that data is transmitted every KEEPALIVE seconds. This can
 be overridden at runtime with -K. 0 disables keepalives */
-#define DEFAULT_KEEPALIVE 0
+#define DEFAULT_KEEPALIVE 240
 
 /* Ensure that data is received within IDLE_TIMEOUT seconds. This can
 be overridden at runtime with -I. 0 disables idle timeouts */
-#define DEFAULT_IDLE_TIMEOUT 0
+#define DEFAULT_IDLE_TIMEOUT 300
 
 /* The default path. This will often get replaced by the shell */
 #define DEFAULT_PATH "/usr/bin:/bin"

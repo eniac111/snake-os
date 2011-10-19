@@ -62,11 +62,7 @@ to_install:
 	#LIBEVENT
 	cp -a $(APP_DIR)/libevent/.libs/libevent.so* ${TARGET_ROOT}/lib
 	# TRANSMISSION
-	#mkdir -p ${TARGET_ROOT}/usr/share/transmission/bin
-	#cp $(APP_DIR)/transmission/daemon/transmission-daemon ${TARGET_ROOT}/usr/share/transmission/bin
-	#cp -a $(APP_DIR)/transmission/web ${TARGET_ROOT}/usr/share/transmission/web
-	#rm -f ${TARGET_ROOT}/usr/share/transmission/web/LICENSE
-	find ${TARGET_ROOT} -name ".svn" | xargs rm -rf
+	make -C transmission install
 	# VSFTPD
 	cp $(APP_DIR)/vsftpd/vsftpd ${TARGET_ROOT}/bin
 	# OPKG
@@ -140,7 +136,7 @@ to_build_image:
 
 	# NTPCLIENT
 	make -j3 -C ntpclient CROSS_COMPILE="arm-linux-"
-	
+
 	# LIBDES (Required for smbencrypt) 
 	make -j3 -C libdes CFLAGS="-Os -fomit-frame-pointer -march=armv4t"
 
@@ -154,7 +150,7 @@ to_build_image:
 	cd dropbear ; \
 	CC=arm-linux-gcc LD=arm-linux-ld RANLIB=arm-linux-ranlib ./configure --host=arm-linux \
 	--disable-zlib  --disable-largefile --disable-pam --disable-openpty --disable-syslog --disable-shadow --disable-lastlog --disable-utmp --disable-utmpx --disable-wtmp --disable-wtmpx --disable-loginfunc --disable-pututline --disable-pututxline
-	make -j3 -C dropbear CC="arm-linux-gcc" PROGRAMS="dropbear dropbearkey dbclient scp" MULTI=1 
+	make -j3 -C dropbear CC="arm-linux-gcc" PROGRAMS="dropbear dropbearkey dbclient scp" MULTI=1
 
 	# OPENSSL  (Required for curl, transmission, sftp-server)
 	cd openssl ; \
@@ -172,7 +168,7 @@ to_build_image:
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --disable-debug  --prefix=
 	# rsync build often fails the first time
 	make -j3 -C rsync || make -j3 -C rsync
-	
+
 	# CURL  (Required for transmission)
 	cd curl ;\
 	./configure \
@@ -181,7 +177,7 @@ to_build_image:
 		--disable-manual --without-random --disable-verbose --disable-debug  \
 		--disable-cookies --disable-dict --disable-sspi
 	make -j3 -C curl CROSS_COMPILE="arm-linux-"
-	
+
 	# OPKG
 	cd opkg ;\
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=arm-linux CFLAGS="-Os -frename-registers -march=armv4" --prefix=$(shell pwd) --with-opkglibdir=/opt --enable-static --disable-shared --disable-gpg --disable-curl --disable-shave
@@ -191,28 +187,8 @@ to_build_image:
 	cd libevent ; \
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --prefix=
 	make -j3 -C libevent
-	
-	# TRANSMISSION
-	#cd transmission ;\
-#	./configure \
-#		--host=arm-linux CC=arm-linux-gcc --prefix=${INSTALL_PATH} CFLAGS="-pipe -Os -march=armv4 " \
-#        LIBCURL_LIBS="-L${PWD}/apps/curl/lib/.libs -lcurl"  \
- #       LIBCURL_CFLAGS=-I${PWD}/apps/curl/include \
- #       OPENSSL_LIBS="-L${PWD}/apps/openssl ${PWD}/apps/openssl/libcrypto.a" \
- #       OPENSSL_CFLAGS=-I${PWD}/apps/openssl/include \
- #       LIBEVENT_LIBS="-L${PWD}/apps/libevent/.libs ${PWD}/apps/libevent/.libs/libevent.a"  \
- #       LIBEVENT_CFLAGS=-I${PWD}/apps/libevent \
-#		--host=i686-linux-gnu --target=arm-linux-gnu --enable-static=yes --enable-shared=no \
-#		--disable-dependency-tracking  \
-#		--disable-libtool-lock  \
-#		--disable-gtk        \
-#		--disable-libnotify  \
-#		--disable-nls        \
-#		--disable-cli        \
-#		--disable-mac        \
-#		--enable-daemon         
-#	#make PREFIX=$(TARGET_ROOT) CONFIG_PREFIX=$(TARGET_ROOT) -j3 -C transmission CROSS_COMPILE="arm-linux-"
-#
+
+	make -C transmission
 #	# VSFTPD
 	cd vsftpd ;\
 	make CC=arm-linux-gcc LD=arm-linux-ld AR=arm-linux-ar RANLIB=arm-linux-ranlib CFLAGS="-pipe -Os -march=armv4t"

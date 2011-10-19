@@ -1,0 +1,29 @@
+#!/bin/sh
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export TRANSMISSION_WEB_HOME=/opt/share/transmission/web/
+
+MPOINT=$1
+ACTION=${2:-add}
+
+if [ "$ACTION" = "add" ] ; then
+    TRANS_RUNNING=$(pgrep -f transmission-daemon | wc -l)
+    # Detect if transmission is configured to run on selected drive and stae
+    if [ $TRANS_RUNNING -eq 0 ] ; then
+	TRANS_CONFIG=$(grep "transmission_dir=" /etc/default/config | cut -d '/' -f 3)
+	if [ "$TRANS_CONFIG" = "$MPOINT" ] ; then
+	    /opt/etc/init.d/transmission autostart > /dev/null 2>&1
+	    sleep 2
+	fi
+    fi
+else
+
+    TRANS_RUNNING=$(pgrep -f transmission-daemon | wc -l)
+    # Detect if transmission is running on selected drive and attempt to stt
+    if [ $TRANS_RUNNING -gt 0 ] ; then
+        TRANS_MOUNTED=$(grep "transmission_dir=" /etc/default/config | cut -d '/' -f 3 )
+        if [ "$TRANS_MOUNTED" = "$MPOINT" ] ; then
+            /opt/etc/init.d/transmission force-stop > /dev/null 2>&1
+        fi
+    fi
+fi

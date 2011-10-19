@@ -20,7 +20,7 @@ start() {
 
 stop() {
 	echo "Shutting down $KIND service..."
-	pkill -f -9 "inadyn"
+	pkill -9 -f "inadyn"
 }	
 
 restart() {
