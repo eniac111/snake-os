@@ -44,7 +44,7 @@ available_tags=" CXX"
 
 # ### BEGIN LIBTOOL CONFIG
 
-# Libtool was configured on host snaker01:
+# Libtool was configured on host mcqueen-DEV:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/bash"
@@ -100,7 +100,7 @@ gcc_ver=`gcc -dumpversion`
 EGREP="/bin/grep -E"
 
 # The linker used to build libraries.
-LD="/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/arm-linux-uclibc/bin/ld"
+LD="/home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/arm-linux-uclibc/bin/ld"
 
 # Whether we need hard or soft links.
 LN_S="ln -s"
@@ -328,10 +328,10 @@ variables_saved_for_relink="PATH LD_LIBRARY_PATH LD_RUN_PATH GCC_EXEC_PREFIX COM
 link_all_deplibs=unknown
 
 # Compile-time system search path for libraries
-sys_lib_search_path_spec=`echo " /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/ /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/ /usr/local/arm-linux-uclibc-3.4.6/lib/gcc/arm-linux-uclibc/3.4.6/ /usr/lib/gcc/arm-linux-uclibc/3.4.6/ /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/lib/arm-linux-uclibc/3.4.6/ /opt/snakeos-sdk/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/lib/ /usr/local/arm-linux-uclibc-3.4.6/arm-linux-uclibc/lib/arm-linux-uclibc/3.4.6/ /usr/local/arm-linux-uclibc-3.4.6/arm-linux-uclibc/lib/" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
+sys_lib_search_path_spec=`echo " /home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/ /home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/bin/../lib/gcc/ /usr/local/arm-linux-uclibc-3.4.6/lib/gcc/arm-linux-uclibc/3.4.6/ /usr/lib/gcc/arm-linux-uclibc/3.4.6/ /home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/lib/arm-linux-uclibc/3.4.6/ /home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/bin/../lib/gcc/arm-linux-uclibc/3.4.6/../../../../arm-linux-uclibc/lib/ /usr/local/arm-linux-uclibc-3.4.6/arm-linux-uclibc/lib/arm-linux-uclibc/3.4.6/ /usr/local/arm-linux-uclibc-3.4.6/arm-linux-uclibc/lib/" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
 
 # Run-time system search path for libraries
-sys_lib_dlsearch_path_spec="/lib /usr/lib /lib/i486-linux-gnu /usr/lib/i486-linux-gnu /usr/lib/alsa-lib /usr/local/lib "
+sys_lib_dlsearch_path_spec="/lib /usr/lib /usr/lib/fglrx /usr/lib32/fglrx /lib32 /usr/lib32 /usr/lib32/alsa-lib /usr/lib/alsa-lib /usr/local/lib /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu "
 
 # Fix the shell variable $srcfile for the compiler.
 fix_srcfile_path=""
@@ -7288,7 +7288,7 @@ disable_libs=static
 # End:
 # ### BEGIN LIBTOOL TAG CONFIG: CXX
 
-# Libtool was configured on host snaker01:
+# Libtool was configured on host mcqueen-DEV:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/bash"
@@ -7332,7 +7332,7 @@ LTCC="arm-linux-gcc"
 LTCFLAGS="-Os -frename-registers -march=armv4t"
 
 # A language-specific compiler.
-CC="i486-linux-gnu-g++"
+CC="g++"
 
 # Is the compiler the GNU C compiler?
 with_gcc=yes
@@ -7344,7 +7344,7 @@ gcc_ver=`gcc -dumpversion`
 EGREP="/bin/grep -E"
 
 # The linker used to build libraries.
-LD="/opt/snakeos-sdk/tools/arm-uclibc-3.4.6/arm-linux-uclibc/bin/ld"
+LD="/home/dwmcqueen/Projects/snake-os-8-22/snake-os/tools/arm-uclibc-3.4.6/arm-linux-uclibc/bin/ld"
 
 # Whether we need hard or soft links.
 LN_S="ln -s"
@@ -7473,11 +7473,11 @@ striplib="strip --strip-unneeded"
 
 # Dependencies to place before the objects being linked to create a
 # shared library.
-predep_objects=`echo "/usr/lib/gcc/i486-linux-gnu/4.4.1/../../../../lib/crti.o /usr/lib/gcc/i486-linux-gnu/4.4.1/crtbeginS.o" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
+predep_objects=`echo "/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/../../../crti.o /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/crtbeginS.o" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
 
 # Dependencies to place after the objects being linked to create a
 # shared library.
-postdep_objects=`echo "/usr/lib/gcc/i486-linux-gnu/4.4.1/crtendS.o /usr/lib/gcc/i486-linux-gnu/4.4.1/../../../../lib/crtn.o" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
+postdep_objects=`echo "/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/crtendS.o /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/../../../crtn.o" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
 
 # Dependencies to place before the objects being linked to create a
 # shared library.
@@ -7489,7 +7489,7 @@ postdeps="-lstdc++ -lm -lgcc_s -lc -lgcc_s"
 
 # The library search path used internally by the compiler when linking
 # a shared library.
-compiler_lib_search_path=`echo "-L/usr/lib/gcc/i486-linux-gnu/4.4.1 -L/usr/lib/gcc/i486-linux-gnu/4.4.1 -L/usr/lib/gcc/i486-linux-gnu/4.4.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/i486-linux-gnu/4.4.1/../../.. -L/usr/lib/i486-linux-gnu" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
+compiler_lib_search_path=`echo "-L/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2 -L/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/../../.. -L/usr/lib/x86_64-linux-gnu" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
 
 # Method to check whether dependent libraries are shared objects.
 deplibs_check_method="pass_all"
@@ -7569,10 +7569,10 @@ variables_saved_for_relink="PATH LD_LIBRARY_PATH LD_RUN_PATH GCC_EXEC_PREFIX COM
 link_all_deplibs=unknown
 
 # Compile-time system search path for libraries
-sys_lib_search_path_spec=`echo " /usr/lib/gcc/i486-linux-gnu/4.4.1/ /usr/lib/gcc/i486-linux-gnu/4.4.1/ /usr/lib/gcc/i486-linux-gnu/4.4.1/../../../../i486-linux-gnu/lib/i486-linux-gnu/4.4.1/ /usr/lib/gcc/i486-linux-gnu/4.4.1/../../../../i486-linux-gnu/lib/../lib/ /usr/lib/gcc/i486-linux-gnu/4.4.1/../../../i486-linux-gnu/4.4.1/ /usr/lib/gcc/i486-linux-gnu/4.4.1/../../../../lib/ /lib/i486-linux-gnu/4.4.1/ /lib/../lib/ /usr/lib/i486-linux-gnu/4.4.1/ /usr/lib/../lib/ /usr/lib/i486-linux-gnu/i486-linux-gnu/4.4.1/ /usr/lib/i486-linux-gnu/../lib/ /usr/lib/gcc/i486-linux-gnu/4.4.1/../../../../i486-linux-gnu/lib/ /usr/lib/gcc/i486-linux-gnu/4.4.1/../../../ /lib/ /usr/lib/ /usr/lib/i486-linux-gnu/" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
+sys_lib_search_path_spec=`echo " /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/../../../../../x86_64-linux-gnu/lib/x86_64-linux-gnu/4.5.2/ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/../../../../../x86_64-linux-gnu/lib/ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/../../../x86_64-linux-gnu/4.5.2/ /usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/../../../ /lib/x86_64-linux-gnu/4.5.2/ /lib/ /usr/lib/x86_64-linux-gnu/4.5.2/ /usr/lib/ /usr/lib/x86_64-linux-gnu/x86_64-linux-gnu/4.5.2/ /usr/lib/x86_64-linux-gnu/" | $SED -e "s@${gcc_dir}@\${gcc_dir}@g;s@${gcc_ver}@\${gcc_ver}@g"`
 
 # Run-time system search path for libraries
-sys_lib_dlsearch_path_spec="/lib /usr/lib /lib/i486-linux-gnu /usr/lib/i486-linux-gnu /usr/lib/alsa-lib /usr/local/lib "
+sys_lib_dlsearch_path_spec="/lib /usr/lib /usr/lib/fglrx /usr/lib32/fglrx /lib32 /usr/lib32 /usr/lib32/alsa-lib /usr/lib/alsa-lib /usr/local/lib /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu "
 
 # Fix the shell variable $srcfile for the compiler.
 fix_srcfile_path=""

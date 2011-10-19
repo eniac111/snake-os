@@ -30,7 +30,7 @@ make_rootfs:
 	
 	make -C $(APP_DIR) install CC=${CC}
 	
-	./cp_lib_to_target.sh ${TOOLCHAIN} $(TARGET_ROOT)
+	for i in `seq 3`; do ./cp_lib_to_target.sh ${TOOLCHAIN} $(TARGET_ROOT); done
 	#cp ${TOOLCHAIN}/lib/libnsl* $(TARGET_ROOT)/lib -afv
 	#cp ${TOOLCHAIN}/lib/libresolv* $(TARGET_ROOT)/lib -afv
 	#cp ${TOOLCHAIN}/lib/librt* $(TARGET_ROOT)/lib -afv
@@ -41,11 +41,12 @@ slim_rootfs:
 	-find $(TARGET_ROOT) -name *\.a -exec rm -rf {} \;
 	-find $(TARGET_ROOT) -name *\.la -exec rm -rf {} \;
 	-find $(TARGET_ROOT) -name *\.h -exec rm -rf {} \;
+	-find $(TARGET_ROOT) -name *\Makefile* -exec rm -rf {} \;
 	-find rootfs/target -type f | egrep -v "\.htm[~]{0,1}|target/dev|\.(o|ko|gif|script|css|xml|sh|js)|target/usr/etc" | xargs arm-linux-strip -v
 	-target=man;rm $(TARGET_ROOT)/$${target} $(TARGET_ROOT)/share/$${target} $(TARGET_ROOT)/usr/local/$${target} $(TARGET_ROOT)/usr/share/$${target} $(TARGET_ROOT)/usr/local/share/$${target} -rvf
 	-target=doc;rm $(TARGET_ROOT)/$${target} $(TARGET_ROOT)/share/$${target} $(TARGET_ROOT)/usr/local/$${target} $(TARGET_ROOT)/usr/share/$${target} $(TARGET_ROOT)/usr/local/share/$${target} -rvf
 # Added by gazineu
-	upx -7 rootfs/target/usr/share/transmission/bin/transmission-daemon rootfs/target/bin/ntpclient rootfs/target/bin/smbd rootfs/target/bin/nmbd rootfs/target/bin/dropbearmulti rootfs/target/bin/sftp-server rootfs/target/bin/rsync rootfs/target/bin/smbencrypt rootfs/target/bin/ntfs-3g rootfs/target/bin/p910nd rootfs/target/sbin/mke2fs rootfs/target/sbin/e2fsck rootfs/target/bin/vsftpd rootfs/target/bin/inadyn
+	-upx -7 rootfs/target/bin/ntpclient rootfs/target/bin/smbd rootfs/target/bin/nmbd rootfs/target/bin/dropbearmulti rootfs/target/bin/sftp-server rootfs/target/bin/rsync rootfs/target/bin/smbencrypt rootfs/target/bin/ntfs-3g rootfs/target/bin/p910nd rootfs/target/sbin/mke2fs rootfs/target/sbin/e2fsck rootfs/target/bin/vsftpd rootfs/target/bin/inadyn rootfs/target/bin/opkg-cl
 	#rootfs/target/bin/hd-idle
 
 gen_rootfs:
@@ -55,7 +56,7 @@ gen_rootfs:
 #
 # JFFS2
 #
-	sudo $(TOOLS_DIR)/mkfs.jffs2 -d $(TARGET_ROOT) -o $(JFFS2_NAME) -p ${ROOTFS_SIZE} -X zlib 
+	sudo mkfs.jffs2 -d $(TARGET_ROOT) -o $(JFFS2_NAME) -p ${ROOTFS_SIZE} -X zlib 
 # Added by gazineu
 	sudo $(TOOLS_DIR)/sumtool -n -i $(JFFS2_NAME) -o $(JFFS2_NAME).sum 
 	dd if=/dev/zero of=$(ROOTFS_JFFS2) bs=$(shell printf "%d" ${ROOTFS_SIZE}) count=1

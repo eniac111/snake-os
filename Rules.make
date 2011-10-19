@@ -57,6 +57,6 @@ TARGET_ROOT := $(ROOTFS_DIR)/target
 DEF_ETC_DIR := $(ROOTFS_DIR)/default/etc
 DEF_USR_DIR := $(ROOTFS_DIR)/default/usr
 
-TOOLCHAIN=$(TOPDIR)/tools/arm-uclibc-3.4.6
+TOOLCHAIN?=$(TOPDIR)/tools/arm-uclibc-3.4.6
 PATH+=:$(TOOLCHAIN)/bin
 export PATH

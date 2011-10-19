@@ -25,6 +25,9 @@ Miguel Moreto<br>
 ...and <a href="http://code.google.com/p/snake-os/wiki/Donate">More</a>.<br>
 <br>
 <br>
+This version was changed and compiled by Guerche.
+<br>
+<br>
 We are not responsible for eventual data loss, please use this firmware at your own risk.<br>
 Feel free to join us at: <a href="http://groups.google.com/group/dealextreme-nas-">http://groups.google.com/group/dealextreme-nas-</a>
 <br>
@@ -33,4 +36,5 @@ Grab the latest version and get development info on <a href="http://snake-os.goo
 <b>2009 - <a href="http://gazineu.com">http://gazineu.com</a>
 </body>
 </html>
+
 

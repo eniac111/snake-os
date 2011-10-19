@@ -18,7 +18,7 @@ AWK=mawk
 INSTALLCMD=/usr/bin/install -c
 
 srcdir=.
-builddir=/opt/snakeos-sdk/apps/samba/source
+builddir=/home/dwmcqueen/Projects/snake-os-8-22/snake-os/apps/samba/source
 SHELL=/bin/sh
 
 BASEDIR= /bin

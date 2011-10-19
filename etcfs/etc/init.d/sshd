@@ -6,6 +6,7 @@ RETVAL=0
 KIND="SFTP/SSHD"
 RSAKEY="/etc/dropbear/dropbear_rsa_host_key"
 DSSKEY="/etc/dropbear/dropbear_dss_host_key"
+PORT=$(grep "^ssh_port=" /etc/default/config | cut -d = -f 2)
 
 start() {
     if [ ! -f $RSAKEY ] ; then
@@ -17,7 +18,7 @@ start() {
        dropbearkey -t dss -f $DSSKEY
     fi
 	echo "Starting $KIND service..."
-    dropbear
+    dropbear -p ${PORT}
 }	
 
 webstatus(){

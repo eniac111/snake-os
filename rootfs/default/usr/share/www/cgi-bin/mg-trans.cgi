@@ -50,8 +50,24 @@ set_trans_speed(){
 	sed -ri "s/speed-limit-down-enabled\":.*/speed-limit-down-enabled\": ${DOWNSPEED},/g" /etc/default/settings.json
 	sed -ri "s/speed-limit-up\":.*/speed-limit-up\": ${2},/g" /etc/default/settings.json
 	sed -ri "s/speed-limit-down\":.*/speed-limit-down\": ${4},/g" /etc/default/settings.json
-
 }
+
+set_peer_limit(){
+	set_config trans_peer_limit_global ${1}
+	set_config trans_peer_limit_torrent ${2}
+
+	sed -ri "s/peer-limit-global\":.*/peer-limit-global\": ${1},/g" /etc/default/settings.json
+	sed -ri "s/peer-limit-per-torrent\":.*/peer-limit-per-torrent\": ${2},/g" /etc/default/settings.json
+}
+
+set_ports(){
+	set_config trans_peer_port ${1}
+	set_config trans_rpc_port ${2}
+
+	sed -ri "s/peer-port\":.*/peer-port\": ${1},/g" /etc/default/settings.json
+	sed -ri "s/rpc-port\":.*/rpc-port\": ${2},/g" /etc/default/settings.json
+}
+
 
 disable_trans_alt(){
 	sed -ri "s,^enable_trans_alt=.*,enable_trans_alt=0,g" /etc/default/config
@@ -87,6 +103,14 @@ then
 
       	/etc/init.d/transmission stop > /dev/null
       	sleep 2
+
+		PEER_PORT=$(echo ${FORM_peer_port} | cut -d ' ' -f 1)
+		RPC_PORT=$(echo ${FORM_rpc_port} | cut -d ' ' -f 1)
+		set_ports ${PEER_PORT} ${RPC_PORT}
+
+		PEER_LIMIT_GLOBAL=$(echo ${FORM_peer_limit_global} | cut -d ' ' -f 1)
+		PEER_LIMIT_TORRENT=$(echo ${FORM_peer_limit_torrent} | cut -d ' ' -f 1)
+		set_peer_limit ${PEER_LIMIT_GLOBAL:-240} ${PEER_LIMIT_TORRENT:-0}
 
 		SPEED_UP_ENABLE=$(echo ${FORM_speed_up_enable} | cut -d ' ' -f 1)
 		SPEED_UP=$(echo ${FORM_speed_up} | cut -d ' ' -f 1)
@@ -157,22 +181,100 @@ IN="$(($IN/2))"
 <script language="JavaScript">
 <!-- //
 
+var http_port = "";
+
 function validateAction(form) {                                             
-    var action = btnAction.value;
-    var question = "";
-    if ( action == 'Apply' )
-    	 question = "This will restart Transmission service and set the new folder. Current downloads will get lost and files may be incomplete, unless you use the old folder again. Are you sure?";
-    else if ( action == 'Stop' )
-        question = "Are you sure that you want to stop Transmission service?";
-    else if  ( action == 'Restart' )
-        question = "Are you sure that you want to restart Transmission service?";
-    else
-    	return true;
-    var answer = confirm (question);
-    if (answer)                                                      
-        return true;                                                 
-    else                                                            
-        return false;                                           
+	http_port = form.http_port.value;
+	var action = btnAction.value;
+	var question = "";
+
+	if ( action == 'Apply' ){
+		if (form.use_transmission.checked){
+			if (!validatePort(form.peer_port.value,'p2p port'))
+				return false;
+
+			if (!validatePort(form.rpc_port.value,'Web port'))
+				return false;
+
+			if (form.peer_port.value == form.rpc_port.value){
+				alert("p2p port and web port are the same, change one of them");
+				return false;		
+			}
+
+			if (!validateNumber(form.peer_limit_global.value,'Peer limit global'))
+				return false;		
+		
+			if (!validateNumber(form.peer_limit_torrent.value,'Peer limit per torrent'))
+				return false;
+
+			if (form.speed_down_enable.checked && !validateNumber(form.speed_down.value,'Speed Down'))
+				return false;
+
+			if (form.speed_up_enable.checked && !validateNumber(form.speed_up.value,'Speed Up'))
+				return false;
+
+			if (form.enable_trans_alt.checked){
+				if (!validateNumber(form.alt_speed_down.value,'Alternative Speed Down'))
+					return false;
+
+				if (!validateNumber(form.alt_speed_up.value,'Alternative Speed Up'))
+					return false;
+			}
+		}	
+		question = "This will restart Transmission service and set the new folder. Current downloads will get lost and files may be incomplete, unless you use the old folder again. Are you sure?";
+	}
+	else if ( action == 'Stop' )
+		question = "Are you sure that you want to stop Transmission service?";
+	else if  ( action == 'Restart' )
+		question = "Are you sure that you want to restart Transmission service?";
+	else
+		return true;
+	
+	var answer = confirm (question);
+	if (answer)                                                      
+		return true;                                                 
+	else                                                            
+		return false;                                           
+}
+
+function validatePort(port,description){
+	var re = /^\d{1,5}$/;
+
+	if (port == '') {
+		alert('Please enter a valid port for '+description+'. Accepted port numbers are between 1 and 65535.');
+		return false;
+	}
+	if (!re.test(port)) { 
+		alert('Please enter a valid port for '+description+'. Accepted port numbers are between 1 and 65535.');
+		return false;
+	}
+	if (port < 1 || port > 65535) { 
+		alert('Please enter a valid port for '+description+'. Accepted port numbers are between 1 and 65535.');
+		return false;
+	}
+	if (port == http_port) { 
+		alert('You have to use a different port for '+description+' and web admin interface.');
+		return false;
+	}
+	return true;                                                 
+}
+
+function validateNumber(number,description){
+	var re = /^\d{1,5}$/;
+
+	if (number == '') {
+		alert('Please enter a valid number for '+description+'. Accepted numbers are between 1 and 99999.');
+		return false;
+	}
+	if (!re.test(number)) { 
+		alert('Please enter a valid number for '+description+'. Accepted numbers are between 1 and 99999.');
+		return false;
+	}
+	if (number < 1 || number > 99999) { 
+		alert('Please enter a valid number for '+description+'. Accepted numbers are between 1 and 99999.');
+		return false;
+	}
+	return true;                                    
 }
 
 function checkTrans(){
@@ -197,6 +299,11 @@ function setReadTrans(obj){
 		document.forms[1].enable_trans_alt.disabled = false;
 		document.forms[1].speed_up_enable.disabled = false;
 		document.forms[1].speed_down_enable.disabled = false;
+		document.forms[1].peer_limit_global.disabled = false;
+		document.forms[1].peer_limit_torrent.disabled = false;
+		document.forms[1].peer_port.disabled = false;
+		document.forms[1].rpc_port.disabled = false;
+
 	} 
 	else { 
 		document.forms[0].shared.disabled = true;
@@ -206,6 +313,11 @@ function setReadTrans(obj){
 		document.forms[1].speed_up_enable.disabled = true;
 		document.forms[1].speed_down_enable.checked = false;
 		document.forms[1].speed_down_enable.disabled = true;
+		document.forms[1].peer_limit_global.disabled = true;
+		document.forms[1].peer_limit_torrent.disabled = true;
+		document.forms[1].peer_port.disabled = true;
+		document.forms[1].rpc_port.disabled = true;
+
 	}
 	setTransUp(document.forms[1].speed_up_enable);
 	setTransDown(document.forms[1].speed_down_enable);
@@ -275,16 +387,24 @@ function setReadTransAlt(obj){
     <TR><TH>Torrent drop folder:</TH><TD><%= $TRANSDIR %>/torrentwatch</TD></TR>
 </form> 
 <form id=trans name=trans action="<%= ${SCRIPT_NAME} %>" method="POST"  onsubmit="return validateAction(this);">
-<input type=hidden name=shared value=""> 
+<input type=hidden name=shared value=""> <input type=hidden name="http_port" value="<% get_config http_port %>"> 
   	<TR><TH COLSPAN=2>Transmission - Main Settings</TH></TR>
 	<TR><TH>Transmission enabled:</TH><TD><input type="checkbox" name="use_transmission" value="1" <% is_checked $(get_config use_transmission) %> onclick="setReadTrans(this);"/></TD></TR>
-	<TR><TH>Speed Up:</TH><TD><input type="checkbox" name="speed_up_enable" value="1" <% is_checked $(get_config trans_speed_up_enable) %> onclick="setTransUp(this);"/><INPUT type="text" name="speed_up" size=4 value="<% get_config trans_speed_up %>"> (KB/s)</TD></TR>
+
+	<TR><TH>p2p Port:</TH><TD><INPUT type="text" name="peer_port" size=4 value="<% get_config trans_peer_port %>"></TD></TR>
+	<TR><TH>Web Port:</TH><TD><INPUT type="text" name="rpc_port" size=4 value="<% get_config trans_rpc_port %>"></TD></TR>
+
+	<TR><TH>Peer limit global:</TH><TD><INPUT type="text" name="peer_limit_global" size=4 value="<% get_config trans_peer_limit_global %>"></TD></TR>
+	<TR><TH>Peer limit per torrent:</TH><TD><INPUT type="text" name="peer_limit_torrent" size=4 value="<% get_config trans_peer_limit_torrent %>"></TD></TR>
+
 	<TR><TH>Speed Down:</TH><TD><input type="checkbox" name="speed_down_enable" value="1" <% is_checked $(get_config trans_speed_down_enable) %> onclick="setTransDown(this);"/><INPUT type="text" name="speed_down" size=4 value="<% get_config trans_speed_down %>"> (KB/s)</TD></TR>
+    <TR><TH>Speed Up:</TH><TD><input type="checkbox" name="speed_up_enable" value="1" <% is_checked $(get_config trans_speed_up_enable) %> onclick="setTransUp(this);"/><INPUT type="text" name="speed_up" size=4 value="<% get_config trans_speed_up %>"> (KB/s)</TD></TR>
 
 	<TR><TH COLSPAN=2>Transmission - Alternate Time</TH></TR>
 	<TR><TH>Enable Alternate Time:</TH><TD><input type="checkbox" name="enable_trans_alt" value="1" <% is_checked $(get_config enable_trans_alt) %> onclick="setReadTransAlt(this);"/></TD></TR>
 	<TR><TH>Alternate Speed Up:</TH><TD><INPUT type="text" name="alt_speed_up" size=4 value="<% get_config trans_alt_speed_up %>"> (KB/s)</TD></TR>
 	<TR><TH>Alternate Speed Down:</TH><TD><INPUT type="text" name="alt_speed_down" size=4 value="<% get_config trans_alt_speed_down %>"> (KB/s)</TD></TR>
+    <TR><TH>Alternate Speed Up:</TH><TD><INPUT type="text" name="alt_speed_up" size=4 value="<% get_config trans_alt_speed_up %>"> (KB/s)</TD></TR>
 	<TR><TH>Alternate Time Begin:</TH><TD>
 		<select name="alt_time_begin">
 		<% get_alt_time_begin_sel %>

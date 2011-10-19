@@ -74,18 +74,18 @@ function validateAll(form) {
 	var http_port = form.http_port.value;
 	var webserver_port = form.webserver_port.value;
 	var webserver_enable = form.webserver_enable.value;
-	var re = /^\d{1,4}$/;
+	var re = /^\d{1,5}$/;
 	if (webserver_enable == 1){
 		if (webserver_port == '') {
-			alert('Please enter a valid http port for web server. Accepted port numbers are between 1 and 9999.');
+			alert('Please enter a valid http port for web server. Accepted port numbers are between 1 and 65535.');
 			return false;
 		}
 		if (!re.test(webserver_port)) { 
-			alert('Please enter a valid http port for web server. Accepted port numbers are between 1 and 9999.');
+			alert('Please enter a valid http port for web server. Accepted port numbers are between 1 and 65535.');
 			return false;
 		}
-		if (webserver_port < 1) { 
-			alert('Please enter a valid http port for web server. Accepted port numbers are between 1 and 9999.');
+		if (webserver_port < 1 || webserver_port > 65535) { 
+			alert('Please enter a valid http port for web server. Accepted port numbers are between 1 and 65535.');
 			return false;
 		}
 		if (webserver_port == http_port) { 
@@ -119,7 +119,7 @@ function fileBrowserNew(){
 <form id=webserver name=webserver action="<%= ${SCRIPT_NAME} %>" method="POST" onsubmit="return validateAll(this);">
 	<input type="hidden" name="http_port" value=<%= ${HTTP_PORT} %> >
 	<TR><TH>Enable Web Server:</TH><TD><input type="checkbox" name="webserver_enable" value="1" <% is_checked $(get_config webserver_enable) %> onclick="setReadWebserver(this);"/></TD></TR>
-	<TR><TH>Web Server port:</TH><TD><input type="text" name="webserver_port" size=4 value=<% get_config webserver_port %> title="Enter a the Web Server port. Accepted port numbers are between 1 and 9999."></TD></TR>
+	<TR><TH>Web Server port:</TH><TD><input type="text" name="webserver_port" size=4 value=<% get_config webserver_port %> title="Enter a the Web Server port. Accepted port numbers are between 1 and 65535."></TD></TR>
 	<TR><TH>Web Server status: </TH><TD><% /etc/init.d/webserver webstatus %></TD></TR>
     </TABLE>
     <input type=hidden name=shared value="">

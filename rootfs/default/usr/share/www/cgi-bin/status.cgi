@@ -39,7 +39,7 @@ fi
 <TR><TH>Storage Name:</TH><TD><%= $(hostname)%></TD></TR>
 <TR><TH>LAN IP Address:</TH><TD><% get_ipaddress %></TD></TR>
 <TR><TH>LAN MAC Address:</TH><TD><%= $(ifconfig eth0 | grep HWa | awk '{print $5}')%></TD></TR>
-<TR><TH>Physical RAM:</TH><TD><%= $(free | grep Mem | awk '{print "Total: "$2"KB - Free: "$4"KB"}')%></TD></TR>
+<TR><TH>Physical RAM:</TH><TD><%= $(cat /proc/meminfo | tr '\n' ' ' | awk '{print "Total: "$2"KB - Free: "$5"KB - Buffers: "$8"KB - Cached: "$11"KB"}')%></TD></TR>
 <TR><TH>Swapfile:</TH><TD><%= $(free | grep Swap | awk '{print "Total: "$2"KB - Free: "$4"KB"}')%></TD></TR>
 <TR><TH>Uptime:</TH><TD><%= $(uptime | cut -d p -f 2 | awk -F', l' '{ print $1}') %></TD></TR>
 </TABLE>

@@ -31,27 +31,24 @@ if [ ! $((${MINOR}%16)) -eq 0 ] ; then
 
 	        sleep 1
 
-	        TRANS_RUNNING=$(pgrep -f transmission-daemon | wc -l)
-	        # Detect if transmission is configured to run on selected drive and stae
-	        if [ $TRANS_RUNNING -eq 0 ] ; then
-	            TRANS_CONFIG=$(grep "transmission_dir=" /etc/default/config | cut -d '/' -f 3)
-	            if [ "$TRANS_CONFIG" = "$MPOINT" ] ; then
-	                /etc/init.d/transmission autostart > /dev/null 2>&1
-	                sleep 2
-	            fi
-	        fi
+		if [ "$MPOINT" = $(grep "opkg_disk=" /etc/default/config | cut -d '=' -f 2) ]; then
+		    /etc/init.d/opkg link $MPOINT
+		fi
+
+		for service in /opt/etc/automount.d/*; do
+		    sh $service $MPOINT add
+		done
 	    fi
+
     else
+        MPOINT=$(grep "^/dev/$MDEV" /proc/mounts | cut -d ' ' -f 2 | cut -d '/' -f 3)
 
-		MPOINT=$(grep "^/dev/$MDEV" /proc/mounts | cut -d ' ' -f 2 | cut -d '/' -f 3)
+	for service in /opt/etc/automount.d/*; do
+	    sh $service $MPOINT remove
+	done
 
-        TRANS_RUNNING=$(pgrep -f transmission-daemon | wc -l)
-        # Detect if transmission is running on selected drive and attempt to stt
-        if [ $TRANS_RUNNING -gt 0 ] ; then
-            TRANS_MOUNTED=$(grep "transmission_dir=" /etc/default/config | cut -d '/' -f 3 )
-            if [ "$TRANS_MOUNTED" = "$MPOINT" ] ; then
-                /etc/init.d/transmission force-stop > /dev/null 2>&1
-            fi
+        if [ "$MPOINT" = $(grep "opkg_disk=" /etc/default/config | cut -d '=' -f 2) ]; then
+            /etc/init.d/opkg unlink
         fi
 
         # Detect if SWAP is in use and attempt to stop it

@@ -9,7 +9,7 @@ TOP_DIR=$PWD
 KER_DIR=$TOP_DIR/kernels/linux
 PREVIOUS_OWNER=$(ls -ld rootfs/default | awk '{ print $3":"$4}')
 CURRDATE=$(date +%Y%m%d)
-CURRVER=V1.1.0
+CURRVER=V1.3.2
 CURRENTVER="SNAKE OS ${CURRVER}"
 CURRENTRELEASE="${CURRENTVER} (${CURRDATE})"
 
@@ -36,7 +36,7 @@ find . -name "*~" | xargs rm
 
 
 cd $TOP_DIR/etcfs/etc
-tar cvzf $TOP_DIR/rootfs/default/usr/share/snake/default.tar.gz *
+tar --exclude-vcs -cvzf $TOP_DIR/rootfs/default/usr/share/snake/default.tar.gz *
 cd $TOP_DIR
 
 
@@ -69,8 +69,9 @@ mk_fs(){
 	make root_fs
 
 }
-#copy an arbitrary config for latter mk_fs
+#copy an arbitrary config and build kernel for latter mk_fs
 cp configs/str8132_defconfig_jffs2 $KER_DIR/.config -fv
+make pre-build-kernel
 mk_fs
 
 mk_kn 8132
@@ -139,7 +140,8 @@ dd if=/dev/zero of=${RESULT} count=1 bs=16 seek=258047
 md5sum ${RESULT} | cut -d ' ' -f 1 > ${RESULT}.md5
 
 # turn checksum into binary
-cat ${RESULT}.md5 | sed 's/../& /g' |tr '[a-z]' '[A-z]' |sed 's/ / p /g' |sed 's/$/ p/'|awk '{print "16i "$0}'|dc |tr ' ' '\n' |awk '{printf("%c",$0)}' | dd of=${RESULT}.md5tail bs=16 count=1
+# LC_ALL=C fixes unicode issue with awk
+cat ${RESULT}.md5 | sed 's/../& /g' |tr '[a-z]' '[A-z]' |sed 's/ / p /g' |sed 's/$/ p/'|awk '{print "16i "$0}'|dc |tr ' ' '\n' | LC_ALL=C awk '{printf("%c",$0)}' | dd of=${RESULT}.md5tail bs=16 count=1
 
 # strip empty tail from firmware
 dd if=${RESULT} of=${RESULT}.notail bs=16 count=258047
@@ -174,7 +176,8 @@ dd if=/dev/zero of=${RESULT} count=1 bs=16 seek=241663
 md5sum ${RESULT} | cut -d ' ' -f 1 > ${RESULT}.md5
 
 # turn checksum into binary
-cat ${RESULT}.md5 | sed 's/../& /g' |tr '[a-z]' '[A-z]' |sed 's/ / p /g' |sed 's/$/ p/'|awk '{print "16i "$0}'|dc |tr ' ' '\n' |awk '{printf("%c",$0)}' | dd of=${RESULT}.md5tail bs=16 count=1
+# LC_ALL=C fixes unicode issue with awk 
+cat ${RESULT}.md5 | sed 's/../& /g' |tr '[a-z]' '[A-z]' |sed 's/ / p /g' |sed 's/$/ p/'|awk '{print "16i "$0}'|dc |tr ' ' '\n' | LC_ALL=C awk '{printf("%c",$0)}' | dd of=${RESULT}.md5tail bs=16 count=1
 
 # strip empty tail from firmware
 dd if=${RESULT} of=${RESULT}.notail bs=16 count=241663

@@ -26,10 +26,11 @@ to_install:
 	cp $(APP_DIR)/samba/source/bin/smbd ${TARGET_ROOT}/bin
 	cp $(APP_DIR)/samba/source/bin/nmbd ${TARGET_ROOT}/bin
 	# E2FSPROGS
+	rm ${TARGET_ROOT}/sbin/mke2fs
 	cp $(APP_DIR)/e2fsprogs/misc/mke2fs ${TARGET_ROOT}/sbin
 	cp $(APP_DIR)/e2fsprogs/e2fsck/e2fsck ${TARGET_ROOT}/sbin
-	ln -s mke2fs ${TARGET_ROOT}/sbin/mkfs.ext2
-	ln -s mke2fs ${TARGET_ROOT}/sbin/mkfs.ext3
+	ln -sf mke2fs ${TARGET_ROOT}/sbin/mkfs.ext2
+	ln -sf mke2fs ${TARGET_ROOT}/sbin/mkfs.ext3
 	# HASERL
 	cp $(APP_DIR)/haserl/src/haserl ${TARGET_ROOT}/bin
 	# P910ND
@@ -58,14 +59,21 @@ to_install:
 	cp $(APP_DIR)/rsync/rsync ${TARGET_ROOT}/bin
 	# CURL
 	cp -a $(APP_DIR)/curl/lib/.libs/libcurl.so* ${TARGET_ROOT}/lib
+	#LIBEVENT
+	cp -a $(APP_DIR)/libevent/.libs/libevent.so* ${TARGET_ROOT}/lib
 	# TRANSMISSION
-	mkdir -p ${TARGET_ROOT}/usr/share/transmission/bin
-	cp $(APP_DIR)/transmission/daemon/transmission-daemon ${TARGET_ROOT}/usr/share/transmission/bin
-	cp -a $(APP_DIR)/transmission/web ${TARGET_ROOT}/usr/share/transmission/web
-	rm -f ${TARGET_ROOT}/usr/share/transmission/web/LICENSE
-	find ${TARGET_ROOT}/usr/share/transmission/web/ -name ".svn" | xargs rm -rf
+	#mkdir -p ${TARGET_ROOT}/usr/share/transmission/bin
+	#cp $(APP_DIR)/transmission/daemon/transmission-daemon ${TARGET_ROOT}/usr/share/transmission/bin
+	#cp -a $(APP_DIR)/transmission/web ${TARGET_ROOT}/usr/share/transmission/web
+	#rm -f ${TARGET_ROOT}/usr/share/transmission/web/LICENSE
+	find ${TARGET_ROOT} -name ".svn" | xargs rm -rf
 	# VSFTPD
 	cp $(APP_DIR)/vsftpd/vsftpd ${TARGET_ROOT}/bin
+	# OPKG
+	# IPKG
+	cp $(APP_DIR)/opkg/src/opkg-cl ${TARGET_ROOT}/bin
+	# Clean up SVN
+	find ${TARGET_ROOT} -name ".svn" | xargs rm -rf
 
 build_image: to_build_image star_auto_build
 
@@ -152,7 +160,7 @@ to_build_image:
 	cd openssl ; \
 	./Configure dist 
 	cd openssl ; \
-	make -j3 CC="arm-linux-gcc" AR="arm-linux-ar r" RANLIB="arm-linux-ranlib"
+	make CC="arm-linux-gcc" AR="arm-linux-ar r" RANLIB="arm-linux-ranlib"
 
 	# OPENSSH  (sftp-server)
 	cd openssh ; \
@@ -162,7 +170,8 @@ to_build_image:
 	# RSYNC
 	cd rsync ; \
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --disable-debug  --prefix=
-	make -j3 -C rsync
+	# rsync build often fails the first time
+	make -j3 -C rsync || make -j3 -C rsync
 	
 	# CURL  (Required for transmission)
 	cd curl ;\
@@ -173,26 +182,38 @@ to_build_image:
 		--disable-cookies --disable-dict --disable-sspi
 	make -j3 -C curl CROSS_COMPILE="arm-linux-"
 	
-	# TRANSMISSION
-	cd transmission ;\
-	./configure \
-		--host=arm-linux CC=arm-linux-gcc --prefix=${INSTALL_PATH} CFLAGS="-pipe -Os -march=armv4 " \
-        LIBCURL_LIBS="-L${PWD}/apps/curl/lib/.libs -lcurl"  \
-        LIBCURL_CFLAGS=-I${PWD}/apps/curl/include \
-        OPENSSL_LIBS="-L${PWD}/apps/openssl ${PWD}/apps/openssl/libcrypto.a" \
-        OPENSSL_CFLAGS=-I${PWD}/apps/openssl/include \
-		--host=i686-linux-gnu --target=arm-linux-gnu --enable-static=yes --enable-shared=no \
-		--disable-dependency-tracking  \
-		--disable-libtool-lock  \
-		--disable-gtk        \
-		--disable-libnotify  \
-		--disable-nls        \
-		--disable-cli        \
-		--disable-mac        \
-		--enable-daemon         
-	make PREFIX=$(TARGET_ROOT) CONFIG_PREFIX=$(TARGET_ROOT) -j3 -C transmission CROSS_COMPILE="arm-linux-"
+	# OPKG
+	cd opkg ;\
+	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=arm-linux CFLAGS="-Os -frename-registers -march=armv4" --prefix=$(shell pwd) --with-opkglibdir=/opt --enable-static --disable-shared --disable-gpg --disable-curl --disable-shave
+	make -j3 -C opkg
 
-	# VSFTPD
+	#LIBEVENT (Required for transmission)
+	cd libevent ; \
+	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --prefix=
+	make -j3 -C libevent
+	
+	# TRANSMISSION
+	#cd transmission ;\
+#	./configure \
+#		--host=arm-linux CC=arm-linux-gcc --prefix=${INSTALL_PATH} CFLAGS="-pipe -Os -march=armv4 " \
+#        LIBCURL_LIBS="-L${PWD}/apps/curl/lib/.libs -lcurl"  \
+ #       LIBCURL_CFLAGS=-I${PWD}/apps/curl/include \
+ #       OPENSSL_LIBS="-L${PWD}/apps/openssl ${PWD}/apps/openssl/libcrypto.a" \
+ #       OPENSSL_CFLAGS=-I${PWD}/apps/openssl/include \
+ #       LIBEVENT_LIBS="-L${PWD}/apps/libevent/.libs ${PWD}/apps/libevent/.libs/libevent.a"  \
+ #       LIBEVENT_CFLAGS=-I${PWD}/apps/libevent \
+#		--host=i686-linux-gnu --target=arm-linux-gnu --enable-static=yes --enable-shared=no \
+#		--disable-dependency-tracking  \
+#		--disable-libtool-lock  \
+#		--disable-gtk        \
+#		--disable-libnotify  \
+#		--disable-nls        \
+#		--disable-cli        \
+#		--disable-mac        \
+#		--enable-daemon         
+#	#make PREFIX=$(TARGET_ROOT) CONFIG_PREFIX=$(TARGET_ROOT) -j3 -C transmission CROSS_COMPILE="arm-linux-"
+#
+#	# VSFTPD
 	cd vsftpd ;\
 	make CC=arm-linux-gcc LD=arm-linux-ld AR=arm-linux-ar RANLIB=arm-linux-ranlib CFLAGS="-pipe -Os -march=armv4t"
 
@@ -208,9 +229,10 @@ clean: star_auto_clean
 	make -C dropbear clean
 	make -C openssl clean
 	make -C curl clean
-	make -C transmission clean
+#	make -C transmission clean
 	make -C vsftpd clean
 	make -C inadyn clean
+	make -C opkg clean
 	#make -C hd-idle clean
 
 tags:

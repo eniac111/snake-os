@@ -119,4 +119,6 @@ if [ -f /etc/init.d/ddns ] ; then
   . /etc/init.d/ddns start &
 fi
 
-
+if [ -f /etc/init.d/modules ] ; then
+  . /etc/init.d/modules start &
+fi

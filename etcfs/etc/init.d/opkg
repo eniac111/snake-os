@@ -1,0 +1,79 @@
+#!/bin/sh
+
+
+DEST=/opt
+KIND="opkg"
+
+link() {
+    if [ $(grep "use_opkg=" /etc/default/config | cut -d = -f 2) -eq 1 ] ; then
+	MPOINT=$1
+
+	# complain if things aren't in order
+	if [ ! -d $DEST ]; then
+	    echo "opkg init: $DEST directory missing"
+	    return
+	fi
+
+	if [ $(grep /usb/$MPOINT /proc/mounts | wc -l) -eq 0 ]; then
+	    echo "opkg init: $MPOINT is not mounted"
+	    return
+	fi
+
+	if [ $(cat /proc/mounts | cut -d ' ' -f 2 | grep "^$DEST$" | wc -l) -ne 0 ]; then
+	    echo "opkg init: Another filesystem is mounted at $DEST. Unmounting.."
+	    unlink
+	fi
+
+	mkdir -p /usb/$MPOINT/.optware/opkg
+	mkdir -p /usb/$MPOINT/.optware/tmp
+
+	mount --bind /usb/$MPOINT/.optware $DEST
+   
+	mkdir -p /usb/$MPOINT/.optware/etc/init.d
+	for initscript in $DEST/etc/init.d/*; do
+	    if [ -x $initscript ]; then
+		sh $initscript start
+	    fi
+	done
+    fi
+}
+
+unlink() {
+    if [ $(grep "use_opkg=" /etc/default/config | cut -d = -f 2) -eq 1 ] ; then
+
+    # TODO: check that $DEST actually points to a disk
+	if [ -d $DEST/etc/init.d ]; then
+      	    for initscript in $DEST/etc/init.d/*; do
+		if [ -x $initscript ]; then
+		    sh $initscript stop
+		fi
+	    done
+	fi
+	umount $DEST
+    fi
+}
+
+
+start() {
+    return
+}
+
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	unlink
+	;;
+  link)
+  	link $2
+	;;
+  unlink)
+  	unlink
+	;;
+  *)
+	echo "Usage: $0 {start|stop|link PART|unlink}"
+	exit 1
+esac
+
