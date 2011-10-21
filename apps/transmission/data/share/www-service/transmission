@@ -398,13 +398,12 @@ function setReadTransAlt(obj){
 	<TR><TH>Peer limit per torrent:</TH><TD><INPUT type="text" name="peer_limit_torrent" size=4 value="<% get_config trans_peer_limit_torrent %>"></TD></TR>
 
 	<TR><TH>Speed Down:</TH><TD><input type="checkbox" name="speed_down_enable" value="1" <% is_checked $(get_config trans_speed_down_enable) %> onclick="setTransDown(this);"/><INPUT type="text" name="speed_down" size=4 value="<% get_config trans_speed_down %>"> (KB/s)</TD></TR>
-    <TR><TH>Speed Up:</TH><TD><input type="checkbox" name="speed_up_enable" value="1" <% is_checked $(get_config trans_speed_up_enable) %> onclick="setTransUp(this);"/><INPUT type="text" name="speed_up" size=4 value="<% get_config trans_speed_up %>"> (KB/s)</TD></TR>
+	<TR><TH>Speed Up:</TH><TD><input type="checkbox" name="speed_up_enable" value="1" <% is_checked $(get_config trans_speed_up_enable) %> onclick="setTransUp(this);"/><INPUT type="text" name="speed_up" size=4 value="<% get_config trans_speed_up %>"> (KB/s)</TD></TR>
 
 	<TR><TH COLSPAN=2>Transmission - Alternate Time</TH></TR>
 	<TR><TH>Enable Alternate Time:</TH><TD><input type="checkbox" name="enable_trans_alt" value="1" <% is_checked $(get_config enable_trans_alt) %> onclick="setReadTransAlt(this);"/></TD></TR>
 	<TR><TH>Alternate Speed Up:</TH><TD><INPUT type="text" name="alt_speed_up" size=4 value="<% get_config trans_alt_speed_up %>"> (KB/s)</TD></TR>
 	<TR><TH>Alternate Speed Down:</TH><TD><INPUT type="text" name="alt_speed_down" size=4 value="<% get_config trans_alt_speed_down %>"> (KB/s)</TD></TR>
-    <TR><TH>Alternate Speed Up:</TH><TD><INPUT type="text" name="alt_speed_up" size=4 value="<% get_config trans_alt_speed_up %>"> (KB/s)</TD></TR>
 	<TR><TH>Alternate Time Begin:</TH><TD>
 		<select name="alt_time_begin">
 		<% get_alt_time_begin_sel %>

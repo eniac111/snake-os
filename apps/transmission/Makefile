@@ -12,7 +12,7 @@ build:
 		--host=i686-linux-gnu --target=arm-linux-gnu --enable-static=yes --enable-shared=no \
 		--disable-dependency-tracking  \
 		--disable-libtool-lock  \
-		--disable-gtk        \
+		--without-gtk        \
 		--disable-libnotify  \
 		--disable-nls        \
 		--disable-cli        \
@@ -22,6 +22,7 @@ build:
 	make PREFIX=$(TARGET_ROOT) CONFIG_PREFIX=$(TARGET_ROOT) -j3 -C transmission CROSS_COMPILE="arm-linux-"
 	
 	cp transmission/daemon/transmission-daemon data/bin/
+	cp transmission/daemon/transmission-remote data/bin/
 	cp -a transmission/web data/share/transmission/	
 	find data/ -name ".svn" | xargs rm -rf
 
