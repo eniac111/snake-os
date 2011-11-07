@@ -382,7 +382,7 @@ function setReadTransAlt(obj){
 <center>
 <TABLE border="0">
 <form id=filebrowser name=filebrowser action="./filebrowserd.cgi" method="POST">
-	<input type=hidden name=sourceform value="./mg-trans.cgi">
+	<input type=hidden name=sourceform value="<%= ${SCRIPT_NAME} %>?page=transmission">
     <TR><TH>Current torrent folder:</TH><TD><input type="text" name="shared" size=20 value="<%= $TRANSDIR %>" readonly onclick="fileBrowserNew()"/></TD></TR>
     <TR><TH>Torrent drop folder:</TH><TD><%= $TRANSDIR %>/torrentwatch</TD></TR>
 </form> 
