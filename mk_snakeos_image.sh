@@ -12,6 +12,7 @@ CURRDATE=$(date +%Y%m%d)
 CURRVER=V1.3.2
 CURRENTVER="SNAKE OS ${CURRVER}"
 CURRENTRELEASE="${CURRENTVER} (${CURRDATE})"
+BOARDSTR="-${BOARD}"
 
 echo ${CURRENTVER} > $TOP_DIR/etcfs/etc/version
 echo ${CURRDATE} > $TOP_DIR/etcfs/etc/build
@@ -70,11 +71,11 @@ mk_fs(){
 
 }
 #copy an arbitrary config and build kernel for latter mk_fs
-cp configs/str8132_defconfig_jffs2 $KER_DIR/.config -fv
+cp configs/str8132${BOARDSTR}_defconfig_jffs2 $KER_DIR/.config -fv
 make pre-build-kernel
 mk_fs
 
-mk_kn 8132
+mk_kn 8132${BOARDSTR}
 
 #make bootloader
 
@@ -94,10 +95,10 @@ ROOTFS=snake_os/release/mtd3_rootfs.bin
 
 RESULTDIR=snake_os/release
 
-FIRMWARE=snakeos-${CURRVER}-${CURRDATE}-from-original.bin
+FIRMWARE=snakeos${BOARDSTR}-${CURRVER}-${CURRDATE}-from-original.bin
 RESULT=${RESULTDIR}/${FIRMWARE}
 
-KERNEL_IN=output/zImage.8132
+KERNEL_IN=output/zImage.8132${BOARDSTR}
 ROOTFS_IN=output/rootfs.jffs2
 ROOTFS_SUMMED=output/jffs2.img.sum
 ROOTFS_SUMMED=output/jffs2.img
@@ -162,7 +163,7 @@ cd -
 
 #Create firmware image without boot partition for updates from snake OS
 
-FIRMWARE=snakeos-${CURRVER}-${CURRDATE}-from-snake.bin
+FIRMWARE=snakeos${BOARDSTR}-${CURRVER}-${CURRDATE}-from-snake.bin
 RESULT=${RESULTDIR}/${FIRMWARE}
 
 #sync
