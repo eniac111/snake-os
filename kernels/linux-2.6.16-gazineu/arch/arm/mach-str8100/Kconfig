@@ -94,6 +94,15 @@ config STR8100_WLX652_BUTTON
         help
           enable button operation
 
+config STR8100_GNSD630
+	bool "GNSD630 Support"
+	default n
+        help
+	  Configure for A-Tec MS304S/MS347S and Conrad enclosures
+	  that identify as "GNSD630"
+
+
+
 comment "Flash MAP"
 config STR8100_FLASH_PART
 	bool "STR8100 flash partition setting"

@@ -392,7 +392,11 @@ static struct mtd_partition str8100_spi_flash_partitions[] = {
         },{
                 .name =         "ALL",
                 .offset =       CONFIG_BOOT_OFFSET,
+#ifdef CONFIG_STR8100_GNSD630
+                .size =         0x800000-CONFIG_BOOT_OFFSET,
+#else
                 .size =         0x3f0000-CONFIG_BOOT_OFFSET,
+#endif
         }
 
 };

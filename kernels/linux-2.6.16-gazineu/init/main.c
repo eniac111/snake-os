@@ -654,6 +654,52 @@ static inline void fixup_cpu_present_map(void)
 
 static int init(void * unused)
 {
+
+#ifdef CONFIG_STR8100_GNSD630
+	__u32 data;
+
+	/* 
+	 * from original kernel image
+	 * TODO: figure out what the commented out lines do
+	 */
+
+	/* 
+	 * mode for gpio pins:
+	 * 22 and 23: led mode
+	 * 24: stays gpio. changes disk mode
+	 */
+	MISC_GPIOA_PIN_ENABLE_REG = 0x0;
+	MISC_GPIOA_PIN_ENABLE_REG |= (0x3 << 22);
+
+	
+	/* 
+	 * set some pins to input mode
+	 * 13: device is connected to pc
+	 * 0: reset button
+	 */
+	GPIOA_DIRECTION_REG = 0xffffdff0;
+
+	/* 
+	 * disk to standalone mode
+	 */
+	GPIOA_DATA_OUTPUT_REG = 0x010fffff;
+
+	udelay(10);
+
+	/*
+	GPIOA_DATA_OUTPUT_REG |= 0x20000;
+	GPIOA_DATA_OUTPUT_REG |= 0x20000000;
+	*/
+
+	/* set disk to device mode if connected to pc */
+	HAL_GPIOA_READ_DATA_IN_STATUS(data);
+	if (!(data & 0x00002000))
+		GPIOA_DATA_OUTPUT_REG = 0x000fdfff;
+
+	/*
+	GPIOA_DATA_OUTPUT_REG |= 0x10000;
+	*/
+#endif
 	lock_kernel();
 	/*
 	 * init can run on any cpu.
@@ -686,6 +732,19 @@ static int init(void * unused)
 	populate_rootfs();
 
 	do_basic_setup();
+
+#ifdef CONFIG_STR8100_GNSD630
+	/*
+	GPIOA_DATA_OUTPUT_REG |= 0x20000;
+	GPIOA_DATA_OUTPUT_REG |= 0x20000000;
+	*/
+
+	/* 
+	 * setup gpio pins again. seems redundant
+	 */
+	MISC_GPIOA_PIN_ENABLE_REG = 0x0;
+	MISC_GPIOA_PIN_ENABLE_REG |= (0x3 << 22);
+#endif
 
 	/*
 	 * check if there is an early userspace init.  If yes, let it do all
