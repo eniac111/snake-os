@@ -12,7 +12,7 @@ CURRDATE=$(date +%Y%m%d)
 CURRVER=V1.3.2
 CURRENTVER="SNAKE OS ${CURRVER}"
 CURRENTRELEASE="${CURRENTVER} (${CURRDATE})"
-BOARDSTR="-${BOARD}"
+[ ! -z "${BOARD}" ] && BOARDSTR="-${BOARD}"
 
 echo ${CURRENTVER} > $TOP_DIR/etcfs/etc/version
 echo ${CURRDATE} > $TOP_DIR/etcfs/etc/build
