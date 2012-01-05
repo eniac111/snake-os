@@ -172,10 +172,10 @@ to_build_image:
 	# CURL  (Required for transmission)
 	cd curl ;\
 	./configure \
-		--prefix=$(shell pwd) --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" \
-		--with-ssl=../openssl --with-gnutls \
+		--prefix=$(shell pwd) --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -s -frename-registers -march=armv4" CPPFLAGS="-I${APP_DIR}/openssl/include/ -I${APP_DIR}/openssl/include/openssl/" LIBS="${APP_DIR}/openssl/libssl.a ${APP_DIR}/openssl/libcrypto.a" \
+		--with-ssl=../openssl \
 		--disable-manual --without-random --disable-verbose --disable-debug  \
-		--disable-cookies --disable-dict --disable-sspi
+		--disable-cookies --disable-dict --disable-sspi HAVECRYPTO="yes" OPENSSL_ENABLED="1"
 	make -j3 -C curl CROSS_COMPILE="arm-linux-"
 
 	# OPKG
@@ -185,7 +185,7 @@ to_build_image:
 
 	#LIBEVENT (Required for transmission)
 	cd libevent ; \
-	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -frename-registers -march=armv4" --prefix=
+	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -s -frename-registers -march=armv4" --prefix=
 	make -j3 -C libevent
 
 	make -C transmission

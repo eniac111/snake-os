@@ -29,6 +29,7 @@ start() {
 		            for MOUNT in $(grep "^/dev/sd" /proc/mounts | cut -d ' ' -f 2 | cut -d '/' -f 3) ; do
 		                if [ $MOUNT = $TRANS_MOUNTED ] ; then
 		                    FOUND=1
+				    mkdir -p ${TRANS_DIR}
 		                    mkdir -p /var/transmission/.config/transmission-daemon
 		                    mkdir -p /var/transmission/torrentwatch
 		                    cp -a /etc/default/settings.json /var/transmission/.config/transmission-daemon/settings.json
