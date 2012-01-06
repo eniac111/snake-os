@@ -17,8 +17,8 @@ if [ ! $DEV = "" ] ; then
 	fdisk /dev/${DEV} < $SNKUTILS/fdisk.new > /dev/null 2>&1
 	sleep 2                                
 	echo "done!<br>Formatting new /dev/${DEV}1 partition as EXT3... <br>"
-	mke2fs -j -LSNAKEDISK /dev/${DEV}1 | tr '\b' '.'
-	echo "<br>Partition created!<br>Enabling AUTOMOUNT..."
+	mke2fs -j -LSNAKEDISK /dev/${DEV}1 && echo "<br>Partition created!" || echo "<br>Partition creation failed!" | tr '\b' '.'
+	echo "<br>Enabling AUTOMOUNT..."
 	mv /etc/mdev-inuse.conf /etc/mdev.conf
 	mdev -s 
 	echo "done!<br>"
