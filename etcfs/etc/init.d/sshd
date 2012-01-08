@@ -7,6 +7,8 @@ KIND="SFTP/SSHD"
 RSAKEY="/etc/dropbear/dropbear_rsa_host_key"
 DSSKEY="/etc/dropbear/dropbear_dss_host_key"
 PORT=$(grep "^ssh_port=" /etc/default/config | cut -d = -f 2)
+TIMEOUT=$(grep "^ssh_timeout=" /etc/default/config | cut -d = -f 2)
+KEEPALIVE=$(grep "^ssh_keepalive=" /etc/default/config | cut -d = -f 2)
 
 start() {
     if [ ! -f $RSAKEY ] ; then
@@ -18,13 +20,13 @@ start() {
        dropbearkey -t dss -f $DSSKEY
     fi
 	echo "Starting $KIND service..."
-    dropbear -p ${PORT}
-}	
+    dropbear -p ${PORT} -I ${TIMEOUT} -K ${KEEPALIVE}
+}
 
 webstatus(){
-	PID=$(pidof dropbear)
-	if [ ${PID:-empty} = "empty" ] ; then
-		echo -n "$KIND is not running"
+    PID=$(pidof dropbear)
+    if [ ${PID:-empty} = "empty" ] ; then
+	echo -n "$KIND is not running"
     else
     	echo -n "$KIND is running"
     fi  		

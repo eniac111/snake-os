@@ -18,6 +18,12 @@ function validateAction(form) {
 		if (!validatePort(form.ssh_port.value,'SSH Server Port'))
 			return false;
 
+		if (!validateTimeout(form.ssh_timeout.value,'SSH Timeout'))
+			return false;
+
+		if (!validateTimeout(form.ssh_keepalive.value,'SSH Keepalive'))
+			return false;
+
 		question = "This will restart ssh server service. Are you sure?";
 	}
     else if ( action == 'Start' )
@@ -57,6 +63,17 @@ function validatePort(port,description){
 	return true;                                                 
 }
 
+function validateTimeout(time,description){
+	var re = /^\d{1,5}$/;
+
+	if (time == '' || !re.test(time) || port > 99999) {
+		alert('Please enter a valid timeout for '+description+'. Accepted values are between 0 and 99999.');
+		return false;
+	}
+	return true;                                                 
+}
+
+
 // -->
 </script>
 </head>
@@ -75,7 +92,7 @@ then
       	set_config ssh_port ${NEWPORT}
 	
       	/etc/init.d/sshd restart > /dev/null
-      	sleep 2		
+      	sleep 2
     	;;
       Start)
       	/etc/init.d/sshd start > /dev/null
@@ -103,7 +120,9 @@ fi
 <form action="<%= ${SCRIPT_NAME} %>" method="POST"  onsubmit="return validateAction(this);">
      <TABLE border="0" >
 	<input type="hidden" name="http_port" value="<% get_config http_port %>" >
-	<TR><TH>SSH Server Port:</TH><TD><input type="text" name="ssh_port" size=4 value="<% get_config ssh_port %>" title="Enter a the SSH Server port. Accepted port numbers are between 1 and 65535."></TD></TR>     
+	<TR><TH>SSH Server Port:</TH><TD><input type="text" name="ssh_port" size=4 value="<% get_config ssh_port %>" title="Enter a the SSH Server port. Accepted port numbers are between 1 and 65535."></TD></TR>
+	<TR><TH>Session timeout:</TH><TD><input type="text" name="ssh_timeout" size=4 value="<% get_config ssh_timeout %>" title="Enter the session timeout. Accepted values are between 0 and 99999 (0 to disable)."></TD></TR>     
+	<TR><TH>Keepalive:</TH><TD><input type="text" name="ssh_keepalive" size=4 value="<% get_config ssh_keepalive %>" title="Enter the keepalive delay. Accepted values are between 0 and 99999 (0 to disable)."></TD></TR>     
 	<TR><TH>Status:</TH><TD><% /etc/init.d/sshd webstatus %></TD></TR>
 </TABLE>
 
