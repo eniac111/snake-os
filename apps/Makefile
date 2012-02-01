@@ -170,12 +170,14 @@ to_build_image:
 	make -j3 -C rsync || make -j3 -C rsync
 
 	# CURL  (Required for transmission)
+	# add HAVECRYPTO="yes" OPENSSL_ENABLED="1" to enable ssl support
+	# disabled because otherwise curl gets too large
 	cd curl ;\
 	./configure \
 		--prefix=$(shell pwd) --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -s -frename-registers -march=armv4" CPPFLAGS="-I${APP_DIR}/openssl/include/ -I${APP_DIR}/openssl/include/openssl/" LIBS="${APP_DIR}/openssl/libssl.a ${APP_DIR}/openssl/libcrypto.a" \
 		--with-ssl=../openssl \
 		--disable-manual --without-random --disable-verbose --disable-debug  \
-		--disable-cookies --disable-dict --disable-sspi HAVECRYPTO="yes" OPENSSL_ENABLED="1"
+		--disable-cookies --disable-dict --disable-sspi
 	make -j3 -C curl CROSS_COMPILE="arm-linux-"
 
 	# OPKG
