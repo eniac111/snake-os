@@ -22,7 +22,7 @@ if [ ! $((${MINOR}%16)) -eq 0 ] ; then
 	    if [ $(grep "^/dev/$MDEV" /proc/mounts | wc -l) -eq 0 ] ; then
 	        mkdir -p /usb/$MPOINT
 	        mount /dev/$MDEV /usb/$MPOINT -o exec,dev,noatime,suid,rw > /dev/null 2>&1
-	        ntfs-3g /dev/$MDEV /usb/$MPOINT -o noatime,recover > /dev/null 2>&1
+	        ntfs-3g /dev/$MDEV /usb/$MPOINT -o noatime,recover,permissions > /dev/null 2>&1
 
 	        sleep 1
 
