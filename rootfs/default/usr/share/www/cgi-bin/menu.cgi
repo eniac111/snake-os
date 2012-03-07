@@ -20,6 +20,7 @@ Content-type: text/html
 		<!--
 		d = new dTree('d');
 		d.config.target = "main";
+		d.config.useCookies = true;
 		d.add(0,-1,'My NAS','status.cgi','SNAKE OS device status','','');
 		
 		d.add(1,0,'Device','','','','');
@@ -46,12 +47,12 @@ Content-type: text/html
 			d.add(29,20,'Opkg','opkg.cgi','Configure Opkg','','');
 
 <%
-		if [ -d "/opt/share/www-service/" ]; then   
+		if [ -d "/opt/share/www-service" ]; then   
 		   i=31
 		   OPKG_SERVICES=""
-		   for f in /opt/share/www-service/*; do
+		   for f in $(ls -1 /opt/share/www-service/); do
 		       s=$(basename $f)
-		       OPKG_SERVICES="$OPKG_SERVICES d.add($i,20,'$s','opkg-config-service.cgi?page=$s','$s','','');"	
+		       OPKG_SERVICES="$OPKG_SERVICES d.add($i,20,'$(capitalize $s)','opkg-config-service.cgi?page=$s','$s','','');"	
 		       let i++
 		   done
 		   echo $OPKG_SERVICES
@@ -75,12 +76,12 @@ Content-type: text/html
 		d.add(200,0,'About','credits.cgi','Firmware credits','','');	
 
 <%
-		if [ -d "/opt/share/www/" ]; then
+		if [ -d "/opt/share/www" ]; then
 		   i=210
 		   OPKG_SERVICES=""
-		   for f in /opt/share/www/*; do
+		   for f in $(ls -1 /opt/share/www/); do
 		       s=$(basename $f)
-		       OPKG_SERVICES="$OPKG_SERVICES d.add($i,0,'$s','opkg-config.cgi?page=$s','$s','','');"	
+		       OPKG_SERVICES="$OPKG_SERVICES d.add($i,0,'$(capitalize $s)','opkg-config.cgi?page=$s','$s','','');"	
 		       let i++
 		   done
 		   echo $OPKG_SERVICES

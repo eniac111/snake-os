@@ -10,15 +10,19 @@ then
 
     case "$ACTION" in
 	Uninstall)
+      	    RELOADMENU=1
       	    UPACKAGE=$(echo ${FORM_upackage} | cut -d ' ' -f 1)
  	    PKGLOG=$(opkg-cl remove "$UPACKAGE" | tail -c 1000)
+	    sync
     	    ;;
 	Install)
+      	    RELOADMENU=1
       	    IPACKAGE=$(echo ${FORM_ipackage} | cut -d ' ' -f 1)
 # packages must have opk extension 
 	    cp $IPACKAGE $IPACKAGE.opk
       	    PKGLOG=$(opkg-cl install "$IPACKAGE".opk | tail -c 1000)
 	    rm $IPACKAGE.opk
+	    sync
             ;;
 	*)
     esac
@@ -77,7 +81,7 @@ package_form(){
 
 
 </head>
-<body>
+<body<% [ $RELOADMENU ] && echo -n ' onload="parent.frames[1].location.reload();"' %>>
 <center>
 <% 
 if [ $(get_config use_opkg) = 1 ]

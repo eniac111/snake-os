@@ -121,7 +121,9 @@ get_allparts(){
     ls /sys/block/$1/sd* -d | cut -d '/' -f 5
 }
 
-
+capitalize(){
+    echo $(echo "$1" | cut -b 1 | tr a-z A-Z)$(echo "$1" | cut -b 2-)
+}
 
 %>
 
