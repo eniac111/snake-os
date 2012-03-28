@@ -2165,11 +2165,7 @@ static int star_nic_init(struct net_device *dev)
 	HAL_MISC_ENABLE_MDC_MDIO_PINS();
 	HAL_MISC_ENABLE_NIC_COL_PINS();
 #ifdef CONFIG_STAR_NIC_PHY_INTERNAL_PHY
-#ifdef CONFIG_STR8100_GNSD630
 	MISC_GPIOA_PIN_ENABLE_REG |= (0x7 << 22);
-#else
-	MISC_GPIOA_PIN_ENABLE_REG |= (0x3 << 22);
-#endif
 	MISC_FAST_ETHERNET_PHY_CONFIG_REG |=  (FE_PHY_LED_MODE >> 12) & 0x3;
 
 	// set hight
