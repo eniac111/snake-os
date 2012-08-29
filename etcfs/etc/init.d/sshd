@@ -9,6 +9,7 @@ DSSKEY="/etc/dropbear/dropbear_dss_host_key"
 PORT=$(grep "^ssh_port=" /etc/default/config | cut -d = -f 2)
 TIMEOUT=$(grep "^ssh_timeout=" /etc/default/config | cut -d = -f 2)
 KEEPALIVE=$(grep "^ssh_keepalive=" /etc/default/config | cut -d = -f 2)
+WEAKKEX=$(grep "^ssh_weakkex=" /etc/default/config | cut -d = -f 2)
 
 start() {
     if [ ! -f $RSAKEY ] ; then
@@ -19,8 +20,12 @@ start() {
        echo "Generating initial DSS key for $KIND"
        dropbearkey -t dss -f $DSSKEY
     fi
-	echo "Starting $KIND service..."
-    dropbear -p ${PORT} -I ${TIMEOUT} -K ${KEEPALIVE}
+    echo "Starting $KIND service..."
+
+    if [ "$WEAKKEX" == "1" ] ; then
+        WEAKKEXOPT="-x"
+    fi
+    dropbear -p ${PORT} -I ${TIMEOUT} -K ${KEEPALIVE} ${WEAKKEXOPT}
 }
 
 webstatus(){

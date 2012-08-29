@@ -23,6 +23,7 @@ http_port=80
 ssh_port=22
 ssh_timeout=0
 ssh_keepalive=0
+ssh_weakkex=0
 
 telnet_enable=0
 
