@@ -1,0 +1,82 @@
+diff -ur dropbear-2012.55/algo.h dropbear-2012.55-new/algo.h
+--- dropbear-2012.55/algo.h	2012-02-23 14:47:05.000000000 +0100
++++ dropbear-2012.55-new/algo.h	2012-08-29 00:31:50.193120988 +0200
+@@ -47,6 +47,7 @@
+ 
+ /* lists mapping ssh types of algorithms to internal values */
+ extern algo_type sshkex[];
++extern algo_type sshkex_weak[];
+ extern algo_type sshhostkey[];
+ extern algo_type sshciphers[];
+ extern algo_type sshhashes[];
+diff -ur dropbear-2012.55/common-algo.c dropbear-2012.55-new/common-algo.c
+--- dropbear-2012.55/common-algo.c	2012-02-23 14:47:05.000000000 +0100
++++ dropbear-2012.55-new/common-algo.c	2012-08-29 00:29:59.020120965 +0200
+@@ -192,6 +192,11 @@
+ 	{NULL, 0, NULL, 0, NULL}
+ };
+ 
++algo_type sshkex_weak[] = {
++	{"diffie-hellman-group1-sha1", DROPBEAR_KEX_DH_GROUP1, NULL, 1, NULL},
++	{NULL, 0, NULL, 0, NULL}
++};
++
+ algo_type sshkex[] = {
+ 	{"diffie-hellman-group1-sha1", DROPBEAR_KEX_DH_GROUP1, NULL, 1, NULL},
+ 	{"diffie-hellman-group14-sha1", DROPBEAR_KEX_DH_GROUP14, NULL, 1, NULL},
+diff -ur dropbear-2012.55/common-kex.c dropbear-2012.55-new/common-kex.c
+--- dropbear-2012.55/common-kex.c	2012-02-23 14:47:05.000000000 +0100
++++ dropbear-2012.55-new/common-kex.c	2012-08-29 00:37:12.386121162 +0200
+@@ -101,7 +101,7 @@
+ 	buf_incrwritepos(ses.writepayload, 16);
+ 
+ 	/* kex algos */
+-	buf_put_algolist(ses.writepayload, sshkex);
++	buf_put_algolist(ses.writepayload, (opts.weakkex ? sshkex_weak : sshkex));
+ 
+ 	/* server_host_key_algorithms */
+ 	buf_put_algolist(ses.writepayload, sshhostkey);
+@@ -671,7 +671,7 @@
+ 	ses.newkeys = (struct key_context*)m_malloc(sizeof(struct key_context));
+ 
+ 	/* kex_algorithms */
+-	algo = ses.buf_match_algo(ses.payload, sshkex, &goodguess);
++	algo = ses.buf_match_algo(ses.payload, (opts.weakkex ? sshkex_weak : sshkex), &goodguess);
+ 	allgood &= goodguess;
+ 	if (algo == NULL) {
+ 		erralgo = "kex";
+diff -ur dropbear-2012.55/runopts.h dropbear-2012.55-new/runopts.h
+--- dropbear-2012.55/runopts.h	2012-02-23 14:47:06.000000000 +0100
++++ dropbear-2012.55-new/runopts.h	2012-08-29 00:42:30.929121249 +0200
+@@ -46,7 +46,7 @@
+ 	 * intermediate stages are compressed streams, so are uncompressible. */
+ 	int enable_compress;
+ #endif
+-
++	int weakkex;
+ 
+ } runopts;
+ 
+Nur in dropbear-2012.55-new/: runopts.h~.
+diff -ur dropbear-2012.55/svr-runopts.c dropbear-2012.55-new/svr-runopts.c
+--- dropbear-2012.55/svr-runopts.c	2012-02-23 14:47:06.000000000 +0100
++++ dropbear-2012.55-new/svr-runopts.c	2012-08-29 00:35:37.716121195 +0200
+@@ -146,6 +146,8 @@
+ 	opts.listen_fwd_all = 0;
+ #endif
+ 
++	opts.weakkex = 0;
++
+ 	for (i = 1; i < (unsigned int)argc; i++) {
+ 		if (nextisport) {
+ 			addportandaddress(argv[i]);
+@@ -247,6 +249,9 @@
+ 					debug_trace = 1;
+ 					break;
+ #endif
++				case 'x':
++					opts.weakkex = 1;
++					break;
+ 				default:
+ 					fprintf(stderr, "Unknown argument %s\n", argv[i]);
+ 					printhelp(argv[0]);
