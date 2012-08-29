@@ -22,7 +22,7 @@ make_rootfs:
 	tar -jxvf $(ROOTFS_DIR)/rootfs_dev.tar.bz2 -C $(TARGET_ROOT)
 	
 	make -j3 modules -C $(KER_DIR)
-	make -j3 modules_install -C $(KER_DIR) INSTALL_MOD_PATH=$(TARGET_ROOT)
+	make -j3 modules_install -C $(KER_DIR) DEPMOD=$(TOPDIR)/tools/depmod.pl INSTALL_MOD_PATH=$(TARGET_ROOT)
 
 	#make -j3 -C $(KER_DIR) CONFIG_NTFS_FS=m CONFIG_NTFS_DEBUG=n CONFIG_NTFS_RW=y M=fs/ntfs
 	#mkdir -p $(TARGET_ROOT)/lib/modules/2.6.16-gazineu/kernel/fs/ntfs
@@ -100,7 +100,7 @@ pre-build-kernel:
 
 make_kernel_modules:
 	make -j3 modules -C $(KER_DIR) 
-	make -j3 modules_install -C $(KER_DIR) INSTALL_MOD_PATH=$(TARGET_ROOT)
+	make DEPMOD=$(TOPDIR)/tools/depmod.pl -j3 modules_install -C $(KER_DIR) DEPMOD=$(TOPDIR)/tools/depmod.pl INSTALL_MOD_PATH=$(TARGET_ROOT)
 
 
 kernel:
