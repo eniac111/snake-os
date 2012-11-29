@@ -59,10 +59,6 @@ to_install:
 	cp $(APP_DIR)/rsync/rsync ${TARGET_ROOT}/bin
 	# CURL
 	cp -a $(APP_DIR)/curl/lib/.libs/libcurl.so* ${TARGET_ROOT}/lib
-	#LIBEVENT
-	cp -a $(APP_DIR)/libevent/.libs/libevent.so* ${TARGET_ROOT}/lib
-	# TRANSMISSION
-	make -C transmission install
 	# VSFTPD
 	cp $(APP_DIR)/vsftpd/vsftpd ${TARGET_ROOT}/bin
 	# OPKG
@@ -185,12 +181,6 @@ to_build_image:
 	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=arm-linux CFLAGS="-Os -frename-registers -march=armv4" --prefix=$(shell pwd) --with-opkglibdir=/opt --enable-static --disable-shared --disable-gpg --disable-curl --disable-shave
 	make -j3 -C opkg
 
-	#LIBEVENT (Required for transmission)
-	cd libevent ; \
-	./configure CC=arm-linux-gcc --build=arm-linux-uclibc --target=arm-linux-uclibc --host=i486-linux-gnu CFLAGS="-Os -s -frename-registers -march=armv4" --prefix=
-	make -j3 -C libevent
-
-	make -C transmission
 #	# VSFTPD
 	cd vsftpd ;\
 	make CC=arm-linux-gcc LD=arm-linux-ld AR=arm-linux-ar RANLIB=arm-linux-ranlib CFLAGS="-pipe -Os -march=armv4t"
@@ -207,7 +197,6 @@ clean: star_auto_clean
 	make -C dropbear clean
 	make -C openssl clean
 	make -C curl clean
-#	make -C transmission clean
 	make -C vsftpd clean
 	make -C inadyn clean
 	make -C opkg clean

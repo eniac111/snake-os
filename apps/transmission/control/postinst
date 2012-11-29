@@ -1,2 +1,0 @@
-#!/bin/sh
-/opt/etc/init.d/transmission start
