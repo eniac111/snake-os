@@ -48,12 +48,21 @@ new_userform(){
     <TH align=center>Password</TH>
     <TH align=center>Repeat password</TH>
     <TH align=center>FTP Homedir</TH>
+    <TH align=center>Directory access</TH>
     </TR>
     <TR>
     <TD align=center><input type="text" name="uname" maxsize=15 size=15 /></TD>
     <TD align=center><input type="password" name="pass1" maxsize=14 size=14 /></TD>
     <TD align=center><input type="password" name="pass2" maxsize=14 size=14 /></TD>
     <TD><input type="text" name="shared" size=20 value="<%= $SHARED %>" readonly onclick="fileBrowserNew()"/></TD>
+    <TD>
+    <SELECT NAME="permissions">
+        <OPTION value=current selected >Default</OPTION>
+        <OPTION value=user >User only</OPTION>
+        <OPTION value=allread >All (readonly)</OPTION>
+        <OPTION value=all >All</OPTION>
+    </SELECT>
+    </TD>
     </TR>
     </TABLE>
         <input type="submit" name="action" value="Save" onclick="btnAction=this"/>
@@ -63,7 +72,7 @@ new_userform(){
 	<input type=hidden name=sourceform value="./user.cgi">
 	<input type=hidden name=shared value="">
 	<input type=hidden name=auser value="">
-    <input type=hidden name=write value="0">
+	<input type=hidden name=write value="0">
 	</form>
     </body>
     </html>
@@ -81,12 +90,21 @@ edit_userform(){
     <TH align=center>Password</TH>
     <TH align=center>Repeat password</TH>
     <TH align=center>FTP Homedir</TH>
+    <TH align=center>Directory access</TH>
     </TR>
     <TR>
     <TD align=center><input type="text" name=uname  maxsize=15 size=15 value="<%= $UNAME %>" readonly></TD>
     <TD align=center><input type="password" name="pass1" maxsize=14 size=14 /></TD>
     <TD align=center><input type="password" name="pass2" maxsize=14 size=14 /></TD>
     <TD><input type="text" name="shared" size=20 value="<%= $SHARED %>" readonly onclick="fileBrowser()"/></TD>
+    <TD>
+    <SELECT NAME="permissions">
+        <OPTION value=current selected >Default</OPTION>
+        <OPTION value=user >User only</OPTION>
+        <OPTION value=allread >All (readonly)</OPTION>
+        <OPTION value=all >All</OPTION>
+    </SELECT>
+    </TD>
     </TR>
     </TABLE>
         <input type="submit" name="action" value="Save" onclick="btnAction=this"/>
@@ -213,6 +231,41 @@ function validateAction(form) {
 </head>
 
 <%
+
+set_permissions(){
+    UNAME=${1}
+    if ! grep -q ^"${UNAME}": /etc/passwd; then
+        echo "set_permissions: invalid username"
+        return
+    fi
+
+    HOMEDIR=$(readlink -f "${3}")
+    if [ -z ${HOMEDIR} ] || [ ! -d "${HOMEDIR}" ] || ! echo "${HOMEDIR}" | grep -q "^/usb/."; then
+        echo "set_permissions: invalid directory"
+        return    
+    fi
+
+    case "${2}" in
+      current)
+        ;;
+      user)
+        chown ${UNAME}:${UNAME} ${HOMEDIR}
+        chmod 700 ${HOMEDIR}
+        ;;
+      allread)
+        chown ${UNAME}:${UNAME} ${HOMEDIR}
+        chmod 755 ${HOMEDIR}
+        ;;
+      all)
+        echo "setting perms to all ${HOMEDIR}"
+        chown ${UNAME}:${UNAME} ${HOMEDIR}
+        chmod 777 ${HOMEDIR}
+        ;;
+      *)
+        echo "set_permissions: invalid permissions"
+    esac
+}
+
 if [ "${REQUEST_METHOD}" = "POST" ]
 then
     ACTION=$(echo ${FORM_action} | cut -d ' ' -f 1)
@@ -220,22 +273,29 @@ then
     case "$ACTION" in
       Edit)
         UNAME=$(echo ${FORM_ulist} | cut -d ' ' -f 1)
-		SHARED=$(grep "^$UNAME:" /etc/passwd | cut -d : -f 6)
-		WRITE=$(echo ${FORM_write} | cut -d ' ' -f 1)
-		WRITE=${WRITE:-1}
+        SHARED=$(grep "^$UNAME:" /etc/passwd | cut -d : -f 6)
+        WRITE=$(echo ${FORM_write} | cut -d ' ' -f 1)
+        WRITE=${WRITE:-1}
         edit_userform
     	;;
       Done)
         UNAME=$(echo ${FORM_auser} | cut -d ' ' -f 1)
         SHARED=$(echo ${FORM_shared} | cut -d '|' -f 1)
-		WRITE=$(echo ${FORM_write} | cut -d ' ' -f 1)
+        WRITE=$(echo ${FORM_write} | cut -d ' ' -f 1)
+        EDIT=$(echo ${FORM_edit} | cut -d ' ' -f 1)
         edit_userform
-    	;;
+        ;;
       Save)
         UNAME=$(echo ${FORM_uname} | cut -d ' ' -f 1)
         SHARED=$(echo ${FORM_shared} | cut -d ' ' -f 1)
         PASSWORD=$(echo ${FORM_pass1} | cut -d ' ' -f 1)
+        PERMISSIONS=$(echo ${FORM_permissions} | cut -d ' ' -f 1)
+
+
         smbpasswd -a $UNAME $SHARED $PASSWORD
+
+        set_permissions ${UNAME} ${PERMISSIONS} ${SHARED}
+
         initial_userform
     	;;
       Remove)
