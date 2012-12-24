@@ -65,6 +65,7 @@ new_userform(){
     </TD>
     </TR>
     </TABLE>
+        <input type=hidden name=permissions_recursive value="">
         <input type="submit" name="action" value="Save" onclick="btnAction=this"/>
         <input type="submit" name="action" value="Cancel" onclick="history.go(-1);return false;"/>
     </form>
@@ -107,6 +108,7 @@ edit_userform(){
     </TD>
     </TR>
     </TABLE>
+        <input type=hidden name=permissions_recursive value="">
         <input type="submit" name="action" value="Save" onclick="btnAction=this"/>
         <input type="submit" name="action" value="Cancel" onclick="history.go(-1);return false;"/>
     </form>
@@ -157,8 +159,8 @@ function validatePass(pwd1,pwd2) {
     if (!re.test(pwd1)) { 
         alert("Please enter a valid password! The password must have a minimum of 5 and a maximum of 14 alphanumeric chars.");
         return false;
-   }
-   return true;
+    }
+    return true;
 }
 
 function validateEdit(form){
@@ -189,9 +191,9 @@ function validateNewUser(form){
 		return false;
 	}
 	if (!re.test(user)) { 
-        alert("Please enter a valid username! The username must have a minimum of 5 and a maximum of 15 chars.");
-        return false;
-   }
+		alert("Please enter a valid username! The username must have a minimum of 5 and a maximum of 15 chars.");
+		return false;
+	}
 	var pwd1 = form.pass1.value;
 	var pwd2 = form.pass2.value;
 	if (validatePass(pwd1,pwd2)){
@@ -204,7 +206,7 @@ function validateNewUser(form){
 
 function validateAction(form) {
     var action = btnAction.value;                                               
-    var user = form.ulist.value;                                                
+    var user = form.ulist && form.ulist.value || form.uname.value;                                                
     var question = "";                                                          
     var answer = true;             
     if ( action == 'New')
@@ -215,7 +217,16 @@ function validateAction(form) {
         question = "This will erase the user and associated shares. Do you want to continue?";
         answer = confirm (question);                                            
     }
-    if ( action == 'Save'){                                                   
+    if ( action == 'Save'){
+        var perms = form.permissions.value;
+        if ( perms != "current" ) {
+            question = "You have chosen to change the permissions on this users home directory. Do you want to apply these settings to existing files in the directory?"
+            if ( confirm(question) ) {
+                form.permissions_recursive.value = "1"
+            } else {
+                form.permissions_recursive.value = ""		    
+            }
+	}
         question = "This action will save the user. Do you want to continue?";
         var answer = confirm (question);
     }
@@ -245,21 +256,26 @@ set_permissions(){
         return    
     fi
 
+    REFLAG=""
+    if [ "${4}" == "1" ]; then
+	RFLAG="-R"
+    fi
+
+
     case "${2}" in
       current)
         ;;
       user)
-        chown ${UNAME}:${UNAME} ${HOMEDIR}
-        chmod 700 ${HOMEDIR}
+        chown ${RFLAG} ${UNAME}:${UNAME} ${HOMEDIR}
+        chmod ${RFLAG} 700 ${HOMEDIR}
         ;;
       allread)
-        chown ${UNAME}:${UNAME} ${HOMEDIR}
-        chmod 755 ${HOMEDIR}
+        chown ${RFLAG} ${UNAME}:${UNAME} ${HOMEDIR}
+        chmod ${RFLAG} 755 ${HOMEDIR}
         ;;
       all)
-        echo "setting perms to all ${HOMEDIR}"
-        chown ${UNAME}:${UNAME} ${HOMEDIR}
-        chmod 777 ${HOMEDIR}
+        chown ${RFLAG} ${UNAME}:${UNAME} ${HOMEDIR}
+        chmod ${RFLAG} 777 ${HOMEDIR}
         ;;
       *)
         echo "set_permissions: invalid permissions"
@@ -290,11 +306,12 @@ then
         SHARED=$(echo ${FORM_shared} | cut -d ' ' -f 1)
         PASSWORD=$(echo ${FORM_pass1} | cut -d ' ' -f 1)
         PERMISSIONS=$(echo ${FORM_permissions} | cut -d ' ' -f 1)
+        RECURSIVE=$(echo ${FORM_permissions_recursive} | cut -d ' ' -f 1)
 
 
         smbpasswd -a $UNAME $SHARED $PASSWORD
 
-        set_permissions ${UNAME} ${PERMISSIONS} ${SHARED}
+        set_permissions ${UNAME} ${PERMISSIONS} ${SHARED} ${RECURSIVE}
 
         initial_userform
     	;;
