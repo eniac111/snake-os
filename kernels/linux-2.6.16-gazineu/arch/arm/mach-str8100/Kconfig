@@ -94,12 +94,31 @@ config STR8100_WLX652_BUTTON
         help
           enable button operation
 
+if STR8100_WLX652_BUTTON
+config STR8100_WLX652_BUTTON_ACTIVE_HIGH
+	bool "Active High"
+	default n
+        help
+          pressing the button puts pin in high state
+
+choice
+	prompt "Button pin"
+	default STR8100_WLX652_BUTTON_PIN13
+
+config STR8100_WLX652_BUTTON_PIN0
+	bool "0"
+
+config STR8100_WLX652_BUTTON_PIN13
+	bool "13"
+
+endchoice
+endif
+
 config STR8100_GNSD630
 	bool "GNSD630 Support"
 	default n
         help
-	  Configure for A-Tec MS304S/MS347S and Conrad enclosures
-	  that identify as "GNSD630"
+	  Configure for A-Tec MS304S/MS347S and certain Conrad enclosures
 
 
 

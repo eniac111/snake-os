@@ -60,7 +60,7 @@ MODULE_LICENSE("Dual BSD/GPL");
 #include <asm/arch/star_misc.h>
 #include <asm/arch/star_gpio.h>
 
-#ifdef CONFIG_STR8100_GNSD630
+#ifdef CONFIG_STR8100_WLX652_BUTTON_PIN0
 #define	RESET_BUTTON GPIO_0_MASK
 #else
 #define	RESET_BUTTON GPIO_13_MASK
@@ -93,10 +93,10 @@ void do_reboot(){
 
 static irqreturn_t str8100_gpio_irq_handler(int this_irq, void *dev_id, struct pt_regs *regs)
 {
-    unsigned int volatile status;
+	unsigned int volatile status;
 
-    HAL_INTC_DISABLE_INTERRUPT_SOURCE(INTC_GPIO_EXTERNAL_INT_BIT_INDEX);
-    HAL_GPIOA_READ_INTERRUPT_MASKED_STATUS(status);
+	HAL_INTC_DISABLE_INTERRUPT_SOURCE(INTC_GPIO_EXTERNAL_INT_BIT_INDEX);
+	HAL_GPIOA_READ_INTERRUPT_MASKED_STATUS(status);
 
 	INIT_WORK(&reboot_work,do_reboot,NULL);
 	schedule_work(&reboot_work);
@@ -106,7 +106,7 @@ static irqreturn_t str8100_gpio_irq_handler(int this_irq, void *dev_id, struct p
 	HAL_INTC_CLEAR_EDGE_TRIGGER_INTERRUPT(INTC_GPIO_EXTERNAL_INT_BIT_INDEX);
 	HAL_INTC_ENABLE_INTERRUPT_SOURCE(INTC_GPIO_EXTERNAL_INT_BIT_INDEX);
 
-    return IRQ_HANDLED;
+	return IRQ_HANDLED;
 }
 
 static int __init reset_handler(void){
@@ -125,20 +125,24 @@ static int __init reset_handler(void){
 	env[0]="PATH=/sbin:/usr/sbin:/bin:/usr/bin";
 	env[1]=NULL;
 
+	
+	HAL_PWRMGT_ENABLE_GPIO_CLOCK();
 
-    HAL_PWRMGT_ENABLE_GPIO_CLOCK();
-
-    PWRMGT_SOFTWARE_RESET_CONTROL_REG |=  (0x1 << PWRMGT_GPIO_SOFTWARE_RESET_BIT_INDEX);
+	PWRMGT_SOFTWARE_RESET_CONTROL_REG |=  (0x1 << PWRMGT_GPIO_SOFTWARE_RESET_BIT_INDEX);
 
 	printk("Reset config: ");
 
 	HAL_GPIOA_SET_DIRECTION_INPUT(RESET_BUTTON);
 	HAL_GPIOA_ENABLE_INTERRUPT(RESET_BUTTON);
 	HAL_GPIOA_DISABLE_INTERRUPT_MASK(RESET_BUTTON);
-    HAL_GPIOA_SET_INTERRUPT_LEVEL_TRIGGER_MODE(RESET_BUTTON);
+	HAL_GPIOA_SET_INTERRUPT_LEVEL_TRIGGER_MODE(RESET_BUTTON);
 
-#ifdef CONFIG_STR8100_GNSD630
-	HAL_GPIOA_SET_INTERRUPT_HIGH_LEVEL_TRIGGER_MODE(RESET_BUTTON);
+#ifdef CONFIG_STR8100_WLX652_BUTTON_ACTIVE_HIGH
+	HAL_GPIOA_SET_INTERRUPT_HIGH_LEVEL_TRIGGER_MODE(RESET_BUTTON)
+#else
+	HAL_GPIOA_SET_INTERRUPT_LOW_LEVEL_TRIGGER_MODE(RESET_BUTTON)
+#endif
+
 	while(cnt<6){
 		HAL_GPIOA_READ_DATA_IN_STATUS(data);
 
@@ -157,42 +161,13 @@ static int __init reset_handler(void){
 		}
 		cnt++;
 	}
-#else
-	HAL_GPIOA_SET_INTERRUPT_LOW_LEVEL_TRIGGER_MODE(RESET_BUTTON);
-	while(cnt<6){
-		HAL_GPIOA_READ_DATA_IN_STATUS(data);
-
-		if ( ! (data & RESET_BUTTON) ){
-			printk(".");
-			if ( cnt == 5 ){
-				printk(" YES\nRestoring default SNAKE OS config...\n");
-				retval=call_usermodehelper(argv[0],argv,env,0);
-				msleep(10000);
-			}
-			msleep(1000);
-		}
-		else {
-			cnt = 10;
-			printk("NO\n");
-		}
-		cnt++;
-	}
-#endif
-
 
 	HAL_GPIOA_CLEAR_INTERRUPT(RESET_BUTTON);
 	HAL_GPIOA_SET_DIRECTION_INPUT(RESET_BUTTON);
 	HAL_GPIOA_ENABLE_INTERRUPT(RESET_BUTTON);
 	HAL_GPIOA_DISABLE_INTERRUPT_MASK(RESET_BUTTON);
-    HAL_GPIOA_SET_INTERRUPT_LEVEL_TRIGGER_MODE(RESET_BUTTON);
 
-#ifdef CONFIG_STR8100_GNSD630
-	HAL_GPIOA_SET_INTERRUPT_HIGH_LEVEL_TRIGGER_MODE(RESET_BUTTON);
-#else
-	HAL_GPIOA_SET_INTERRUPT_LOW_LEVEL_TRIGGER_MODE(RESET_BUTTON);
-#endif
-
-    str8100_set_interrupt_trigger (INTC_GPIO_EXTERNAL_INT_BIT_INDEX,INTC_IRQ_INTERRUPT,INTC_LEVEL_TRIGGER,INTC_ACTIVE_HIGH);
+	str8100_set_interrupt_trigger (INTC_GPIO_EXTERNAL_INT_BIT_INDEX,INTC_IRQ_INTERRUPT,INTC_LEVEL_TRIGGER,INTC_ACTIVE_HIGH);
 
 	if ((ret=request_irq(INTC_GPIO_EXTERNAL_INT_BIT_INDEX, str8100_gpio_irq_handler, 0, "testing", NULL))){
 		printk("%s: request_irq failed(ret=0x%x)(-EBUSY=0x%x)\n",__FUNCTION__,ret,-EBUSY);
