@@ -146,6 +146,9 @@ static int __init reset_handler(void){
 	while(cnt<6){
 		HAL_GPIOA_READ_DATA_IN_STATUS(data);
 
+#ifndef CONFIG_STR8100_WLX652_BUTTON_ACTIVE_HIGH
+		data = ~data;
+#endif
 		if (data & RESET_BUTTON){
 			printk(".");
 			if ( cnt == 5 ){
