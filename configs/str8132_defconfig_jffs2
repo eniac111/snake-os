@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.16-gazineu
-# Mon Aug 22 20:54:49 2011
+# Wed Feb  5 23:55:40 2014
 #
 CONFIG_ARM=y
 CONFIG_MMU=y
@@ -625,7 +625,25 @@ CONFIG_STAR_NIC_PHY_INTERNAL_PHY=y
 #
 # Wireless LAN (non-hamradio)
 #
-# CONFIG_NET_RADIO is not set
+CONFIG_NET_RADIO=y
+
+#
+# Obsolete Wireless cards support (pre-802.11)
+#
+# CONFIG_STRIP is not set
+
+#
+# Wireless 802.11b ISA/PCI cards support
+#
+# CONFIG_HERMES is not set
+# CONFIG_ATMEL is not set
+
+#
+# Prism GT/Duette 802.11(a/b/g) PCI/Cardbus support
+#
+# CONFIG_PRISM54 is not set
+# CONFIG_HOSTAP is not set
+CONFIG_NET_WIRELESS=y
 
 #
 # Wan interfaces
@@ -876,6 +894,7 @@ CONFIG_USB_STORAGE=y
 # CONFIG_USB_PEGASUS is not set
 # CONFIG_USB_RTL8150 is not set
 # CONFIG_USB_USBNET is not set
+# CONFIG_USB_ZD1201 is not set
 # CONFIG_USB_MON is not set
 
 #
