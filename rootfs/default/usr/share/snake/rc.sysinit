@@ -31,6 +31,7 @@ cd /
 umount /var/config
 
 /sbin/modprobe vfat
+/sbin/modprobe fuse
 
 /sbin/mdev -s
 
