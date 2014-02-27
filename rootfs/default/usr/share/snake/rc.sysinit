@@ -35,44 +35,16 @@ umount /var/config
 
 /sbin/mdev -s
 
-HOSTNAME=`grep "hostname=" /etc/default/config | cut -d = -f 2`
-DEF_MAC=`grep "mac_address=" /etc/default/config | cut -d = -f 2`
-DEF_IP=`grep "ip_address=" /etc/default/config | cut -d = -f 2`
-DEF_MASK=`grep "netmask=" /etc/default/config | cut -d = -f 2`
-DEF_GW=`grep "gateway=" /etc/default/config | cut -d = -f 2`
-USE_DHCP_ADD=`grep "dhcp_address=" /etc/default/config | cut -d = -f 2`
-USE_DHCP_DNS=`grep "dhcp_dns=" /etc/default/config | cut -d = -f 2`
-DEF_DNS1=`grep "nameserver1=" /etc/default/config | cut -d = -f 2`
-DEF_DNS2=`grep "nameserver2=" /etc/default/config | cut -d = -f 2`
-DEF_DNSDOM=`grep "dnsdomain=" /etc/default/config | cut -d = -f 2`
-
-
-if [ -z "$DEF_MAC" ] ; then
-    OUI="ac:de:48:"
-    NIC=$(dd if=/dev/urandom bs=3 count=1  2> /dev/null | hexdump -C | head -n 1 | awk -F' ' '{ print $2":"$3":"$4}')
-    DEF_MAC=${OUI}${NIC}
-    sed -ri "s,mac_address=.*,mac_address=${DEF_MAC},g" /etc/default/config
+# if opkg is enabled give it a minute to go through its init scripts
+if [ $(grep "use_opkg=" /etc/default/config | cut -d = -f 2) -eq 1 ] ; then
+    i=0
+    while [ $i -lt 60 ] && [ ! -e /var/opkg_ready ] ; do
+	sleep 1
+	i=$((i+1))
+    done
 fi
 
-echo "Starting Network"
-    hostname $HOSTNAME
-    /sbin/ifconfig lo 127.0.0.1
-    /sbin/ifconfig eth0 hw ether $DEF_MAC
-    /sbin/ifconfig eth0 up
-    /bin/sleep 3
-    if [ $USE_DHCP_ADD -eq 1 ] ; then
-        /sbin/udhcpc -b -q -t 5 -H $HOSTNAME
-    else
-        /sbin/ifconfig eth0 $DEF_IP netmask $DEF_MASK
-        route add default gw $DEF_GW dev eth0
-        echo "$DEF_IP $HOSTNAME" > /etc/hosts
-	    echo "nameserver $DEF_DNS1" > /etc/resolv.conf
-	    echo "nameserver $DEF_DNS2" >> /etc/resolv.conf
-    	echo "search $DEF_DNSDOM" >> /etc/resolv.conf
-        if [ -f /usr/share/snake/setntp ] ; then
-            /usr/share/snake/setntp
-        fi
-    fi
+/usr/share/snake/network start
 
 #Setting timezone
 /usr/share/snake/settz

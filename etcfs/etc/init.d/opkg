@@ -5,6 +5,8 @@ DEST=/opt
 KIND="opkg"
 
 link() {
+    [ -e /var/opkg_ready ] && rm /var/opkg_ready
+
     if [ $(grep "use_opkg=" /etc/default/config | cut -d = -f 2) -eq 1 ] ; then
 	MPOINT=$1
 
@@ -35,10 +37,13 @@ link() {
 		sh $initscript start
 	    fi
 	done
+	touch /var/opkg_ready
     fi
 }
 
 unlink() {
+    [ -e /var/opkg_ready ] && rm /var/opkg_ready
+
     if [ $(grep "use_opkg=" /etc/default/config | cut -d = -f 2) -eq 1 ] ; then
 
     # TODO: check that $DEST actually points to a disk
@@ -54,8 +59,13 @@ unlink() {
 }
 
 
+stop() {
+    unlink
+}
+
 start() {
-    return
+    DISK=$(grep "opkg_disk=" /etc/default/config | cut -d '=' -f 2)
+    link $DISK
 }
 
 
@@ -64,7 +74,7 @@ case "$1" in
   	start
 	;;
   stop)
-  	unlink
+  	stop
 	;;
   link)
   	link $2

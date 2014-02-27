@@ -35,7 +35,7 @@ if [ ! $((${MINOR}%16)) -eq 0 ] ; then
 		    /etc/init.d/opkg link $MPOINT
 		fi
 
-		if [ -d /opt/etc/automount.d ]; then
+		if [ -d /opt/etc/automount.d ] && [ ! -z "$(ls /opt/etc/automount.d)" ]; then
 		    for service in /opt/etc/automount.d/*; do
 			sh $service $MPOINT add
 		    done
@@ -45,7 +45,7 @@ if [ ! $((${MINOR}%16)) -eq 0 ] ; then
     else
         MPOINT=$(grep "^/dev/$MDEV" /proc/mounts | cut -d ' ' -f 2 | cut -d '/' -f 3)
 
-	if [ -d /opt/etc/automount.d ]; then
+	if [ -d /opt/etc/automount.d && [ ! -z "$(ls /opt/etc/automount.d)" ]; then
 	    for service in /opt/etc/automount.d/*; do
 		sh $service $MPOINT remove
 	    done
