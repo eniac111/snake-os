@@ -47,7 +47,7 @@ Content-type: text/html
 			d.add(29,20,'Opkg','opkg.cgi','Configure Opkg','','');
 
 <%
-		if [ -d "/opt/share/www-service" ]; then   
+		if [ -d "/opt/share/www-service" ] && [ ! -z "$(ls /opt/share/www-service)" ]; then   
 		   i=31
 		   OPKG_SERVICES=""
 		   for f in $(ls -1 /opt/share/www-service/); do
@@ -76,7 +76,7 @@ Content-type: text/html
 		d.add(200,0,'About','credits.cgi','Firmware credits','','');	
 
 <%
-		if [ -d "/opt/share/www" ]; then
+		if [ -d "/opt/share/www" ] && [ ! -z "$(ls /opt/share/www)" ]; then
 		   i=210
 		   OPKG_SERVICES=""
 		   for f in $(ls -1 /opt/share/www/); do
