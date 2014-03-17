@@ -21,7 +21,11 @@ start() {
 
 	if [ -z "$DEF_MAC" ] ; then
 	    OUI="ac:de:48:"
-	    RANDHEX=$(cat /proc/str8100/counter | md5sum | cut -d ' ' -f 1)
+
+	    RAND1=$(cat /proc/str8100/counter)
+	    RAND2=$(dd if=/dev/urandom bs=3 count=1 2> /dev/null)
+	    RANDHEX=$(echo ${RAND1}${RAND2} | md5sum | cut -d ' ' -f 1)
+
 	    NIC=$(echo $RANDHEX | cut -c 1-2):$(echo $RANDHEX | cut -c 2-3):$(echo $RANDHEX | cut -c 4-5)
 	    DEF_MAC=${OUI}${NIC}
 	    sed -ri "s,mac_address=.*,mac_address=${DEF_MAC},g" /etc/default/config
