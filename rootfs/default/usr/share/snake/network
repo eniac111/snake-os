@@ -1,0 +1,67 @@
+#!/bin/sh
+
+
+start() {
+    /sbin/ifconfig lo 127.0.0.1
+
+    # only configure physical interfaces if there aren't any other up yet
+    if [ -z "$(/sbin/ifconfig | cut -d ' ' -f 1 | grep -v '^$\|lo')" ] ; then
+	IFACE=${1:-eth0}
+
+	HOSTNAME=`grep "hostname=" /etc/default/config | cut -d = -f 2`
+	DEF_MAC=`grep "mac_address=" /etc/default/config | cut -d = -f 2`
+	DEF_IP=`grep "ip_address=" /etc/default/config | cut -d = -f 2`
+	DEF_MASK=`grep "netmask=" /etc/default/config | cut -d = -f 2`
+	DEF_GW=`grep "gateway=" /etc/default/config | cut -d = -f 2`
+	USE_DHCP_ADD=`grep "dhcp_address=" /etc/default/config | cut -d = -f 2`
+	USE_DHCP_DNS=`grep "dhcp_dns=" /etc/default/config | cut -d = -f 2`
+	DEF_DNS1=`grep "nameserver1=" /etc/default/config | cut -d = -f 2`
+	DEF_DNS2=`grep "nameserver2=" /etc/default/config | cut -d = -f 2`
+	DEF_DNSDOM=`grep "dnsdomain=" /etc/default/config | cut -d = -f 2`
+
+	if [ -z "$DEF_MAC" ] ; then
+	    OUI="ac:de:48:"
+	    RANDHEX=$(cat /proc/str8100/counter | md5sum | cut -d ' ' -f 1)
+	    NIC=$(echo $RANDHEX | cut -c 1-2):$(echo $RANDHEX | cut -c 2-3):$(echo $RANDHEX | cut -c 4-5)
+	    DEF_MAC=${OUI}${NIC}
+	    sed -ri "s,mac_address=.*,mac_address=${DEF_MAC},g" /etc/default/config
+	fi
+
+	echo "Starting Network"
+	hostname $HOSTNAME
+	/sbin/ifconfig $IFACE hw ether $DEF_MAC
+	/sbin/ifconfig $IFACE up
+	/bin/sleep 3
+	if [ $USE_DHCP_ADD -eq 1 ] ; then
+            /sbin/udhcpc -i $IFACE -b -q -t 5 -H $HOSTNAME
+	else
+            /sbin/ifconfig $IFACE $DEF_IP netmask $DEF_MASK
+            route add default gw $DEF_GW dev $IFACE
+            echo "$DEF_IP $HOSTNAME" > /etc/hosts
+	    echo "nameserver $DEF_DNS1" > /etc/resolv.conf
+	    echo "nameserver $DEF_DNS2" >> /etc/resolv.conf
+    	    echo "search $DEF_DNSDOM" >> /etc/resolv.conf
+            if [ -f /usr/share/snake/setntp ] ; then
+		/usr/share/snake/setntp
+            fi
+	fi
+    fi
+}
+
+stop() {
+    for iface in $(/sbin/ifconfig | cut -d ' ' -f 1 | grep -v '^$') ; do 
+	/sbin/ifconfig $iface down
+    done
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  *)
+	echo "Usage: $0 {start|stop}"
+	exit 1
+esac
