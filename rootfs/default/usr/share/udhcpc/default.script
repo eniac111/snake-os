@@ -21,7 +21,7 @@ reloadsvcs(){
 
 case "$1" in
     deconfig|nak)
-        ifconfig $interface netmask 255.255.255.0
+        ifconfig $interface 192.168.0.240 netmask 255.255.255.0
         echo "192.168.0.240 $HOSTNAME" > /etc/hosts
         route add default gw 192.168.0.1 dev $interface
         echo "nameserver 192.168.0.1" > /etc/resolv.conf
