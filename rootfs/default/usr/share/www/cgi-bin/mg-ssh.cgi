@@ -21,9 +21,6 @@ function validateAction(form) {
 		if (!validateTimeout(form.ssh_timeout.value,'SSH Timeout'))
 			return false;
 
-		if (!validateTimeout(form.ssh_keepalive.value,'SSH Keepalive'))
-			return false;
-
 		question = "This will restart ssh server service. Are you sure?";
 	}
     else if ( action == 'Start' )
@@ -91,9 +88,6 @@ then
       	NEWPORT=$(echo ${FORM_ssh_port} | cut -d ' ' -f 1)
       	set_config ssh_port ${NEWPORT}
 
-      	KEEPALIVE=$(echo ${FORM_ssh_keepalive} | cut -d ' ' -f 1)
-      	set_config ssh_keepalive ${KEEPALIVE}
-
       	TIMEOUT=$(echo ${FORM_ssh_timeout} | cut -d ' ' -f 1)
       	set_config ssh_timeout ${TIMEOUT}
 
@@ -129,9 +123,8 @@ fi
      <TABLE border="0" >
 	<input type="hidden" name="http_port" value="<% get_config http_port %>" >
 	<TR><TH>SSH Server Port:</TH><TD><input type="text" name="ssh_port" size=4 value="<% get_config ssh_port %>" title="Enter a the SSH Server port. Accepted port numbers are between 1 and 65535."></TD></TR>
-	<TR><TH>Session timeout:</TH><TD><input type="text" name="ssh_timeout" size=4 value="<% get_config ssh_timeout %>" title="Enter the session timeout. Accepted values are between 0 and 99999 (0 to disable)."></TD></TR>     
-	<TR><TH>Keepalive:</TH><TD><input type="text" name="ssh_keepalive" size=4 value="<% get_config ssh_keepalive %>" title="Enter the keepalive delay. Accepted values are between 0 and 99999 (0 to disable)."></TD></TR>     
-	<TR><TH>Use Diffie-Hellman Group 1 only (reduces login times):</TH><TD><input type="checkbox" name="ssh_weakkex" value="1" <% is_checked $(get_config ssh_weakkex) %> /></TD></TR>
+	<TR><TH>Session timeout:</TH><TD><input type="text" name="ssh_timeout" size=4 value="<% get_config ssh_timeout %>" title="Enter the session timeout. Accepted values are between 0 and 99999 (0 to disable)."></TD></TR>
+	<TR><TH>Use faster key exchange method:</TH><TD><input type="checkbox" name="ssh_weakkex" value="1" <% is_checked $(get_config ssh_weakkex) %> /></TD></TR>
 
 	<TR><TH>Status:</TH><TD><% /etc/init.d/sshd webstatus %></TD></TR>
 </TABLE>
