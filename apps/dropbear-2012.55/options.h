@@ -61,10 +61,10 @@ much traffic. */
 /*
 #define ENABLE_CLI_LOCALTCPFWD
 #define ENABLE_CLI_REMOTETCPFWD
-
+*/
 #define ENABLE_SVR_LOCALTCPFWD
 #define ENABLE_SVR_REMOTETCPFWD
-*/
+
 /* Enable Authentication Agent Forwarding */
 /* build fails with this disabled and pub key auth enabled */
 #define ENABLE_SVR_AGENTFWD

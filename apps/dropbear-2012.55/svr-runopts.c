@@ -86,6 +86,7 @@ static void printhelp(const char * progname) {
 #ifdef DEBUG_TRACE
 					"-v		verbose (compiled with DEBUG_TRACE)\n"
 #endif
+					"-x		use weak key exchange (faster authentication, but more insecure)\n"
 					,DROPBEAR_VERSION, progname,
 #ifdef DROPBEAR_DSS
 					DSS_PRIV_FILENAME,
