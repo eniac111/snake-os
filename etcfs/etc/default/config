@@ -46,23 +46,6 @@ ftp_anonrw=0
 ftp_anononly=0
 ftp_anondir=/usb
 
-use_transmission=1
-transmission_dir=/usb/sda1/torrents
-enable_trans_alt=0
-trans_speed_up_enable=0
-trans_speed_up=50
-trans_speed_down_enable=0
-trans_speed_down=50
-trans_alt_speed_up=10
-trans_alt_speed_down=10
-trans_alt_time_begin=0
-trans_alt_time_end=0
-trans_alt_time_days=0
-trans_peer_limit_global=240
-trans_peer_limit_torrent=60
-trans_peer_port=51413
-trans_rpc_port=9091
-
 ddns_enable=0
 ddns_provider=dyndns@dyndns.org
 ddns_alias=
